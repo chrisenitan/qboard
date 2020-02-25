@@ -1,0 +1,14 @@
+body{
+	background-color: #384150;
+}
+p{
+	color: red;
+}
+img{
+	width: auto;
+	height: 120px;
+	border-radius: 3px;
+}
+li{
+	color: #fff;
+}
