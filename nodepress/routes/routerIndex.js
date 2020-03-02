@@ -37,6 +37,16 @@ res.send("Hello from routes folder");
 })
 */
 
+
+//homepage
+router.get("/", (req, res, next) =>{
+	const data={
+		greeting: "Hello",
+		status: "OK"
+	}
+	res.json(data);
+})
+
 //response with json
 router.get("/json", (req, res, next) =>{
 	const data={
@@ -46,7 +56,7 @@ router.get("/json", (req, res, next) =>{
 })
 
 
-//request parameters
+//render content by url parameters
 router.get("/writer/:user/:age", (req, res, next) =>{
 	const user = req.params.user
 	const age = req.params.age
@@ -56,7 +66,6 @@ const userData = {
 	age: age,
 	text:`${user} is ${age} years old`
 }
-
 res.render("writer", userData)
 })
 
@@ -71,16 +80,13 @@ const data = {
 	Title: postTitle,
 	Owner: postOwner
 }
-
 res.render('content', data)
-
 })
 
 
 //response with html template render
 router.get("/index", (req, res) =>{
-
-	//render the page index
+//render the page index
 res.render('index', null)
 })
 
@@ -127,8 +133,6 @@ res.redirect("/profile/"+newUser.id)
 
 
 })
-
-
 
 
 module.exports = router

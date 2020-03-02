@@ -1,10 +1,32 @@
+//require and initialise the server engine
 const express = require("express");
-//path to views
-const path = require("path")
-const hoganMiddleware = require("hogan-middleware")
-const bodyParser = require('body-parser');
-
 const app = express();
+
+
+//setup views dir. 
+//import built in path module
+const path = require("path")
+
+//initialise the view path
+app.set('views', path.join(__dirname, 'views'))
+
+//initialise the view templeting engine
+app.set('view engine', 'mustache')
+
+//get the view engine
+const hoganMiddleware = require("hogan-middleware")
+
+//initialize view engine as middleware
+app.engine('mustache', hoganMiddleware.__express)
+//or app.engine('mustache', require("hogan-middleware").__express)
+
+
+
+
+
+
+
+const bodyParser = require('body-parser');
 
 
 //use body parser
@@ -15,14 +37,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
 
-//tell node where to set views for template
-app.set('views', path.join(__dirname, 'views'))
 
-//set the view engine
-app.set('view engine', 'mustache')
 
-//initialize view engine as middleware
-app.engine('mustache', hoganMiddleware.__express)
+
 
 //set statis assets 
 app.use(express.static(path.join(__dirname, "public")))
