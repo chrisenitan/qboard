@@ -2,6 +2,8 @@
 const express = require("express");
 const app = express();
 
+//set env file
+require("dotenv").config();
 
 //setup views dir. 
 //import built in path module
@@ -20,6 +22,14 @@ const hoganMiddleware = require("hogan-middleware")
 app.engine('mustache', hoganMiddleware.__express)
 //or app.engine('mustache', require("hogan-middleware").__express)
 
+//set status assets 
+app.use(express.static(path.join(__dirname, "public")))
+
+//set and import routes 
+const routerIndex = require("./routes/routerIndex")
+app.use("/", routerIndex);
+
+
 
 
 
@@ -33,18 +43,11 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-//import routes 
-const routerIndex = require("./routes/routerIndex")
-app.use("/", routerIndex);
 
 
 
 
-
-//set statis assets 
-app.use(express.static(path.join(__dirname, "public")))
-
-const port = 3000;
+const port = process.env.port || 3000;
 //app.listen(port);
 app.listen(port, () =>{
 console.log(`Server Started at port ${port}...`)
