@@ -9,17 +9,14 @@ require("dotenv").config();
 //import built in path module
 const path = require("path")
 
-//initialise the view path
+//initialise a view path
 app.set('views', path.join(__dirname, 'views'))
 
 //initialise the view templeting engine
 app.set('view engine', 'mustache')
 
-//get the view engine
-const hoganMiddleware = require("hogan-middleware")
-
 //initialize view engine as middleware
-app.engine('mustache', hoganMiddleware.__express)
+app.engine('mustache', require("hogan-middleware").__express)
 //or app.engine('mustache', require("hogan-middleware").__express)
 
 //set status assets 
