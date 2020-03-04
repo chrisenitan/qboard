@@ -30,13 +30,6 @@ const profiles = {
 	
 }
 
-/*
-//response with pure text
-router.get("/", (req,res, next) =>{
-res.send("Hello from routes folder");
-})
-*/
-
 
 //homepage
 router.get("/", (req, res, next) =>{
@@ -130,7 +123,6 @@ profiles[newUser.id] = newUser
 
 //show the profile page using this new info
 res.redirect("/profile/"+newUser.id)
-
 
 })
 

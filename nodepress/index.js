@@ -22,6 +22,7 @@ app.engine('mustache', require("hogan-middleware").__express)
 //set status assets 
 app.use(express.static(path.join(__dirname, "public")))
 
+
 //set and import routes 
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
