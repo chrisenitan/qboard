@@ -23,6 +23,11 @@ app.engine('mustache', require("hogan-middleware").__express)
 app.use(express.static(path.join(__dirname, "public")))
 
 
+//use body parser. Required to be used before sending Form Posts 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
+
 //set and import routes 
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
@@ -33,13 +38,6 @@ app.use("/", routerIndex);
 
 
 
-
-const bodyParser = require('body-parser');
-
-
-//use body parser
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
 
 
 

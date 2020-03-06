@@ -64,7 +64,7 @@ res.render("writer", userData)
 
 
 
-//query parameters
+//populate by url query parameters
 router.get("/posts", (req, res) =>{
 const postTitle = req.query.title
 const postOwner = req.query.owner
@@ -84,12 +84,18 @@ res.render('index', null)
 })
 
 
-//our firt post
-router.post("/content", (req, res) =>{
+//our first post
+router.post("/postContent", (req, res) =>{
+	
 	const postArray = req.body
-	const oc = postArray.occupation
+	const job = postArray.occupation
+	const name = postArray.username
+	const handle = {
+		username: job,
+		occupation: name
+	}	
 
-   res.render("contentView", postArray)
+  res.render("contentView", handle)
 
 })
 
