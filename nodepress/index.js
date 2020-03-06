@@ -5,7 +5,7 @@ const app = express();
 //set env file
 require("dotenv").config();
 
-//setup views dir. 
+//setup views dir
 //import built in path module
 const path = require("path")
 
