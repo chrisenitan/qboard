@@ -1,7 +1,36 @@
 const express = require('express')
 const router = express.Router()
+const mongoose = require("mongoose")
 //post, get, put, delete
 
+//create a scehma
+const postSchema = new mongoose.Schema({
+	title: {
+		type: String,
+		required: "Default Title",
+	},
+	body: {
+		type: String,
+		required: "Default Title",
+	},
+	released: {
+		type: String,
+		required: "2019-10-09",
+	},
+	owner: {
+		type: String,
+		required: "Zu",
+	},
+	s_code: {
+		type: Number,
+		required: 897494,
+	}
+})
+
+//initialise schema
+const Post = mongoose.model("Post", postSchema)
+
+//create data object for later
 const profiles = {
 
 	chris:{
@@ -33,11 +62,19 @@ const profiles = {
 
 //homepage
 router.get("/", (req, res, next) =>{
-	const data={
-		greeting: "Hello",
-		status: "OK"
-	}
-	res.json(data);
+	const allPost = Post.find().select("id title owner").then(
+		allPostObj => {
+			// res.send({
+			// 	allPost: allPostObj
+			// })
+			res.status(200).json({
+				greeting: "Hello",
+				status: "OK",
+				allPost: allPostObj
+			})				
+		}
+	).catch(err => console.log(err))
+	
 })
 
 //response with json

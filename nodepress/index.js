@@ -33,8 +33,34 @@ const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
 
 
+
+
+//DATABASE 
+
+//get mongoose
+const mongoose = require("mongoose")
+
+//connect to db
+mongoose.connect(
+    process.env.Server,
+    {userNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
+).then(() => console.log("Connected to database..."))
+
+//confirm connection
+mongoose.connection.on("error", err => {
+    console.log(`Error connecting to database: ${err.message}`)
+})
+
+
+
+
+
+
+
+//SERVER
+
 //create a port and start server
-const port = process.env.port || 3000;
+const port = process.env.Port || 3000;
 app.listen(port, () =>{
 console.log(`Server Started at port ${port}...`)
 })
