@@ -1,34 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require("mongoose")
-//post, get, put, delete
 
-//create a scehma
-const postSchema = new mongoose.Schema({
-	title: {
-		type: String,
-		required: "Default Title",
-	},
-	body: {
-		type: String,
-		required: "Default Title",
-	},
-	released: {
-		type: String,
-		required: "2019-10-09",
-	},
-	owner: {
-		type: String,
-		required: "Zu",
-	},
-	s_code: {
-		type: Number,
-		required: 897494,
-	}
-})
-
-//initialise schema
-const Post = mongoose.model("Post", postSchema)
+//get our custom schema
+const Post = require("../Schema/schemaIndex")
 
 //create data object for later
 const profiles = {
@@ -36,7 +10,7 @@ const profiles = {
 	chris:{
 		id: "chris",
 		image: "/images/chris.jpg",
-		name: "Chris",
+		name: "chris",
 		company: "Vrixe",
 		languages: ['node', 'php', 'js']
 	},
@@ -44,7 +18,7 @@ const profiles = {
 	mary:{
 		id: "mary",
 		image: "/images/mary.jpg",
-		name: "Mary",
+		name: "mary",
 		company: "Vrixe",
 		languages: ['node', 'php', 'mysql']
 	},
@@ -52,7 +26,7 @@ const profiles = {
 	paul:{
 		id: "paul",
 		image: "/images/paul.jpg",
-		name: "Paul",
+		name: "paul",
 		company: "Vrixe",
 		languages: ['node', 'react', 'js']
 	}
@@ -68,12 +42,13 @@ router.get("/", (req, res, next) =>{
 			// 	allPost: allPostObj
 			// })
 			res.status(200).json({
-				greeting: "Hello",
-				status: "OK",
+				status: true,
 				allPost: allPostObj
 			})				
 		}
-	).catch(err => console.log(err))
+	).catch(err => json({
+		status: false
+	}))
 	
 })
 

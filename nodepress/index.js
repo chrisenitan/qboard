@@ -33,8 +33,6 @@ const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
 
 
-
-
 //DATABASE 
 
 //get mongoose
