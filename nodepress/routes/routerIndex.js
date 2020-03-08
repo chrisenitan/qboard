@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
+//validation module
+const {check, validationResult} = require('express-validator');
+
 //get our custom schema
 const Post = require("../Schema/schemaIndex")
 
@@ -34,9 +37,50 @@ const profiles = {
 }
 
 
+//sanitize posts
+const validatePost = [
+
+	//title
+check('title').not().isEmpty().withMessage("Please write a title"),
+check('title', "Title must be minimum 10 characters").isLength({
+	min: 7,
+	max: 150
+}),
+
+//body
+check("body", "Write a body").not().isEmpty(),
+check("body", "Body should be minimum of 10 characters").isLength({
+	min: 10,
+	max: 2000
+}),
+
+//released
+check("released", "Write a release date").not().isEmpty(),
+check ("released", "Value must be date").isLength({
+	min: 8,
+	max: 10
+}),
+
+//owner
+check("owner", "Write a post owner").not().isEmpty(),
+check ("owner", "Name must be minimum of 10 characters").isLength({
+	min: 5,
+	max: 150
+}),
+
+//s_code 
+check("s_code", "Reference is missing").not().isEmpty(),
+check ("s_code", "Value must be minimum of 8 characters").isLength({
+	min: 5,
+	max: 10
+})
+
+]
+
+
 //homepage get all posts
 router.get("/", (req, res, next) =>{
-	const allPost = Post.find().select("id title owner").then(
+	const allPost = Post.find().select("id title owner body released s_code").then(
 		allPostObj => {
 			// res.send({
 			// 	allPost: allPostObj
@@ -143,6 +187,32 @@ res.redirect("/profile/"+newUser.id)
 })
 
 
+
+//collect sanitze and save new post
+router.post("/savepost", validatePost, (req, res)=>{
+	const errors = validationResult(req)
+	const rawpost = new Post(req.body)
+
+	if(!errors.isEmpty()){
+		const firstError = errors.errors[0].msg
+		return res.status(400).json({
+			firstError
+		})
+	}
+
+	//save post
+	else{
+		const post = new Post(req.body)
+		post.save().then(result =>{
+			res.status(200).json({
+				post: result,
+				status: "Ok"
+			})
+		})
+	}
+	console.log(`Created: ${rawpost}`)
+
+})
 
 
 
