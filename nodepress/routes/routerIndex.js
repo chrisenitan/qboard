@@ -34,7 +34,7 @@ const profiles = {
 }
 
 
-//homepage
+//homepage get all posts
 router.get("/", (req, res, next) =>{
 	const allPost = Post.find().select("id title owner").then(
 		allPostObj => {
@@ -76,7 +76,7 @@ res.render("writer", userData)
 
 
 
-//populate by url query parameters
+//populate by url ? query parameters
 router.get("/posts", (req, res) =>{
 const postTitle = req.query.title
 const postOwner = req.query.owner
@@ -91,14 +91,12 @@ res.render('content', data)
 
 //response with html template render
 router.get("/index", (req, res) =>{
-//render the page index
 res.render('index', null)
 })
 
 
-//our first post
+//form post
 router.post("/postContent", (req, res) =>{
-	
 	const postArray = req.body
 	const job = postArray.occupation
 	const name = postArray.username
@@ -143,6 +141,12 @@ profiles[newUser.id] = newUser
 res.redirect("/profile/"+newUser.id)
 
 })
+
+
+
+
+
+
 
 
 module.exports = router
