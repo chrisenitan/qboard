@@ -4,7 +4,7 @@ const {check, validationResult} = require('express-validator');
 
 const validatePost = [
 
-    //title
+//title
 check('title').not().isEmpty().withMessage("Please write a title"),
 check('title', "Title must be minimum 10 characters").isLength({
 	min: 7,
@@ -38,7 +38,6 @@ check ("s_code", "Value must be minimum of 8 characters").isLength({
 	min: 5,
 	max: 10
 })
-
 
 ]
 
