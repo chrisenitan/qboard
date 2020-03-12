@@ -41,7 +41,7 @@ const profiles = {
 
 //load the index page with template
 router.get("/create", (req, res) =>{
-	res.render('create', null)
+	res.render('create', profiles)
 })
 
 
