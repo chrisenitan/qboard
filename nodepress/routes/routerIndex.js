@@ -39,6 +39,12 @@ const profiles = {
 }
 
 
+//load the index page with template
+router.get("/create", (req, res) =>{
+	res.render('create', null)
+})
+
+
 //homepage get all posts
 router.get("/", (req, res, next) =>{
 	const allPost = Post.find().select("id title owner body released s_code").then(
@@ -94,12 +100,6 @@ res.render('content', data)
 })
 
 
-//response with html template render
-router.get("/index", (req, res) =>{
-res.render('index', null)
-})
-
-
 //form post
 router.post("/postContent", (req, res) =>{
 	const postArray = req.body
@@ -132,7 +132,7 @@ res.render("profile", result);
 
 
 
-//post from profile mustache form
+//collect data from profile.musta.. and parse to /profile
 router.post("/addprofile", (req, res) =>{
 	//create a new user from req
 	const newUser = req.body
@@ -149,7 +149,7 @@ res.redirect("/profile/"+newUser.id)
 
 
 
-//collect sanitze and save new post
+//COLLECT SANITIZE AND SAVE POST
 router.post("/savepost", validatePost, (req, res)=>{
 	const errors = validationResult(req)
 	const rawpost = new Post(req.body)
@@ -177,6 +177,39 @@ router.post("/savepost", validatePost, (req, res)=>{
 
 
 
+//DELETE POST
+router.delete("/delete/:title", (req, res) =>{
+//define callbak for mongoose delete
+let callback = (rawResult) => {
+	if(rawResult == null){
+		res.status(200).json({
+		status: "Post deleted"
+})}
+	else{
+	res.status(400).json({
+	status: rawResult,
+	message: "Post not deleted. might be aborted"
+})}
+}
+
+//find result
+const fpost = Post.find({title: req.params.title}).select("id").then(rpost =>{
+	
+if (rpost == ""){
+	res.json({
+	message: "Post not found"
+	})
+	callback("aborted")
+}
+else{
+	const firstResult = rpost[0].id
+	//delete firstresult
+	const deleteFound = Post.findByIdAndRemove(firstResult, callback)
+}
+
+}).catch(err => console.log(err))
+
+})
 
 
 
