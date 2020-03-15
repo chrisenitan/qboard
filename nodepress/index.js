@@ -52,9 +52,6 @@ mongoose.connection.on("error", err => {
 
 
 
-
-
-
 //SERVER
 
 //create a port and start server
