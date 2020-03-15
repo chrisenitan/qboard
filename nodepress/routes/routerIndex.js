@@ -132,7 +132,7 @@ res.render("profile", result);
 
 
 
-//collect data from profile.musta.. and parse to /profile
+//collect form data from profile.musta.. and parse to /profile
 router.post("/addprofile", (req, res) =>{
 	//create a new user from req
 	const newUser = req.body
@@ -140,7 +140,6 @@ newUser['languages'] = newUser.languages.split(', ')
 
 //add new profile to profile obj
 profiles[newUser.id] = newUser
-
 
 //show the profile page using this new info
 res.redirect("/profile/"+newUser.id)
