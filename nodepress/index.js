@@ -46,11 +46,11 @@ const mongoose = require("mongoose")
 mongoose.connect(
     process.env.Server,
     {userNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
-).then(() => console.log("Connected to database..."))
+).then(() => console.log("Mongo Database Connected..."))
 
 //confirm connection
 mongoose.connection.on("error", err => {
-    console.log(`Error connecting to database: ${err.message}`)
+    console.log(`Error connecting to Mongo Database: ${err.message}`)
 })
 
 
