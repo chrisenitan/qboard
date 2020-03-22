@@ -32,8 +32,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
 
+//set and imoort router for sql links
+const sqlRoute = require("./routes/sqlRoute")
+app.use("/sql", sqlRoute);
 
-//DATABASE 
+
+//DATABASE
 
 //get mongoose
 const mongoose = require("mongoose")
