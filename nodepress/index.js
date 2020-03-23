@@ -32,8 +32,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
 
+//set and imoort router for sql links
+const sqlRoute = require("./routes/sqlRoute")
+app.use("/sql", sqlRoute);
 
-//DATABASE 
+
+//DATABASE
 
 //get mongoose
 const mongoose = require("mongoose")
@@ -42,15 +46,12 @@ const mongoose = require("mongoose")
 mongoose.connect(
     process.env.Server,
     {userNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
-).then(() => console.log("Connected to database..."))
+).then(() => console.log("Mongo Database Connected..."))
 
 //confirm connection
 mongoose.connection.on("error", err => {
-    console.log(`Error connecting to database: ${err.message}`)
+    console.log(`Error connecting to Mongo Database: ${err.message}`)
 })
-
-
-
 
 
 
