@@ -63,9 +63,9 @@ approuter.get("/createpostable", (req, res) => {
 
 //insert a data
 approuter.get("/addpost", (req, res) =>{
-	//create a post. could also be gotten from req
+	//create a post. could also be gotten from req or if nothing was sent, use a dummy data
 	var postData = req.body;
-	//make sure somthing was posted
+
  	if(!req.body.title){
 		var postData = {
 		title: "Faster Higher Farther",
@@ -94,5 +94,18 @@ approuter.get('/getallposts', (req, res) => {
         res.send(results);
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = approuter;
