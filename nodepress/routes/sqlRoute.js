@@ -85,7 +85,7 @@ approuter.get("/addpost", (req, res) =>{
 })
 
 
-// Select posts
+// Select all posts
 approuter.get('/getallposts', (req, res) => {
     let sql = 'SELECT * FROM posts';
     let query = sqldb.query(sql, (err, results) => {
@@ -96,7 +96,15 @@ approuter.get('/getallposts', (req, res) => {
 });
 
 
-
+//select one post
+approuter.get("/getpost/:id", (req, res) =>{
+	let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`
+	let query = sqldb.query(sql, (err, results)=>{
+		if(err) throw err;
+		console.log(result);
+		res.send(result);
+	})
+})
 
 
 
