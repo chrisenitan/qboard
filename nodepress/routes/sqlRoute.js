@@ -99,7 +99,7 @@ approuter.get('/getallposts', (req, res) => {
 //select one post
 approuter.get("/getpost/:id", (req, res) =>{
 	let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`
-	let query = sqldb.query(sql, (err, results)=>{
+	let query = sqldb.query(sql, (err, result)=>{
 		if(err) throw err;
 		console.log(result);
 		res.send(result);
