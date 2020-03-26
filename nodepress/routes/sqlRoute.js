@@ -107,6 +107,20 @@ approuter.get("/getpost/:id", (req, res) =>{
 })
 
 
+//update a post from params id
+approuter.get("/updatepost/:id", (req, res) =>{
+	let newTitle = "New Title Update";
+
+	let sql =`UPDATE posts SET title = ${newTitle} WHERE id = ${req.params.id}`;
+	let query = sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result)
+		res.status(200).json({
+			message: "Post updated",
+			postid: req.params.id
+		})
+	})
+})
 
 
 
