@@ -107,7 +107,7 @@ approuter.get("/getpost/:id", (req, res) =>{
 })
 
 
-//test get post by id
+//render post by ID 
 approuter.get("/renderpost/:id", (req, res) =>{
 	let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
 	let query = sqldb.query(sql, (err, result)=>{
@@ -116,6 +116,7 @@ approuter.get("/renderpost/:id", (req, res) =>{
 		res.render("test", result)
 	})
 })
+
 
 
 //update a post from params id
@@ -132,6 +133,9 @@ approuter.get("/updatepost/:id", (req, res) =>{
 		})
 	})
 })
+
+
+
 
 
 

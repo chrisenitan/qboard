@@ -17,9 +17,12 @@ app.set('view engine', 'mustache')
 
 //initialize view engine as middleware
 app.engine('mustache', require("hogan-middleware").__express)
-//or app.engine('mustache', require("hogan-middleware").__express)
+//OR 
+//let hogan = require("hogan-middleware")
+//app.engine('mustache', hogan.__express)
 
-//set status assets 
+
+//set static assets 
 app.use(express.static(path.join(__dirname, "public")))
 
 
