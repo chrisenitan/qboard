@@ -107,6 +107,17 @@ approuter.get("/getpost/:id", (req, res) =>{
 })
 
 
+//test get post by id
+approuter.get("/renderpost/:id", (req, res) =>{
+	let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
+	let query = sqldb.query(sql, (err, result)=>{
+		if (err) throw err;
+		console.log(result); //id title body owner
+		res.render("test", result)
+	})
+})
+
+
 //update a post from params id
 approuter.get("/updatepost/:id", (req, res) =>{
 	let newTitle = "New Title Update";
