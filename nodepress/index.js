@@ -17,9 +17,11 @@ app.set('view engine', 'mustache')
 
 //initialize view engine as middleware
 app.engine('mustache', require("hogan-middleware").__express)
-//OR 
-//let hogan = require("hogan-middleware")
-//app.engine('mustache', hogan.__express)
+/* 
+OR 
+let hogan = require("hogan-middleware")
+app.engine('mustache', hogan.__express) 
+*/
 
 
 //set static assets 
@@ -69,7 +71,8 @@ console.log(`Server Started at port ${port}...`)
 
 
 
-//installed templating engine mustache as hjn
-//installed mustach as hogan-middleware
-
-//to start importing mysql code
+/*
+installed templating engine mustache as hjn
+installed mustach as hogan-middleware
+to start importing mysql code
+ */
