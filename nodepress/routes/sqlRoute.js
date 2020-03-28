@@ -135,6 +135,20 @@ approuter.get("/updatepost/:id", (req, res) =>{
 })
 
 
+//delete a post
+approuter.get("/deletepost/:id", (req, res) =>{
+	let sql = `DELETE FROM posts WHERE id = ${req.params.id}`;
+	let query = sqldb.query(sql, (err, result)=>{
+		if (err) throw err;
+		console.log(result);
+		res.status(200).json({
+			message: "Post deleted",
+			id: `ID: ${req.params.id}`
+		})
+	})
+})
+
+
 
 
 
