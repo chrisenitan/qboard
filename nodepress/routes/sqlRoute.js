@@ -47,6 +47,7 @@ approuter.get('/dropdb', (req, res) => {
     });
 });
 
+
 //create a table
 approuter.get("/createpostable", (req, res) => {
 	let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), owner VARCHAR(255), PRIMARY KEY(id))';
@@ -56,6 +57,20 @@ approuter.get("/createpostable", (req, res) => {
 		res.status(200).json({
 			message: 'Table posts created...',
 			status: "passed"
+		})
+	})
+})
+
+
+//drop a table
+approuter.get("/droptable/:name", (req, res) =>{
+	let sql =`DROP TABLE IF EXISTS ${req.params.name}`;
+	let query = sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result)
+		res.status(200).json({
+			message: "Table Dropped...",
+			table: `${req.params.name} dropped`
 		})
 	})
 })
