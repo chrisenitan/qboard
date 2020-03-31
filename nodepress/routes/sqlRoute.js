@@ -23,7 +23,7 @@ sqldb.connect((err) => {
       console.log("MySQL Database Connected...")
 })
 
-
+ 
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
     let sql = 'CREATE DATABASE node';
