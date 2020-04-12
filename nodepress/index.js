@@ -33,9 +33,33 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
+
+
 //set and import routes 
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
+
+/* 
+//use middleware for sqlRoute DB login
+app.use((req, res, next) =>{
+
+const sqldbip = process.env.SQLServer 
+
+const sqldb = mysql.createConnection({
+    host     : sqldbip,
+    user     : 'admin_chris',
+    password : 'staging123',
+    database : 'nodepress'
+});
+
+sqldb.connect((err) => {
+    if(err){ throw err }
+    
+console.log("MySQL Database Connected...")
+    
+    next()
+}) 
+*/
 
 //set and imoort router for sql links
 const sqlRoute = require("./routes/sqlRoute")
@@ -43,7 +67,6 @@ app.use("/sql", sqlRoute);
 
 
 //DATABASE
-
 //get mongoose
 const mongoose = require("mongoose")
 
@@ -62,7 +85,6 @@ mongoose.connection.on("error", err => {
 
 
 //SERVER
-
 //create a port and start server
 const port = process.env.Port || 3000;
 app.listen(port, () =>{
