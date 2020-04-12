@@ -100,7 +100,7 @@ res.render('content', data)
 })
 
 
-//form post
+//form post from create.mustache
 router.post("/postContent", (req, res) =>{
 	const postArray = req.body
 	const job = postArray.occupation

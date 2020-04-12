@@ -5,7 +5,7 @@ const mysql = require('mysql')
 //initislaize express
 const approuter = express();
 
-
+/* 
 // Create connection. is it possible to put this connection in index.js
 const sqldbip = process.env.SQLServer 
 
@@ -22,7 +22,7 @@ sqldb.connect((err) => {
     }
       console.log("MySQL Database Connected...")
 })
-
+ */
  
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
