@@ -6,21 +6,38 @@ const mysql = require('mysql')
 const approuter = express();
 
 /* 
-// Create connection. this is now part of index js. to be tested when sever is online
-const sqldbip = process.env.SQLServer 
+FREE SERVER:
+Server: sql2.freemysqlhosting.net
+Name: sql2333143
+Username: sql2333143
+Password: hA8!cB3%
+Port number: 3306
+ip: 54.247.107.148
 
-const sqldb = mysql.createConnection({
-    host     : sqldbip,
+// Create connection. this is now part of index js. to be tested when sever is online
+
+const pause = mysql.createConnection({
+    host     : process.env.SQLServer,
     user     : 'admin_chris',
     password : 'staging123',
     database : 'nodepress'
 });
+*/
+
+const sqldb = mysql.createConnection({
+    host     : '54.247.107.148',
+    user     : 'sql2333143',
+    password : 'hA8!cB3%',
+	database : 'sql2333143'
+});
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log("MySQL Database Connected...")
+      console.log("MySQL Database Connected..." + sqldb.threadId)
 })
- */
+
+//can be: req.connectdb.query(...) if req has connection set from index
+ 
  
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
@@ -162,8 +179,8 @@ approuter.get("/deletepost/:id", (req, res) =>{
 })
 
 
-
-
+//close connection
+//sqldb.end()
 
 
 

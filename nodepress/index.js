@@ -9,7 +9,7 @@ require("dotenv").config();
 //import built in path module
 const path = require("path")
 
-//initialise a view path
+//initialise a view path. full d
 app.set('views', path.join(__dirname, 'views'))
 
 //initialise the view templeting engine
@@ -54,7 +54,7 @@ const sqldb = mysql.createConnection({
 
 sqldb.connect((err) => {
     if(err){ throw err }
-    
+
 console.log("MySQL Database Connected...")
     
     next()
