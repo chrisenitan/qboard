@@ -143,7 +143,10 @@ approuter.get("/renderpost/:id", (req, res) =>{
 	let query = sqldb.query(sql, (err, result)=>{
 		if (err) throw err;
 		console.log(result); //id title body owner
-		res.render("post", result)
+
+		const gotpost = Object.assign(result[0], ['id','title','body','owner']);
+
+		res.render("post", gotpost)
 	})
 })
 
