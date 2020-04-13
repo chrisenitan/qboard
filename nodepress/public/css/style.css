@@ -1,8 +1,14 @@
 body{
 	background-color: #384150;
+	font-family: 'Rubik';
 }
 p{
-	color: red;
+	color: #04d098;
+	font-weight: bold;
+}
+.wtxt{
+	color:#fff;
+	font-family: Raleway;
 }
 img{
 	width: auto;

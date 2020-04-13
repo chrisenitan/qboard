@@ -5,25 +5,40 @@ const mysql = require('mysql')
 //initislaize express
 const approuter = express();
 
+/* 
+FREE SQL SERVER:
+Server: sql2.freemysqlhosting.net
+Name: sql2333143
+Username: sql2333143
+Password: hA8!cB3%
+Port number: 3306
+IP: 54.247.107.148
 
-// Create connection. is it possible to put this connection in index.js
-const sqldbip = process.env.SQLServer 
+// Create connection. this is now part of index js. to be tested when sever is online
 
-const sqldb = mysql.createConnection({
-    host     : sqldbip,
+const pause = mysql.createConnection({
+    host     : process.env.SQLServer,
     user     : 'admin_chris',
     password : 'staging123',
     database : 'nodepress'
 });
+*/
+
+const sqldb = mysql.createConnection({
+    host     : '54.247.107.148',
+    user     : 'sql2333143',
+    password : 'hA8!cB3%',
+	database : 'sql2333143'
+});
 
 sqldb.connect((err) => {
-    if(err){
-        throw err
-    }
-      console.log("MySQL Database Connected...")
+    if(err){ throw err }
+      console.log("MySQL Database Connected..." + sqldb.threadId)
 })
 
-
+//can be: req.connectdb.query(...) if req has connection set from index
+ 
+ 
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
     let sql = 'CREATE DATABASE node';
@@ -47,6 +62,7 @@ approuter.get('/dropdb', (req, res) => {
     });
 });
 
+
 //create a table
 approuter.get("/createpostable", (req, res) => {
 	let sql = 'CREATE TABLE posts(id int AUTO_INCREMENT, title VARCHAR(255), body VARCHAR(255), owner VARCHAR(255), PRIMARY KEY(id))';
@@ -56,6 +72,20 @@ approuter.get("/createpostable", (req, res) => {
 		res.status(200).json({
 			message: 'Table posts created...',
 			status: "passed"
+		})
+	})
+})
+
+
+//drop a table
+approuter.get("/droptable/:name", (req, res) =>{
+	let sql =`DROP TABLE IF EXISTS ${req.params.name}`;
+	let query = sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result)
+		res.status(200).json({
+			message: "Table Dropped...",
+			table: `${req.params.name} dropped`
 		})
 	})
 })
@@ -96,10 +126,10 @@ approuter.get('/getallposts', (req, res) => {
 });
 
 
-//select one post
+//select one post. safely
 approuter.get("/getpost/:id", (req, res) =>{
-	let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`
-	let query = sqldb.query(sql, (err, results)=>{
+	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
+	let query = sqldb.query(sql, (err, result)=>{
 		if(err) throw err;
 		console.log(result);
 		res.send(result);
@@ -107,7 +137,53 @@ approuter.get("/getpost/:id", (req, res) =>{
 })
 
 
+//render post by ID 
+approuter.get("/renderpost/:id", (req, res) =>{
+	let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
+	let query = sqldb.query(sql, (err, result)=>{
+		if (err) throw err;
+		console.log(result); //id title body owner
 
+		const gotpost = Object.assign(result[0], ['id','title','body','owner']);
+
+		res.render("post", gotpost)
+	})
+})
+
+
+
+//update a post from params id
+approuter.get("/updatepost/:id", (req, res) =>{
+	let newTitle = "New Title Update";
+
+	let sql =`UPDATE posts SET title = ${newTitle} WHERE id = ${req.params.id}`;
+	let query = sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result)
+		res.status(200).json({
+			message: "Post updated",
+			postid: req.params.id
+		})
+	})
+})
+
+
+//delete a post
+approuter.get("/deletepost/:id", (req, res) =>{
+	let sql = `DELETE FROM posts WHERE id = ${req.params.id}`;
+	let query = sqldb.query(sql, (err, result)=>{
+		if (err) throw err;
+		console.log(result);
+		res.status(200).json({
+			message: "Post deleted",
+			id: `ID: ${req.params.id}`
+		})
+	})
+})
+
+
+//close connection
+//sqldb.end()
 
 
 

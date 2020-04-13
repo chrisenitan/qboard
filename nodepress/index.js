@@ -9,7 +9,7 @@ require("dotenv").config();
 //import built in path module
 const path = require("path")
 
-//initialise a view path
+//initialise a view path. full d
 app.set('views', path.join(__dirname, 'views'))
 
 //initialise the view templeting engine
@@ -17,9 +17,14 @@ app.set('view engine', 'mustache')
 
 //initialize view engine as middleware
 app.engine('mustache', require("hogan-middleware").__express)
-//or app.engine('mustache', require("hogan-middleware").__express)
+/* 
+OR 
+let hogan = require("hogan-middleware")
+app.engine('mustache', hogan.__express) 
+*/
 
-//set status assets 
+
+//set static assets 
 app.use(express.static(path.join(__dirname, "public")))
 
 
@@ -28,9 +33,33 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
+
+
 //set and import routes 
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
+
+/* 
+//use middleware for sqlRoute DB login
+app.use((req, res, next) =>{
+
+const sqldbip = process.env.SQLServer 
+
+const sqldb = mysql.createConnection({
+    host     : sqldbip,
+    user     : 'admin_chris',
+    password : 'staging123',
+    database : 'nodepress'
+});
+
+sqldb.connect((err) => {
+    if(err){ throw err }
+
+console.log("MySQL Database Connected...")
+    
+    next()
+}) 
+*/
 
 //set and imoort router for sql links
 const sqlRoute = require("./routes/sqlRoute")
@@ -38,7 +67,6 @@ app.use("/sql", sqlRoute);
 
 
 //DATABASE
-
 //get mongoose
 const mongoose = require("mongoose")
 
@@ -57,7 +85,6 @@ mongoose.connection.on("error", err => {
 
 
 //SERVER
-
 //create a port and start server
 const port = process.env.Port || 3000;
 app.listen(port, () =>{
@@ -65,8 +92,3 @@ console.log(`Server Started at port ${port}...`)
 })
 
 
-
-//installed templating engine mustache as hjn
-//installed mustach as hogan-middleware
-
-//to start importing mysql code

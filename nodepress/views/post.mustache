@@ -1,0 +1,29 @@
+<html>
+	<head>
+		{{> resources}}
+<title>{{title}}</title>
+	</head>
+
+	<body>
+<!--recieve //id title body owner from sqlRoute.js-->
+	<p>{{title}}</p>
+<img src="/images/art.jpg">
+
+<p>Id: </p> 
+<span class="wtxt">{{id}}</span><br>
+
+<p>Title: </p>
+<span class="wtxt">{{title}}</span><br>
+
+<p>Author: </p>
+<span class="wtxt"> <span class="material-icons" style="font-size:17px;vertical-align:sub">person</span> {{owner}}</span><br>
+
+<p>Body: </p>
+<span class="wtxt">{{body}}</span>
+
+
+
+
+	</body>
+</html>
+
