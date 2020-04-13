@@ -6,13 +6,13 @@ const mysql = require('mysql')
 const approuter = express();
 
 /* 
-FREE SERVER:
+FREE SQL SERVER:
 Server: sql2.freemysqlhosting.net
 Name: sql2333143
 Username: sql2333143
 Password: hA8!cB3%
 Port number: 3306
-ip: 54.247.107.148
+IP: 54.247.107.148
 
 // Create connection. this is now part of index js. to be tested when sever is online
 
