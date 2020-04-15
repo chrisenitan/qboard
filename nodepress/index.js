@@ -39,27 +39,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex);
 
-/* 
-//use middleware for sqlRoute DB login
-app.use((req, res, next) =>{
-
-const sqldbip = process.env.SQLServer 
-
-const sqldb = mysql.createConnection({
-    host     : sqldbip,
-    user     : 'admin_chris',
-    password : 'staging123',
-    database : 'nodepress'
-});
-
-sqldb.connect((err) => {
-    if(err){ throw err }
-
-console.log("MySQL Database Connected...")
-    
-    next()
-}) 
-*/
 
 //set and imoort router for sql links
 const sqlRoute = require("./routes/sqlRoute")

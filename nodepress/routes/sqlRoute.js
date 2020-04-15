@@ -35,8 +35,6 @@ sqldb.connect((err) => {
     if(err){ throw err }
       console.log("MySQL Database Connected..." + sqldb.threadId)
 })
-
-//can be: req.connectdb.query(...) if req has connection set from index
  
  
 // Create a demo DB
@@ -93,7 +91,7 @@ approuter.get("/droptable/:name", (req, res) =>{
 
 //insert a data
 approuter.get("/addpost", (req, res) =>{
-	//create a post. could also be gotten from req or if nothing was sent, use a dummy data
+//create a post. could also be gotten from req or if nothing was sent, use a dummy data
 	var postData = req.body;
 
  	if(!req.body.title){
