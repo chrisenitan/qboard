@@ -5,18 +5,9 @@ const mysql = require('mysql')
 //initislaize express
 const approuter = express();
 
+
 /* 
-FREE SQL SERVER:
-Server: sql2.freemysqlhosting.net
-Name: sql2333143
-Username: sql2333143
-Password: hA8!cB3%
-Port number: 3306
-IP: 54.247.107.148
-
-// Create connection. this is now part of index js. to be tested when sever is online
-
-const pause = mysql.createConnection({
+const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
     user     : 'admin_chris',
     password : 'staging123',
@@ -25,9 +16,9 @@ const pause = mysql.createConnection({
 */
 
 const sqldb = mysql.createConnection({
-    host     : '54.247.107.148',
+    host     : process.env.freeHostingServer,
     user     : 'sql2333143',
-    password : 'hA8!cB3%',
+    password : process.env.fHSPassword,
 	database : 'sql2333143'
 });
 
@@ -35,8 +26,6 @@ sqldb.connect((err) => {
     if(err){ throw err }
       console.log("MySQL Database Connected..." + sqldb.threadId)
 })
-
-//can be: req.connectdb.query(...) if req has connection set from index
  
  
 // Create a demo DB
@@ -93,7 +82,7 @@ approuter.get("/droptable/:name", (req, res) =>{
 
 //insert a data
 approuter.get("/addpost", (req, res) =>{
-	//create a post. could also be gotten from req or if nothing was sent, use a dummy data
+//create a post. could also be gotten from req or if nothing was sent, use a dummy data
 	var postData = req.body;
 
  	if(!req.body.title){
