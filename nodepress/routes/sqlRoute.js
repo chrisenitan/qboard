@@ -82,16 +82,13 @@ approuter.get("/droptable/:name", (req, res) =>{
 
 //insert a data
 approuter.get("/addpost", (req, res) =>{
-//create a post. could also be gotten from req or if nothing was sent, use a dummy data
+//create a post. could also be gotten from req [url/postman] or if nothing was sent, use a dummy data
 	var postData = req.body;
 
  	if(!req.body.title){
-		var postData = {
-		title: "Faster Higher Farther",
-		body: "Book on the history of auto industry and it's corrupt stories",
-		owner: "Jack Ewing"
-	}}
-	
+  res.render("createpost")
+  }
+	else{
 	let sql = 'INSERT INTO posts SET ?';
 	sqldb.query(sql, postData, (err, result) =>{
 		if(err) throw err
@@ -101,6 +98,7 @@ approuter.get("/addpost", (req, res) =>{
 			status: "Passed"
 		})
 	})
+}
 })
 
 

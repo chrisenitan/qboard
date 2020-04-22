@@ -1,0 +1,33 @@
+<html>
+	<head>
+		{{> resources}}
+<title>Add a New Post [Book]</title>
+	</head>
+
+	<body>
+
+	<p>Fill in the data of your book below</p>
+
+
+<img src="/images/art.jpg"><br><br> 
+
+
+<form action="/sql/addpost" method="POST"> 
+
+	<input type="text" name="tilt" placeholder="Name" value="Chris" /><br><br>
+
+	<textarea name="body">Body</textarea><br><br>
+
+	<input type="text" name="owner" placeholder="Occupation" value="Teacher" /><br><br>
+
+	<button>Submit</button><br>
+
+</form>
+
+<br>
+<br>
+
+
+	</body>
+</html>
+

@@ -34,3 +34,11 @@ button{
 	border: 1px solid #a9ffa9;
 	border-radius: 3px;
 }
+textarea{
+	height: 80px;
+	width: 210px;
+	background-color: transparent;
+	border: 1px solid #a9a9a9;
+	border-radius: 3px;
+	color: #fff;
+}
