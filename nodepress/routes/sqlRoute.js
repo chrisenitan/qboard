@@ -10,7 +10,7 @@ const approuter = express();
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
     user     : 'admin_chris',
-    password : 'staging123',
+    password : 'process.env.GCPsqlPassword',
     database : 'nodepress'
 });
 */
