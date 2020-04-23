@@ -79,28 +79,37 @@ approuter.get("/droptable/:name", (req, res) =>{
 	})
 })
 
+//create a form post 
+approuter.get("/createpost", (req, res)=>{
+	if(!req.body.title){
+res.render("createpost")
+	}
+})
 
 //insert a data
-approuter.get("/addpost", (req, res) =>{
-//create a post. could also be gotten from req [url/postman] or if nothing was sent, use a dummy data
-	var postData = req.body;
+approuter.post("/createpost", (req, res)=>{
+	let postData = req.body
+	
+	if(!req.body.title){
+		let postData = {
+		title: "Faster Higher Farther",
+		body: "Book on the history of auto industry and it's corrupt stories",
+		owner: "Jack Ewing"
+	}}
 
- 	if(!req.body.title){
-  res.render("createpost")
-  }
-	else{
 	let sql = 'INSERT INTO posts SET ?';
 	sqldb.query(sql, postData, (err, result) =>{
 		if(err) throw err
 		console.log(`${result} new post added...`)
 		res.status(200).json({
-			message: "New post added",
-			status: "Passed"
+			status: "Saved",
+			message: `New post added from: ${postData.owner}`,
+			title: postData.title,
+			body: postData.body
 		})
 	})
-}
-})
-
+		})
+	
 
 // Select all posts
 approuter.get('/getallposts', (req, res) => {
