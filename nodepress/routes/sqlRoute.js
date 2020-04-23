@@ -79,22 +79,22 @@ approuter.get("/droptable/:name", (req, res) =>{
 	})
 })
 
-//create a form post 
+//load form for creating post
 approuter.get("/createpost", (req, res)=>{
 	if(!req.body.title){
 res.render("createpost")
 	}
 })
 
-//insert a data
+//save post from form
 approuter.post("/createpost", (req, res)=>{
-	let postData = req.body
+ let postData = req.body
 	
 	if(!req.body.title){
 		let postData = {
-		title: "Faster Higher Farther",
-		body: "Book on the history of auto industry and it's corrupt stories",
-		owner: "Jack Ewing"
+		title: "Empty Book Title",
+		body: "Book summary was not sent",
+		owner: "Unknown"
 	}}
 
 	let sql = 'INSERT INTO posts SET ?';
@@ -108,7 +108,7 @@ approuter.post("/createpost", (req, res)=>{
 			body: postData.body
 		})
 	})
-		})
+})
 	
 
 // Select all posts
