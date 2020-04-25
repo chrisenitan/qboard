@@ -79,7 +79,7 @@ approuter.get("/droptable/:name", (req, res) =>{
 	})
 })
 
-//load form for creating post
+//load form for creating post. load create a post frontend
 approuter.get("/createpost", (req, res)=>{
 	if(!req.body.title){
 res.render("createpost")

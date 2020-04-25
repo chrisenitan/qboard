@@ -1,6 +1,8 @@
 body{
 	background-color: #384150;
 	font-family: 'Rubik';
+	margin:0px;
+	text-align: center;
 }
 p{
 	color: #04d098;
