@@ -27,14 +27,15 @@ input{
 	border: 1px solid #a9a9a9;
 	border-radius: 3px;
 	color: #fff;
+	padding: 5px;
 }
 button{
 	height: 30px;
 	width: 210px;
-	color: #fff;
-	background-color: red;
+	color: #000000;
+	background-color: #a9ffa9;
 	border: 1px solid #a9ffa9;
-	border-radius: 3px;
+	border-radius: 50px;
 }
 textarea{
 	height: 80px;
@@ -43,4 +44,5 @@ textarea{
 	border: 1px solid #a9a9a9;
 	border-radius: 3px;
 	color: #fff;
+	padding: 5px;
 }

@@ -15,13 +15,13 @@
 
 <form action="/sql/createpost" method="POST"> 
 
-	<input type="text" name="title" placeholder="Title" value="On Cosmos" /><br><br>
+	<input required type="text" name="title" placeholder="Title" value="On Cosmos" /><br><br>
 
-	<textarea name="body">This is the short description of the book. We hope you add the main idea from the author here and also how long the book is.</textarea><br><br>
+	<textarea required name="body">This is the short description of the book. We hope you add the main idea from the author here and also how long the book is.</textarea><br><br>
 
-	<input type="text" name="owner" placeholder="Owner" value="Chris Enitan" /><br><br>
+	<input type="text" name="owner" placeholder="Owner" value="Chris Enitan" required/><br><br>
 
-	<button>Create</button><br>
+	<button><i class="material-icons" style="font-size:14px;vertical-align:text-top">save</i> Create Post</button><br>
 
 </form>
 

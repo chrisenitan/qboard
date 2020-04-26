@@ -90,7 +90,7 @@ res.render("createpost")
 approuter.post("/createpost", (req, res)=>{
  let postData = req.body
 	
-	if(!req.body.title){
+	if(!postData.title || postData.body || !postData.owner){
 		let postData = {
 		title: "Empty Book Title",
 		body: "Book summary was not sent",
