@@ -79,12 +79,14 @@ approuter.get("/droptable/:name", (req, res) =>{
 	})
 })
 
+
 //load form for creating post. load create a post frontend
 approuter.get("/createpost", (req, res)=>{
 	if(!req.body.title){
 res.render("createpost")
 	}
 })
+
 
 //save post from form
 approuter.post("/createpost", (req, res)=>{
@@ -111,7 +113,7 @@ approuter.post("/createpost", (req, res)=>{
 })
 	
 
-// Select all posts
+// Get all posts
 approuter.get('/getallposts', (req, res) => {
     let sql = 'SELECT * FROM posts';
     let query = sqldb.query(sql, (err, results) => {
@@ -122,7 +124,27 @@ approuter.get('/getallposts', (req, res) => {
 });
 
 
-//select one post. safely
+//Get post from url query
+approuter.get("/fetchpost", (req, res)=>{
+
+let requestId = req.query.id
+let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(requestId)
+sqldb.query(sql, (err, result)=>{
+	if (err) throw err;
+	console.log(result)
+
+	const fetchedPost = Object.assign(result[0], ['id','title','body','owner']);
+
+	res.status(200).json({
+		id: fetchedPost.id,
+		title: fetchedPost.title
+	})
+})
+})
+
+
+
+//Get one post by parameter getpost/9
 approuter.get("/getpost/:id", (req, res) =>{
 	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
 	let query = sqldb.query(sql, (err, result)=>{
@@ -138,14 +160,15 @@ approuter.get("/renderpost/:id", (req, res) =>{
 	let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
 	let query = sqldb.query(sql, (err, result)=>{
 		if (err) throw err;
-		console.log(result); //id title body owner
+		console.log(result);
+
    if(!result[0]){
 	console.log("No data found for the id"); 
 	res.render("post", {
 		id:  "not found",
-		title:  "not found",
-		body:  "not found",
-		owner: "not found"
+		title:  "-",
+		body:  "-",
+		owner: "-"
 	}) 
    }else{
 	const gotpost = Object.assign(result[0], ['id','title','body','owner']);
