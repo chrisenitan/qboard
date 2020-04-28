@@ -97,7 +97,7 @@ approuter.post("/createpost", (req, res)=>{
 		owner: "Unknown"
 	}}
 
-	let sql = 'INSERT INTO posts SET ?';
+	let sql = 'INSERT INTO posts SET ?'
 	sqldb.query(sql, postData, (err, result) =>{
 		if(err) throw err
 		console.log(`${result} new post added...`)
@@ -139,10 +139,20 @@ approuter.get("/renderpost/:id", (req, res) =>{
 	let query = sqldb.query(sql, (err, result)=>{
 		if (err) throw err;
 		console.log(result); //id title body owner
-
-		const gotpost = Object.assign(result[0], ['id','title','body','owner']);
-
-		res.render("post", gotpost)
+   if(!result[0]){
+	console.log("No data found for the id"); 
+	res.render("post", {
+		id:  "not found",
+		title:  "not found",
+		body:  "not found",
+		owner: "not found"
+	}) 
+   }else{
+	const gotpost = Object.assign(result[0], ['id','title','body','owner']);
+	res.render("post", gotpost) 
+   }
+		
+		
 	})
 })
 
