@@ -10,7 +10,7 @@ const approuter = express();
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
     user     : 'admin_chris',
-    password : 'staging123',
+    password : 'process.env.GCPsqlPassword',
     database : 'nodepress'
 });
 */
@@ -80,31 +80,40 @@ approuter.get("/droptable/:name", (req, res) =>{
 })
 
 
-//insert a data
-approuter.get("/addpost", (req, res) =>{
-//create a post. could also be gotten from req or if nothing was sent, use a dummy data
-	var postData = req.body;
+//load form for creating post. load create a post frontend
+approuter.get("/createpost", (req, res)=>{
+	if(!req.body.title){
+res.render("createpost")
+	}
+})
 
- 	if(!req.body.title){
-		var postData = {
-		title: "Faster Higher Farther",
-		body: "Book on the history of auto industry and it's corrupt stories",
-		owner: "Jack Ewing"
-	}}
+
+//save post from form
+approuter.post("/createpost", (req, res)=>{
+ let postData = req.body
 	
-	let sql = 'INSERT INTO posts SET ?';
+	if(!postData.title || postData.body || !postData.owner){
+		let postData = {
+		title: "Empty Book Title",
+		body: "Book summary was not sent",
+		owner: "Unknown"
+	}}
+
+	let sql = 'INSERT INTO posts SET ?'
 	sqldb.query(sql, postData, (err, result) =>{
 		if(err) throw err
 		console.log(`${result} new post added...`)
 		res.status(200).json({
-			message: "New post added",
-			status: "Passed"
+			status: "Saved",
+			message: `New post added from: ${postData.owner}`,
+			title: postData.title,
+			body: postData.body
 		})
 	})
 })
+	
 
-
-// Select all posts
+// Get all posts
 approuter.get('/getallposts', (req, res) => {
     let sql = 'SELECT * FROM posts';
     let query = sqldb.query(sql, (err, results) => {
@@ -115,7 +124,27 @@ approuter.get('/getallposts', (req, res) => {
 });
 
 
-//select one post. safely
+//Get post from url query
+approuter.get("/fetchpost", (req, res)=>{
+
+let requestId = req.query.id
+let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(requestId)
+sqldb.query(sql, (err, result)=>{
+	if (err) throw err;
+	console.log(result)
+
+	const fetchedPost = Object.assign(result[0], ['id','title','body','owner']);
+
+	res.status(200).json({
+		id: fetchedPost.id,
+		title: fetchedPost.title
+	})
+})
+})
+
+
+
+//Get one post by parameter getpost/9
 approuter.get("/getpost/:id", (req, res) =>{
 	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
 	let query = sqldb.query(sql, (err, result)=>{
@@ -131,11 +160,22 @@ approuter.get("/renderpost/:id", (req, res) =>{
 	let sql = `SELECT * FROM posts WHERE id = ${req.params.id}`;
 	let query = sqldb.query(sql, (err, result)=>{
 		if (err) throw err;
-		console.log(result); //id title body owner
+		console.log(result);
 
-		const gotpost = Object.assign(result[0], ['id','title','body','owner']);
-
-		res.render("post", gotpost)
+   if(!result[0]){
+	console.log("No data found for the id"); 
+	res.render("post", {
+		id:  "not found",
+		title:  "-",
+		body:  "-",
+		owner: "-"
+	}) 
+   }else{
+	const gotpost = Object.assign(result[0], ['id','title','body','owner']);
+	res.render("post", gotpost) 
+   }
+		
+		
 	})
 })
 

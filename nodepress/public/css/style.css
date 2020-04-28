@@ -1,6 +1,8 @@
 body{
 	background-color: #384150;
 	font-family: 'Rubik';
+	margin:0px;
+	text-align: center;
 }
 p{
 	color: #04d098;
@@ -25,12 +27,22 @@ input{
 	border: 1px solid #a9a9a9;
 	border-radius: 3px;
 	color: #fff;
+	padding: 5px;
 }
 button{
 	height: 30px;
 	width: 210px;
-	color: #fff;
-	background-color: red;
+	color: #000000;
+	background-color: #a9ffa9;
 	border: 1px solid #a9ffa9;
+	border-radius: 50px;
+}
+textarea{
+	height: 80px;
+	width: 210px;
+	background-color: transparent;
+	border: 1px solid #a9a9a9;
 	border-radius: 3px;
+	color: #fff;
+	padding: 5px;
 }
