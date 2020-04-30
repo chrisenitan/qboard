@@ -17,6 +17,7 @@ app.set('view engine', 'mustache')
 
 //initialize view engine as middleware
 app.engine('mustache', require("hogan-middleware").__express)
+
 /* 
 OR 
 let hogan = require("hogan-middleware")
@@ -32,7 +33,6 @@ app.use(express.static(path.join(__dirname, "public")))
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
-
 
 
 //set and import routes 

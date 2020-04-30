@@ -6,6 +6,7 @@ const mysql = require('mysql')
 const approuter = express();
 
 
+
 /* 
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
@@ -143,7 +144,6 @@ sqldb.query(sql, (err, result)=>{
 })
 
 
-
 //Get one post by parameter getpost/9
 approuter.get("/getpost/:id", (req, res) =>{
 	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
@@ -213,7 +213,6 @@ approuter.get("/deletepost/:id", (req, res) =>{
 
 //close connection
 //sqldb.end()
-
 
 
 
