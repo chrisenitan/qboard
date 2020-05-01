@@ -216,8 +216,13 @@ approuter.get("/mid", (req, res, next)=>{
 	res.status(200).json({
 		message: "Middleware loaded"
 	})
-	console.log("We said hello, be happy...")
+	console.log("Middleware registration must be above this string...")
 })
+
+
+
+
+
 
 //close connection
 //sqldb.end()
