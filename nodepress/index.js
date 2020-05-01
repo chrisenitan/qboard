@@ -19,6 +19,8 @@ app.set('view engine', 'mustache')
 app.engine('mustache', require("hogan-middleware").__express)
 
 /* 
+incase template hogan becoms hard to dig: 
+https://www.udemy.com/course/intro-to-node-js-express/learn/lecture/12546954?start=313#bookmarks
 OR 
 let hogan = require("hogan-middleware")
 app.engine('mustache', hogan.__express) 
