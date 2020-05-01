@@ -211,6 +211,14 @@ approuter.get("/deletepost/:id", (req, res) =>{
 })
 
 
+//used by a middleware
+approuter.get("/mid", (req, res, next)=>{
+	res.status(200).json({
+		message: "Middleware loaded"
+	})
+	console.log("We said hello, be happy...")
+})
+
 //close connection
 //sqldb.end()
 

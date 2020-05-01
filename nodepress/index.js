@@ -34,6 +34,8 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
+//custom midlewares
+let hello = require("./middle.js")
 
 //set and import routes 
 const routerIndex = require("./routes/routerIndex")
@@ -42,7 +44,7 @@ app.use("/", routerIndex);
 
 //set and imoort router for sql links
 const sqlRoute = require("./routes/sqlRoute")
-app.use("/sql", sqlRoute);
+app.use("/sql", hello, sqlRoute);
 
 
 //DATABASE
