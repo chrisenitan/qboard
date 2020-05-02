@@ -5,4 +5,7 @@ document.cookie = "user=Enitan; max-age=31536000; path=/; samesite=Lax;";
 
 //js dom is rediculous
 let showUrl = document.createElement('div');
-showUrl.innerHTML =  window.location.href
+showUrl.innerHTML = window.location.href;
+
+var para = document.createElement("P");
+para.innerText = "This is a paragraph.";

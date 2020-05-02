@@ -6,8 +6,7 @@ const mysql = require('mysql')
 const approuter = express();
 
 
-
-/* 
+/* GCP
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
     user     : 'admin_chris',
@@ -17,24 +16,23 @@ const sqldb = mysql.createConnection({
 */
 
 const sqldb = mysql.createConnection({
-    host     : process.env.freeHostingServer,
+    host     : process.env.fhserver,
     user     : 'sql2333143',
-    password : process.env.fHSPassword,
+    password : process.env.fhpass,
 	database : 'sql2333143'
 });
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log("MySQL Database Connected..." + sqldb.threadId)
+      console.log("MySQL FreeHost Database Connected..." + sqldb.threadId)
 })
+
 
 /*add ssh access to shared hosting for namecheap
 ssh -f cafaqadu@server161.web-hosting.com -p21098 -L 3306:127.0.0.1:3306 -N
 MuYR@xjBc5Wam88
   */
- 
-
- const sqldbCafa = mysql.createConnection({
+  const sqldbCafa = mysql.createConnection({
     host     : process.env.cafahost,
     user     : process.env.cafauser,
     password : process.env.cafapass,
@@ -50,14 +48,15 @@ sqldbCafa.connect((err) => {
 
 //CAFA
 //get from cafa
-approuter.get("/cafa", (req, res) =>{
-	let sql = "SELECT * FROM content WHERE id = 1";
+approuter.get("/cafa/:id", (req, res) =>{
+	let sql = `SELECT * FROM content WHERE id =` + sqldbCafa.escape(req.params.id);
 	let query = sqldbCafa.query(sql, (err, result)=>{
 		if(err) throw err;
 		console.log(result);
 		res.send(result);
 	})
 })
+
 
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
