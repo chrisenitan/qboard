@@ -5,6 +5,7 @@ const app = express();
 //set env file
 require("dotenv").config();
 
+
 //setup views dir
 //import built in path module
 const path = require("path")
@@ -56,7 +57,7 @@ const mongoose = require("mongoose")
 //connect to db
 mongoose.connect(
     process.env.Server,
-    {userNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
+    {useNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
 ).then(() => console.log("Mongo Database Connected..."))
 
 //confirm connection
@@ -69,7 +70,7 @@ mongoose.connection.on("error", err => {
 
 //SERVER
 //create a port and start server
-const port = process.env.Port || 3000;
+const port = process.env.Port || 4000;
 app.listen(port, () =>{
 console.log(`Server Started at port ${port}...`)
 })

@@ -28,10 +28,13 @@ sqldb.connect((err) => {
 })
 
 
-/*add ssh access to shared hosting for namecheap
+/*
+add ssh access to shared hosting for namecheap
 ssh -f cafaqadu@server161.web-hosting.com -p21098 -L 3306:127.0.0.1:3306 -N
-MuYR@xjBc5Wam88
-  */
+Pass: MuYR@xjBc5Wam88
+check all ssh conns: ps aux | grep sshd
+Close tunnel: kill -9 <pid>
+*/
   const sqldbCafa = mysql.createConnection({
     host     : process.env.cafahost,
     user     : process.env.cafauser,
