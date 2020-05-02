@@ -27,8 +27,38 @@ sqldb.connect((err) => {
     if(err){ throw err }
       console.log("MySQL Database Connected..." + sqldb.threadId)
 })
+
+/*add ssh access to shared hosting for namecheap
+ssh -f cafaqadu@server161.web-hosting.com -p21098 -L 3306:127.0.0.1:3306 -N
+MuYR@xjBc5Wam88
+  */
  
- 
+
+ const sqldbCafa = mysql.createConnection({
+    host     : process.env.cafahost,
+    user     : process.env.cafauser,
+    password : process.env.cafapass,
+	database : process.env.cafadb
+});
+
+sqldbCafa.connect((err) => {
+    if(err){ throw err }
+      console.log("MySQL Cafa Database Connected..." + sqldbCafa.threadId)
+})
+
+
+
+//CAFA
+//get from cafa
+approuter.get("/cafa", (req, res) =>{
+	let sql = "SELECT * FROM content WHERE id = 1";
+	let query = sqldbCafa.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result);
+		res.send(result);
+	})
+})
+
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
     let sql = 'CREATE DATABASE node';
