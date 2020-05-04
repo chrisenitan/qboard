@@ -6,7 +6,7 @@ const mysql = require('mysql')
 const approuter = express();
 
 
-/* 
+/* GCP
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
     user     : 'admin_chris',
@@ -16,18 +16,51 @@ const sqldb = mysql.createConnection({
 */
 
 const sqldb = mysql.createConnection({
-    host     : process.env.freeHostingServer,
-    user     : 'sql2333143',
-    password : process.env.fHSPassword,
-	database : 'sql2333143'
+    host     : process.env.fhserver,
+    user     : process.env.fhuser,
+    password : process.env.fhpass,
+	database : process.env.fhdb
 });
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log("MySQL Database Connected..." + sqldb.threadId)
+      console.log("MySQL FreeHost Database Connected..." + sqldb.threadId)
 })
- 
- 
+
+
+/*
+add ssh access to shared hosting for namecheap
+ssh -f cafaqadu@server161.web-hosting.com -p21098 -L 3306:127.0.0.1:3306 -N
+Pass: MuYR@xjBc5Wam88
+check all ssh conns: ps aux | grep sshd
+Close tunnel: kill -9 <pid>
+*/
+  const sqldbCafa = mysql.createConnection({
+    host     : process.env.cafahost,
+    user     : process.env.cafauser,
+    password : process.env.cafapass,
+	database : process.env.cafadb
+});
+
+sqldbCafa.connect((err) => {
+    if(err){ throw err }
+      console.log("MySQL Cafa Database Connected..." + sqldbCafa.threadId)
+})
+
+
+
+//CAFA
+//get from cafa
+approuter.get("/cafa/:id", (req, res) =>{
+	let sql = `SELECT * FROM content WHERE id =` + sqldbCafa.escape(req.params.id);
+	let query = sqldbCafa.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result);
+		res.send(result);
+	})
+})
+
+
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
     let sql = 'CREATE DATABASE node';
@@ -143,7 +176,6 @@ sqldb.query(sql, (err, result)=>{
 })
 
 
-
 //Get one post by parameter getpost/9
 approuter.get("/getpost/:id", (req, res) =>{
 	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
@@ -211,9 +243,21 @@ approuter.get("/deletepost/:id", (req, res) =>{
 })
 
 
+//used by a middleware
+approuter.get("/mid", (req, res, next)=>{
+	res.status(200).json({
+		message: "Middleware loaded"
+	})
+	console.log("Middleware registration must be above this string...")
+})
+
+
+
+
+
+
 //close connection
 //sqldb.end()
-
 
 
 

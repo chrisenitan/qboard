@@ -5,6 +5,7 @@ const app = express();
 //set env file
 require("dotenv").config();
 
+
 //setup views dir
 //import built in path module
 const path = require("path")
@@ -17,7 +18,10 @@ app.set('view engine', 'mustache')
 
 //initialize view engine as middleware
 app.engine('mustache', require("hogan-middleware").__express)
+
 /* 
+incase template hogan becoms hard to dig: 
+https://www.udemy.com/course/intro-to-node-js-express/learn/lecture/12546954?start=313#bookmarks
 OR 
 let hogan = require("hogan-middleware")
 app.engine('mustache', hogan.__express) 
@@ -33,7 +37,8 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-
+//custom midlewares
+let middle = require("./cModules/middle.js")
 
 //set and import routes 
 const routerIndex = require("./routes/routerIndex")
@@ -42,7 +47,7 @@ app.use("/", routerIndex);
 
 //set and imoort router for sql links
 const sqlRoute = require("./routes/sqlRoute")
-app.use("/sql", sqlRoute);
+app.use("/sql", middle, sqlRoute);
 
 
 //DATABASE
@@ -52,7 +57,7 @@ const mongoose = require("mongoose")
 //connect to db
 mongoose.connect(
     process.env.Server,
-    {userNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
+    {useNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
 ).then(() => console.log("Mongo Database Connected..."))
 
 //confirm connection
@@ -65,7 +70,7 @@ mongoose.connection.on("error", err => {
 
 //SERVER
 //create a port and start server
-const port = process.env.Port || 3000;
+const port = process.env.Port || 4000;
 app.listen(port, () =>{
 console.log(`Server Started at port ${port}...`)
 })
