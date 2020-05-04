@@ -9,3 +9,9 @@ showUrl.innerHTML = window.location.href;
 
 var para = document.createElement("P");
 para.innerText = "Form to: /sql/createpost";
+
+
+document.getElementById("submit").addEventListener("click", function(event){
+    event.preventDefault();
+    
+})
