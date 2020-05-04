@@ -17,9 +17,9 @@ const sqldb = mysql.createConnection({
 
 const sqldb = mysql.createConnection({
     host     : process.env.fhserver,
-    user     : 'sql2333143',
+    user     : process.env.fhuser,
     password : process.env.fhpass,
-	database : 'sql2333143'
+	database : process.env.fhdb
 });
 
 sqldb.connect((err) => {
