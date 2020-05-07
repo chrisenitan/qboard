@@ -11,7 +11,7 @@ var para = document.createElement("P");
 para.innerText = "Form to: /sql/createpost";
 
 
-document.getElementById("submit").addEventListener("click", function(event){
-    event.preventDefault();
-    
-})
+function prev(event){
+    event.preventDefault()
+    console.log("test")
+}
