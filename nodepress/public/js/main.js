@@ -11,7 +11,10 @@ var para = document.createElement("P");
 para.innerText = "Form to: /sql/createpost";
 
 
-function prev(event){
-    event.preventDefault()
-    console.log("test")
+function prev(){
+    console.log("Form surpressed")
+
+    //do some submit in backend
+
+    return false;
 }
