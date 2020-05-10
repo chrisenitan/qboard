@@ -255,7 +255,6 @@ approuter.get("/mid", (req, res, next)=>{
 
 
 
-
 //close connection
 //sqldb.end()
 
