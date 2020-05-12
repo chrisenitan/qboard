@@ -121,7 +121,7 @@ res.render("createpost")
 })
 
 
-//save post from form
+//save post from form. to render post saved
 approuter.post("/createpost", (req, res)=>{
  let postData = req.body
 	
@@ -210,7 +210,6 @@ approuter.get("/renderpost/:id", (req, res) =>{
 		
 	})
 })
-
 
 
 //update a post from params id
