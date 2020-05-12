@@ -137,7 +137,7 @@ approuter.post("/createpost", (req, res)=>{
 		if(err) throw err
 		console.log(`${result} new post added...`)
 		res.status(200).json({
-			status: "Saved",
+			status: "Book Saved",
 			message: `New post added from: ${postData.owner}`,
 			title: postData.title,
 			body: postData.body
