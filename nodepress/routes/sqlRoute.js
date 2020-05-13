@@ -1,5 +1,5 @@
 
-const express = require('express');
+const express = require('express'); //param body query
 const mysql = require('mysql')
 
 //initislaize express
@@ -110,6 +110,22 @@ approuter.get("/droptable/:name", (req, res) =>{
 			table: `${req.params.name} dropped`
 		})
 	})
+})
+
+//temp
+approuter.get("/temp/:req", (req, res) =>{
+	let request = req.params.req
+	if(request = "redirect"){
+	  res.redirect('http://example.com')
+	}
+	else{
+		let sql = ``
+		sqldb.query=(sql, (err, result)=>{
+			if (err) throw err;
+		})
+	}
+
+	
 })
 
 
