@@ -1,5 +1,5 @@
 
-const express = require('express');
+const express = require('express'); //param body query
 const mysql = require('mysql')
 
 //initislaize express
@@ -42,10 +42,10 @@ Close tunnel: kill -9 <pid>
 	database : process.env.cafadb
 });
 
-sqldbCafa.connect((err) => {
+/* sqldbCafa.connect((err) => {
     if(err){ throw err }
       console.log("MySQL Cafa Database Connected..." + sqldbCafa.threadId)
-})
+}) */
 
 
 
@@ -112,6 +112,21 @@ approuter.get("/droptable/:name", (req, res) =>{
 	})
 })
 
+//ajax
+approuter.get("/temp/:req", (req, res) =>{
+	let request = req.params.req
+	if(request = "redirect"){
+	  res.redirect('http://example.com')
+	}
+	else{
+		let sql = ``
+		sqldb.query=(sql, (err, result)=>{
+			if (err) throw err;
+		})
+	}
+	
+})
+
 
 //load form for creating post. load create a post frontend
 approuter.get("/createpost", (req, res)=>{
@@ -121,7 +136,7 @@ res.render("createpost")
 })
 
 
-//save post from form
+//save post from form. to render post saved
 approuter.post("/createpost", (req, res)=>{
  let postData = req.body
 	
@@ -137,7 +152,7 @@ approuter.post("/createpost", (req, res)=>{
 		if(err) throw err
 		console.log(`${result} new post added...`)
 		res.status(200).json({
-			status: "Saved",
+			status: "Book Saved",
 			message: `New post added from: ${postData.owner}`,
 			title: postData.title,
 			body: postData.body
@@ -212,7 +227,6 @@ approuter.get("/renderpost/:id", (req, res) =>{
 })
 
 
-
 //update a post from params id
 approuter.get("/updatepost/:id", (req, res) =>{
 	let newTitle = "New Title Update";
@@ -250,7 +264,6 @@ approuter.get("/mid", (req, res, next)=>{
 	})
 	console.log("Middleware registration must be above this string...")
 })
-
 
 
 

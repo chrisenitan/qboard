@@ -1,5 +1,5 @@
 const express = require('express')
-const router = express.Router()
+const router = express.Router() //param body query
 
 //custom data validation
 const validator = require("../validators/validatorIndex")

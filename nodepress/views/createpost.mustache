@@ -7,12 +7,12 @@
 
 	<body>
 <br><br>
-	<p>Fill in the data of your book below </p>
+	<p>Fill in the data of your book below:</p>
 
 <script>
   document.body.append(showUrl);
-
   document.body.appendChild(para);
+
 </script>
 
 
@@ -25,15 +25,16 @@
 
 	<textarea required name="body">This is the short description of the book. We hope you add the main idea from the author here and also how long the book is.</textarea><br><br>
 
-	<input type="text" name="owner" placeholder="Owner" value="Chris Enitan" required/><br><br>
+	<input required type="text" name="owner" placeholder="Owner" value="Chris Enitan"/><br><br>
 
-	<button><i class="material-icons" style="font-size:14px;vertical-align:text-top">save</i> Create Post</button><br>
+	<button id="submit" onclick="prev()"><i class="material-icons" style="font-size:14px;vertical-align:text-top">save</i> Create Book</button><br>
 
 </form>
 
 
-
-
+<button id="ajaxy">
+<i class="material-icons" style="font-size:14px;vertical-align:text-top">cloud_download</i> Fetch Old Books
+</button>
 
 	</body>
 </html>
