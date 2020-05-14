@@ -18,3 +18,16 @@ function prev(){
 
     return false;
 }
+
+window.addEventListener("load", function(){
+    //all events
+
+    //ajaxy
+    document.getElementById("ajaxy").addEventListener("click", function(){
+        alert("Not yet implemented Ajax")
+    })
+
+
+})
+
+

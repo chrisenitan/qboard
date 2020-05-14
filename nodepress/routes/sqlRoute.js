@@ -112,7 +112,7 @@ approuter.get("/droptable/:name", (req, res) =>{
 	})
 })
 
-//temp
+//ajax
 approuter.get("/temp/:req", (req, res) =>{
 	let request = req.params.req
 	if(request = "redirect"){
@@ -124,7 +124,6 @@ approuter.get("/temp/:req", (req, res) =>{
 			if (err) throw err;
 		})
 	}
-
 	
 })
 
