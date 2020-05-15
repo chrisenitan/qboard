@@ -2,17 +2,25 @@
 	<head>
 	{{> resources}}
 
-<title>Book Saved</title>
+<title>All Books</title>
 	</head>
 
 	<body>
 <br><br>
-	<p>New Book Saved</p>
+	<p>All your available posts:</p>
+
 <img src="/images/art.jpg"><br><br> 
 
+{{!-- Using the post element --}}
+
+{{#results}}
 
 {{> postDiv}}
 
+{{/results}}
+
+
+	
 
 	</body>
 </html>

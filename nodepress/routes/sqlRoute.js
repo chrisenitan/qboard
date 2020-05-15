@@ -115,17 +115,33 @@ approuter.get("/droptable/:name", (req, res) =>{
 //ajax
 approuter.get("/temp/:req", (req, res) =>{
 	let request = req.params.req
-	if(request = "redirect"){
-	  res.redirect('http://example.com')
+
+	if(request == "redirect"){
+		res.redirect('http://example.com')
 	}
 	else{
-		let sql = ``
-		sqldb.query=(sql, (err, result)=>{
+		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
+		sqldb.query(sql, (err, result)=>{
 			if (err) throw err;
+			let book = Object.assign(result[0], ["id","title","body","owner"])
+			res.render("book_saved", book)
 		})
 	}
 	
 })
+
+
+
+//Get one post by parameter getpost/9
+approuter.get("/getpost/:id", (req, res) =>{
+	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
+	let query = sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result);
+		res.send(result);
+	})
+})
+
 
 
 //load form for creating post. load create a post frontend
@@ -166,8 +182,10 @@ approuter.get('/getallposts', (req, res) => {
     let sql = 'SELECT * FROM posts';
     let query = sqldb.query(sql, (err, results) => {
         if(err) throw err;
-        console.log(results);
-        res.send(results);
+		
+		let allpost = Object.assign(results[0], ["id","title","body","owner"])
+		//console.log(results)
+        res.render("allpost", { results: results });
     });
 });
 
@@ -188,17 +206,6 @@ sqldb.query(sql, (err, result)=>{
 		title: fetchedPost.title
 	})
 })
-})
-
-
-//Get one post by parameter getpost/9
-approuter.get("/getpost/:id", (req, res) =>{
-	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
-	let query = sqldb.query(sql, (err, result)=>{
-		if(err) throw err;
-		console.log(result);
-		res.send(result);
-	})
 })
 
 
