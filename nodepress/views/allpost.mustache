@@ -1,0 +1,24 @@
+<html>
+	<head>
+	{{> resources}}
+
+<title>Add a New Post [Book]</title>
+	</head>
+
+	<body>
+<br><br>
+	<p>All your available posts:</p>
+
+<img src="/images/art.jpg"><br><br> 
+
+{{!-- Using the post element --}}
+
+{{#results}}
+{{.}} 
+{{/results}}
+
+	
+
+	</body>
+</html>
+

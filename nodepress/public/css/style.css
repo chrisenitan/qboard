@@ -8,6 +8,12 @@ p{
 	color: #04d098;
 	font-weight: bold;
 }
+h{
+	color: #f5f5f5;
+}
+.redtxt{
+	color: #c76b6b;
+}
 .wtxt{
 	color:#fff;
 	font-family: Raleway;
@@ -45,4 +51,16 @@ textarea{
 	border-radius: 3px;
 	color: #fff;
 	padding: 5px;
+}
+.bookPost{
+	text-align: left;
+	text-align: left;
+    margin: auto;
+	width: 26%;
+	padding:1%;
+	border-color: #cec7bf;
+	border-style: solid;
+	border-width: 0.5px;
+	border-top: none;
+	border-bottom: none;
 }

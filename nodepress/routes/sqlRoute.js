@@ -115,11 +115,11 @@ approuter.get("/droptable/:name", (req, res) =>{
 //ajax
 approuter.get("/temp/:req", (req, res) =>{
 	let request = req.params.req
+
 	if(request == "redirect"){
-	  //res.redirect('http://example.com')
-	console.log(request)
+		res.redirect('http://example.com')
 	}
-	else{ console.log(request)
+	else{
 		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
 		sqldb.query(sql, (err, result)=>{
 			if (err) throw err;
@@ -169,8 +169,10 @@ approuter.get('/getallposts', (req, res) => {
     let sql = 'SELECT * FROM posts';
     let query = sqldb.query(sql, (err, results) => {
         if(err) throw err;
-        console.log(results);
-        res.send(results);
+		
+		let allpost = Object.assign(results[0], ["id","title","body","owner"])
+		//console.log(results)
+        res.render("allpost", allpost);
     });
 });
 
