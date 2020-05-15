@@ -172,7 +172,7 @@ approuter.get('/getallposts', (req, res) => {
 		
 		let allpost = Object.assign(results[0], ["id","title","body","owner"])
 		//console.log(results)
-        res.render("allpost", allpost);
+        res.render("allpost", { results: results });
     });
 });
 

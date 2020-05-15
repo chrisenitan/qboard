@@ -55,12 +55,13 @@ textarea{
 .bookPost{
 	text-align: left;
 	text-align: left;
-    margin: auto;
+	margin: auto;
+	margin-bottom: 10px;
 	width: 26%;
 	padding:1%;
 	border-color: #cec7bf;
 	border-style: solid;
 	border-width: 0.5px;
-	border-top: none;
-	border-bottom: none;
+	border-left: none;
+	border-right: none;
 }
