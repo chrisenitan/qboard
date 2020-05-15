@@ -131,6 +131,19 @@ approuter.get("/temp/:req", (req, res) =>{
 })
 
 
+
+//Get one post by parameter getpost/9
+approuter.get("/getpost/:id", (req, res) =>{
+	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
+	let query = sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result);
+		res.send(result);
+	})
+})
+
+
+
 //load form for creating post. load create a post frontend
 approuter.get("/createpost", (req, res)=>{
 	if(!req.body.title){
@@ -193,17 +206,6 @@ sqldb.query(sql, (err, result)=>{
 		title: fetchedPost.title
 	})
 })
-})
-
-
-//Get one post by parameter getpost/9
-approuter.get("/getpost/:id", (req, res) =>{
-	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
-	let query = sqldb.query(sql, (err, result)=>{
-		if(err) throw err;
-		console.log(result);
-		res.send(result);
-	})
 })
 
 
