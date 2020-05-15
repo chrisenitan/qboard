@@ -115,15 +115,16 @@ approuter.get("/droptable/:name", (req, res) =>{
 //ajax
 approuter.get("/temp/:req", (req, res) =>{
 	let request = req.params.req
-	if(request = "redirect"){
-	  res.redirect('http://example.com')
+	if(request == "redirect"){
+	  //res.redirect('http://example.com')
+	console.log(request)
 	}
-	else{
+	else{ console.log(request)
 		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
-		sqldb.query=(sql, (err, result)=>{
+		sqldb.query(sql, (err, result)=>{
 			if (err) throw err;
-			let book = Object.assign(result[0] = ["id","title","body","owner"])
-			res.render("book_saved", result)
+			let book = Object.assign(result[0], ["id","title","body","owner"])
+			res.render("book_saved", book)
 		})
 	}
 	
