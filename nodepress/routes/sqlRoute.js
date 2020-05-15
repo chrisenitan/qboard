@@ -119,9 +119,11 @@ approuter.get("/temp/:req", (req, res) =>{
 	  res.redirect('http://example.com')
 	}
 	else{
-		let sql = ``
+		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
 		sqldb.query=(sql, (err, result)=>{
 			if (err) throw err;
+			let book = Object.assign(result[0] = ["id","title","body","owner"])
+			res.render("book_saved", result)
 		})
 	}
 	
