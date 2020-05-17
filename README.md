@@ -8,3 +8,5 @@ BACKEND
 * NodeJS
 * Mongo Database
 * MySql Database
+
+Start: ```npm start```
