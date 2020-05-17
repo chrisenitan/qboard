@@ -131,7 +131,8 @@ approuter.post("/createpost", (req, res)=>{
 		let postData = {
 		title: "Empty Book Title",
 		body: "Book summary was not sent",
-		owner: "Unknown"
+		owner: "Unknown",
+		message: "New Book Saved"
 	}}
 
 	let sql = 'INSERT INTO posts SET ?'
@@ -139,6 +140,7 @@ approuter.post("/createpost", (req, res)=>{
 		if(err) throw err
 		console.log(`${postData.title} new post added...`)
 		postData.id = result.insertId //give id of saved post back to object
+		postData.message = "Book Saved" //Custom message for frontend
 
 		res.render("book", postData)
 	})
@@ -147,8 +149,10 @@ approuter.post("/createpost", (req, res)=>{
 
 
 
-//get on post and render it
-approuter.get("/temp/:req", (req, res) =>{
+// ---- READ ----- 
+
+//Get one post by parameter getpost/9
+approuter.get("/getpost/:req", (req, res) =>{
 	let request = req.params.req
 
 	if(request == "redirect"){
@@ -159,23 +163,12 @@ approuter.get("/temp/:req", (req, res) =>{
 		sqldb.query(sql, (err, result)=>{
 			if (err) throw err;
 			let book = Object.assign(result[0], ["id","title","body","owner"])
+			book.message = `Found a Book with same ID: ${book.id}` //Custom message for frontend
 			res.render("book", book)
 		})
 	}
 	
 })
-
-
-//Get one post by parameter getpost/9
-approuter.get("/getpost/:id", (req, res) =>{
-	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
-	let query = sqldb.query(sql, (err, result)=>{
-		if(err) throw err;
-		console.log(result);
-		res.send(result);
-	})
-})
-
 
 
 // Get all posts
@@ -234,6 +227,9 @@ approuter.get("/renderpost/:id", (req, res) =>{
 	})
 })
 
+
+
+// ---- UPDATE ----- 
 
 //update a post from params id
 approuter.get("/updatepost/:id", (req, res) =>{
