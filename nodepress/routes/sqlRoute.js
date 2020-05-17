@@ -112,37 +112,8 @@ approuter.get("/droptable/:name", (req, res) =>{
 	})
 })
 
-//ajax
-approuter.get("/temp/:req", (req, res) =>{
-	let request = req.params.req
 
-	if(request == "redirect"){
-		res.redirect('http://example.com')
-	}
-	else{
-		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
-		sqldb.query(sql, (err, result)=>{
-			if (err) throw err;
-			let book = Object.assign(result[0], ["id","title","body","owner"])
-			res.render("book_saved", book)
-		})
-	}
-	
-})
-
-
-
-//Get one post by parameter getpost/9
-approuter.get("/getpost/:id", (req, res) =>{
-	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
-	let query = sqldb.query(sql, (err, result)=>{
-		if(err) throw err;
-		console.log(result);
-		res.send(result);
-	})
-})
-
-
+// ---- CREATE ----- 
 
 //load form for creating post. load create a post frontend
 approuter.get("/createpost", (req, res)=>{
@@ -164,18 +135,48 @@ approuter.post("/createpost", (req, res)=>{
 	}}
 
 	let sql = 'INSERT INTO posts SET ?'
-	sqldb.query(sql, postData, (err, result) =>{
+	sqldb.query(sql, postData, (err, result, fields) =>{
 		if(err) throw err
-		console.log(`${result} new post added...`)
-		res.status(200).json({
-			status: "Book Saved",
-			message: `New post added from: ${postData.owner}`,
-			title: postData.title,
-			body: postData.body
-		})
+		console.log(`${postData.title} new post added...`)
+		postData.id = result.insertId //give id of saved post back to object
+
+		res.render("book", postData)
 	})
 })
 	
+
+
+
+//get on post and render it
+approuter.get("/temp/:req", (req, res) =>{
+	let request = req.params.req
+
+	if(request == "redirect"){
+		res.redirect('http://example.com')
+	}
+	else{
+		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
+		sqldb.query(sql, (err, result)=>{
+			if (err) throw err;
+			let book = Object.assign(result[0], ["id","title","body","owner"])
+			res.render("book", book)
+		})
+	}
+	
+})
+
+
+//Get one post by parameter getpost/9
+approuter.get("/getpost/:id", (req, res) =>{
+	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
+	let query = sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		console.log(result);
+		res.send(result);
+	})
+})
+
+
 
 // Get all posts
 approuter.get('/getallposts', (req, res) => {
@@ -252,7 +253,7 @@ approuter.get("/updatepost/:id", (req, res) =>{
 
 //delete a post
 approuter.get("/deletepost/:id", (req, res) =>{
-	let sql = `DELETE FROM posts WHERE id = ${req.params.id}`;
+	let sql = `DELETE FROM posts WHERE id > ${req.params.id}`;
 	let query = sqldb.query(sql, (err, result)=>{
 		if (err) throw err;
 		console.log(result);
