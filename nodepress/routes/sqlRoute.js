@@ -162,9 +162,19 @@ approuter.get("/getpost/:req", (req, res) =>{
 		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
 		sqldb.query(sql, (err, result)=>{
 			if (err) throw err;
-			let book = Object.assign(result[0], ["id","title","body","owner"])
+			
+			if(result.length == 0){
+				console.log("Nothing found")
+				//render 404
+				res.render("404") 
+			}else{
+	        let book = Object.assign(result[0], ["id","title","body","owner"])
 			book.message = `Found a Book with same ID: ${book.id}` //Custom message for frontend
-			res.render("book", book)
+			res.render("book", book) 
+			}
+		
+
+		
 		})
 	}
 	
