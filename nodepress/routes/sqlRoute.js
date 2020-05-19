@@ -49,7 +49,7 @@ Close tunnel: kill -9 <pid>
 
 
 
-//CAFA
+//CAFA.WORK
 //get from cafa
 approuter.get("/cafa/:id", (req, res) =>{
 	let sql = `SELECT * FROM content WHERE id =` + sqldbCafa.escape(req.params.id);
@@ -60,6 +60,8 @@ approuter.get("/cafa/:id", (req, res) =>{
 	})
 })
 
+
+// ---- DB MANAGEMENT ----- 
 
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
@@ -152,8 +154,8 @@ approuter.post("/createpost", (req, res)=>{
 // ---- READ ----- 
 
 //Get one post by parameter getpost/9
-approuter.get("/getpost/:req", (req, res) =>{
-	let request = req.params.req
+approuter.get("/getpost/:id", (req, res) =>{
+	let request = req.params.id
 
 	if(request == "redirect"){
 		res.redirect('http://example.com')
@@ -172,8 +174,6 @@ approuter.get("/getpost/:req", (req, res) =>{
 			book.message = `Found a Book with same ID: ${book.id}` //Custom message for frontend
 			res.render("book", book) 
 			}
-		
-
 		
 		})
 	}
@@ -256,6 +256,9 @@ approuter.get("/updatepost/:id", (req, res) =>{
 	})
 })
 
+
+
+// ---- DELETE ----- 
 
 //delete a post
 approuter.get("/deletepost/:id", (req, res) =>{
