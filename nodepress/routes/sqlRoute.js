@@ -290,8 +290,4 @@ approuter.get("/mid", (req, res, next)=>{
 //sqldb.end()
 
 
-
-
-
-
-
+module.exports = approuter;
