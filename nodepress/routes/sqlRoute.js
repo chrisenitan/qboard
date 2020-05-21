@@ -158,7 +158,7 @@ approuter.get("/getpost/:id", (req, res) =>{
 	let request = req.params.id
 
 	if(request == "redirect"){
-		res.redirect('http://example.com')
+		res.redirect('/sql/createpost')
 	}
 	else{
 		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
@@ -167,8 +167,8 @@ approuter.get("/getpost/:id", (req, res) =>{
 			
 			if(result.length == 0){
 				console.log("Nothing found")
-				//render 404
-				res.render("404") 
+				//render 404 page
+				res.render("404", {message: `No Post with ID ${request}`}) 
 			}else{
 	        let book = Object.assign(result[0], ["id","title","body","owner"])
 			book.message = `Found a Book with same ID: ${book.id}` //Custom message for frontend
