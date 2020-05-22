@@ -23,9 +23,11 @@ window.addEventListener("load", function(){
     //all events
 
     //ajaxy
-    document.getElementById("ajaxy").addEventListener("click", function(){
-        alert("Not yet implemented Ajax")
-    })
+    if(document.getElementById("ajaxy")){
+        this.addEventListener("click", function(){
+            alert("Not yet implemented Ajax")
+        })
+    }
 
 
 })

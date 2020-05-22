@@ -49,7 +49,7 @@ Close tunnel: kill -9 <pid>
 
 
 
-//CAFA
+//CAFA.WORK
 //get from cafa
 approuter.get("/cafa/:id", (req, res) =>{
 	let sql = `SELECT * FROM content WHERE id =` + sqldbCafa.escape(req.params.id);
@@ -60,6 +60,8 @@ approuter.get("/cafa/:id", (req, res) =>{
 	})
 })
 
+
+// ---- DB MANAGEMENT ----- 
 
 // Create a demo DB
 approuter.get('/createdb', (req, res) => {
@@ -112,37 +114,8 @@ approuter.get("/droptable/:name", (req, res) =>{
 	})
 })
 
-//ajax
-approuter.get("/temp/:req", (req, res) =>{
-	let request = req.params.req
 
-	if(request == "redirect"){
-		res.redirect('http://example.com')
-	}
-	else{
-		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
-		sqldb.query(sql, (err, result)=>{
-			if (err) throw err;
-			let book = Object.assign(result[0], ["id","title","body","owner"])
-			res.render("book_saved", book)
-		})
-	}
-	
-})
-
-
-
-//Get one post by parameter getpost/9
-approuter.get("/getpost/:id", (req, res) =>{
-	let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(req.params.id)
-	let query = sqldb.query(sql, (err, result)=>{
-		if(err) throw err;
-		console.log(result);
-		res.send(result);
-	})
-})
-
-
+// ---- CREATE ----- 
 
 //load form for creating post. load create a post frontend
 approuter.get("/createpost", (req, res)=>{
@@ -160,22 +133,53 @@ approuter.post("/createpost", (req, res)=>{
 		let postData = {
 		title: "Empty Book Title",
 		body: "Book summary was not sent",
-		owner: "Unknown"
+		owner: "Unknown",
+		message: "New Book Saved"
 	}}
 
 	let sql = 'INSERT INTO posts SET ?'
-	sqldb.query(sql, postData, (err, result) =>{
+	sqldb.query(sql, postData, (err, result, fields) =>{
 		if(err) throw err
-		console.log(`${result} new post added...`)
-		res.status(200).json({
-			status: "Book Saved",
-			message: `New post added from: ${postData.owner}`,
-			title: postData.title,
-			body: postData.body
-		})
+		console.log(`${postData.title} new post added...`)
+		postData.id = result.insertId //give id of saved post back to object
+		postData.message = "Book Saved" //Custom message for frontend
+
+		res.render("book", postData)
 	})
 })
 	
+
+
+
+// ---- READ ----- 
+
+//Get one post by parameter getpost/9
+approuter.get("/getpost/:id", (req, res) =>{
+	let request = req.params.id
+
+	if(request == "redirect"){
+		res.redirect('/sql/createpost')
+	}
+	else{
+		let sql = `SELECT * FROM posts WHERE id = ` + sqldb.escape(request)
+		sqldb.query(sql, (err, result)=>{
+			if (err) throw err;
+			
+			if(result.length == 0){
+				console.log("Nothing found")
+				//render 404 page
+				res.render("404", {message: `No Post with ID ${request}`}) 
+			}else{
+	        let book = Object.assign(result[0], ["id","title","body","owner"])
+			book.message = `Found a Book with same ID: ${book.id}` //Custom message for frontend
+			res.render("book", book) 
+			}
+		
+		})
+	}
+	
+})
+
 
 // Get all posts
 approuter.get('/getallposts', (req, res) => {
@@ -234,6 +238,9 @@ approuter.get("/renderpost/:id", (req, res) =>{
 })
 
 
+
+// ---- UPDATE ----- 
+
 //update a post from params id
 approuter.get("/updatepost/:id", (req, res) =>{
 	let newTitle = "New Title Update";
@@ -250,9 +257,12 @@ approuter.get("/updatepost/:id", (req, res) =>{
 })
 
 
+
+// ---- DELETE ----- 
+
 //delete a post
 approuter.get("/deletepost/:id", (req, res) =>{
-	let sql = `DELETE FROM posts WHERE id = ${req.params.id}`;
+	let sql = `DELETE FROM posts WHERE id > ${req.params.id}`;
 	let query = sqldb.query(sql, (err, result)=>{
 		if (err) throw err;
 		console.log(result);
@@ -278,11 +288,6 @@ approuter.get("/mid", (req, res, next)=>{
 
 //close connection
 //sqldb.end()
-
-
-
-
-
 
 
 module.exports = approuter;
