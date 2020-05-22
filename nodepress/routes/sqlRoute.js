@@ -142,12 +142,21 @@ approuter.post("/createpost", (req, res)=>{
 		if(err) throw err
 		console.log(`${postData.title} new post added...`)
 		postData.id = result.insertId //give id of saved post back to object
-		postData.message = "Book Saved" //Custom message for frontend
+		postData.message = "New Book Saved" //Custom message for frontend
 
 		res.render("book", postData)
 	})
 })
-	
+
+
+//show update form	
+approuter.get("/update", (req, res)=>{
+
+	render("update")
+
+})
+
+
 
 
 
@@ -254,6 +263,23 @@ approuter.get("/updatepost/:id", (req, res) =>{
 			postid: req.params.id
 		})
 	})
+})
+
+approuter.get("/updated", (req, res)=>{
+	let updateData = req.body;
+let sql = `UPDATE posts SET title = ${updateData.title}, body = ${updateData.body}, owner = ${updateData.owner} WHERE id = ${updateData.id}`;
+sqldb.query(sql, (err, result)=>{
+	if(err) throw err;
+
+	if(!updateData.title){
+//data not sent
+
+	}
+	else{
+		res.render("updated", updateData)
+	}
+	
+})
 })
 
 
