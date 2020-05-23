@@ -149,16 +149,6 @@ approuter.post("/createpost", (req, res)=>{
 })
 
 
-//show update form	
-approuter.get("/update", (req, res)=>{
-
-	render("update")
-
-})
-
-
-
-
 
 // ---- READ ----- 
 
@@ -265,6 +255,22 @@ approuter.get("/updatepost/:id", (req, res) =>{
 	})
 })
 
+
+
+//show update form	
+approuter.get("/update/:id", (req, res)=>{
+	let sql = `SELECT * FROM posts WHERE id =` + sqldb.escape(req.params.id);
+	sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		let bookToUpdate = Object.assign(result[0], ["id","title","body","owner"]);
+	    res.render("update", bookToUpdate); 
+	})
+
+})
+
+
+
+//get updates to books
 approuter.get("/updated", (req, res)=>{
 	let updateData = req.body;
 let sql = `UPDATE posts SET title = ${updateData.title}, body = ${updateData.body}, owner = ${updateData.owner} WHERE id = ${updateData.id}`;
