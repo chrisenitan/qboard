@@ -271,7 +271,7 @@ approuter.get("/update/:id", (req, res)=>{
 
 
 //get updates to books
-approuter.get("/updated", (req, res)=>{
+approuter.post("/updated", (req, res)=>{
 	let updateData = req.body;
 let sql = `UPDATE posts SET title = ${updateData.title}, body = ${updateData.body}, owner = ${updateData.owner} WHERE id = ${updateData.id}`;
 sqldb.query(sql, (err, result)=>{

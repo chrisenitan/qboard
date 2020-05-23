@@ -66,3 +66,10 @@ textarea{
 	border-left: none;
 	border-right: none;
 }
+.labels{
+    color: #79a2e0;
+    width: 205px;
+    font-size: 12px;
+    text-align: left;
+    margin: auto;
+}
