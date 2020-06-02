@@ -278,7 +278,7 @@ sqldb.query(sql, (err, result)=>{
 	if(err) throw err;
 
 	if(!updateData.title){
-//data not sent
+   //data not sent
 
 	}
 	else{

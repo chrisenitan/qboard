@@ -2,30 +2,17 @@
 	<head>
 	{{> resources}}
 
-<title>Update your book</title>
+<title>Book Updated</title>
 	</head>
 
 	<body>
 <br><br>
-	<p>Found book <h>#{{id}}</h><br></p> 
-
-
+	<p>{{message}}</p>
 <img src="/images/art.jpg"><br><br> 
-	<p>Please make your changes below.</p>
 
-<form action="/sql/updated.." method="POST"> 
-	<p class="labels">Book Title</p>
-	<input required type="text" name="title" placeholder="Title" value="{{title}}" /><br><br>
 
-	<p class="labels">Author</p>
-	<input required type="text" name="owner" placeholder="Owner" value="{{owner}}"/><br><br>
+{{> postDiv}}
 
-	<p class="labels">Short Description</p>
-	<textarea required name="body">{{body}}</textarea><br><br>
-
-	<button id="submit"><i class="material-icons" style="font-size:14px;vertical-align:text-top">save</i> Update Book</button><br>
-
-</form>
 
 	</body>
 </html>
