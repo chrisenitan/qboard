@@ -273,12 +273,11 @@ approuter.get("/update/:id", (req, res)=>{
 //get updates to books
 approuter.post("/updated", (req, res)=>{
 	let updateData = req.body; 
-	console.log(updateData.title) 
 
 //let sql = `UPDATE posts SET title = ${updateData.title}, body = ${updateData.body}, owner = ${updateData.owner} WHERE id = ${updateData.id}`;
-let sql = 'UPDATE posts SET title = ?, body = ?, owner = ? WHERE id = ?', [updateData.title, updateData.body, updateData.owner, updateData.id];
+let sql = sqldb.format('UPDATE posts SET title = ?, body = ?, owner = ? WHERE id = ?', [updateData.title, updateData.body, updateData.owner, updateData.id]);
 
-sqldb.query(sql, updateData, (err, result)=>{
+sqldb.query(sql, (err, result)=>{
 	if(err) throw err;
 
 	if(!updateData.title){
@@ -288,7 +287,7 @@ sqldb.query(sql, updateData, (err, result)=>{
 	else{
 		res.render("updated", updateData)
 	}
-	
+	console.log(updateData.title) 
 })
 })
 
