@@ -1,8 +1,9 @@
 context('Actions', () => {
     
+
   it('Logs in to a job', () => {
 
-    cy.visit('https://chrisnny.gotphoto.com.staging.getphoto.io/prepay/')
+    cy.visit(Cypress.env('host'))
 
     cy.get('#root > section > div > main > div > div > div > div > div.ant-result-extra > a > button').click()
 
