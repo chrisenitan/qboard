@@ -1,4 +1,1 @@
-.env
 node_modules/
-AT/cypress/videos
-AT/cypress.env.json
