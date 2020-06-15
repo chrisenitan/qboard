@@ -24,7 +24,7 @@ window.addEventListener("load", function(){
 
     //ajaxy
     if(document.getElementById("ajaxy")){
-        this.addEventListener("click", function(){
+        document.getElementById("ajaxy").addEventListener("click", function(){
             alert("Not yet implemented Ajax")
         })
     }

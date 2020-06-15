@@ -142,12 +142,11 @@ approuter.post("/createpost", (req, res)=>{
 		if(err) throw err
 		console.log(`${postData.title} new post added...`)
 		postData.id = result.insertId //give id of saved post back to object
-		postData.message = "Book Saved" //Custom message for frontend
+		postData.message = "New Book Saved" //Custom message for frontend
 
 		res.render("book", postData)
 	})
 })
-	
 
 
 
@@ -254,6 +253,42 @@ approuter.get("/updatepost/:id", (req, res) =>{
 			postid: req.params.id
 		})
 	})
+})
+
+
+
+//show update form	
+approuter.get("/update/:id", (req, res)=>{
+	let sql = `SELECT * FROM posts WHERE id =` + sqldb.escape(req.params.id);
+	sqldb.query(sql, (err, result)=>{
+		if(err) throw err;
+		let bookToUpdate = Object.assign(result[0], ["id","title","body","owner"]);
+	    res.render("update", bookToUpdate); 
+	})
+
+})
+
+
+
+//get updates to books
+approuter.post("/updated", (req, res)=>{
+	let updateData = req.body; 
+
+//let sql = `UPDATE posts SET title = ${updateData.title}, body = ${updateData.body}, owner = ${updateData.owner} WHERE id = ${updateData.id}`;
+let sql = sqldb.format('UPDATE posts SET title = ?, body = ?, owner = ? WHERE id = ?', [updateData.title, updateData.body, updateData.owner, updateData.id]);
+
+sqldb.query(sql, (err, result)=>{
+	if(err) throw err;
+
+	if(!updateData.title){
+   //data not sent
+
+	}
+	else{
+		res.render("updated", updateData)
+	}
+	console.log(updateData.title) 
+})
 })
 
 

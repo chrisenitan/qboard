@@ -51,6 +51,7 @@ textarea{
 	border-radius: 3px;
 	color: #fff;
 	padding: 5px;
+	font-family: Rubik;
 }
 .bookPost{
 	text-align: left;
@@ -65,4 +66,11 @@ textarea{
 	border-width: 0.5px;
 	border-left: none;
 	border-right: none;
+}
+.labels{
+    color: #79a2e0;
+    width: 205px;
+    font-size: 12px;
+    text-align: left;
+    margin: auto;
 }
