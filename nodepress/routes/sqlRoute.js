@@ -42,10 +42,10 @@ Close tunnel: kill -9 <pid>
 	database : process.env.cafadb
 });
 
-/* sqldbCafa.connect((err) => {
+ sqldbCafa.connect((err) => {
     if(err){ throw err }
       console.log("MySQL Cafa Database Connected..." + sqldbCafa.threadId)
-}) */
+}) 
 
 
 
