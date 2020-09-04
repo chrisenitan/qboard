@@ -6,6 +6,7 @@ const mysql = require('mysql')
 const approuter = express();
 
 
+
 /* GCP
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
@@ -15,25 +16,6 @@ const sqldb = mysql.createConnection({
 });
 */
 
-/*
-add ssh access to shared hosting for namecheap
-ssh -f cafaqadu@server161.web-hosting.com -p21098 -L 3306:127.0.0.1:3306 -N
-Pass: MuYR@xjBc5Wam88
-check all ssh conns: ps aux | grep sshd
-Close tunnel: kill -9 <pid>
-*/
-/*   const sqldbCafa = mysql.createConnection({
-    host     : process.env.cafahost,
-    user     : process.env.cafauser,
-    password : process.env.cafapass,
-	database : process.env.cafadb
-});
-
- sqldbCafa.connect((err) => {
-    if(err){ throw err }
-      console.log("MySQL Cafa Database Connected..." + sqldbCafa.threadId)
-}) 
- */
 
 const sqldb = mysql.createConnection({
     host     : process.env.fhserver,
@@ -52,6 +34,7 @@ sqldb.connect((err) => {
 approuter.get('/signup', (req, res) => {
 
 	res.render("signup");
+	log("ggg")
 
 });
 
