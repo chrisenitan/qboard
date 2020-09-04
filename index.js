@@ -40,14 +40,24 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //custom midlewares
 let middle = require("./cModules/middle.js")
 
-//set and import routes 
+/* deprecating
+ //set and import routes 
 const routerIndex = require("./routes/routerIndex")
-app.use("/", routerIndex);
-
+app.use("/", routerIndex); */
 
 //set and imoort router for sql links
+const mainRoute = require("./routes/mainRoute")
+app.use("/", middle, mainRoute);
+
+//set and imoort router for sql links
+const account = require("./routes/account")
+app.use("/account", middle, account);
+
+
+/*  deprecating
+//set and imoort router for sql links
 const sqlRoute = require("./routes/sqlRoute")
-app.use("/sql", middle, sqlRoute);
+app.use("/sql", middle, sqlRoute); */
 
 
 //DATABASE

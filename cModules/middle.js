@@ -1,6 +1,6 @@
 
 
-function hello(req, res, next){
+function log(req, res, next){
    let url = `${req.protocol}://${req.get('host')}${req.originalUrl}`
     
     console.log(`Content loaded from ${url}`)
@@ -9,4 +9,4 @@ function hello(req, res, next){
 
 
 
-module.exports=(hello)
+module.exports=(log)

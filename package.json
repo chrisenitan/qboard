@@ -1,7 +1,7 @@
 {
-  "name": "nodepress",
+  "name": "qboard",
   "version": "1.0.0",
-  "description": "Second lecture",
+  "description": "Post questions online, like Twitter",
   "main": "index.js",
   "scripts": {
     "index": "nodemon index.js",
