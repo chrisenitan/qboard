@@ -51,7 +51,7 @@ app.use("/", middle, mainRoute);
 
 //set and imoort router for sql links
 const account = require("./routes/account")
-app.use("/account", middle, account);
+app.use("/account", account);
 
 
 /*  deprecating

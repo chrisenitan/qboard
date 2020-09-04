@@ -155,7 +155,7 @@ approuter.post("/createpost", (req, res)=>{
 // ---- READ ----- 
 
 //Get one post by parameter getpost/9
-approuter.get("/getpost/:id", (req, res) =>{
+approuter.get("/getposts/:id", (req, res) =>{
 	let request = req.params.id
 
 	if(request == "redirect"){
@@ -183,7 +183,7 @@ approuter.get("/getpost/:id", (req, res) =>{
 
 
 // Get all posts
-approuter.get('/getallposts', (req, res) => {
+approuter.get('/getposts', (req, res) => {
     let sql = 'SELECT * FROM posts';
     let query = sqldb.query(sql, (err, results) => {
         if(err) throw err;
