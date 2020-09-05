@@ -51,7 +51,7 @@ approuter.get('/logout', (req, res) => {
 
 	//	res.render("signup");
 	
-	});
+});
 	
 
 
@@ -116,17 +116,10 @@ approuter.get('/profile', (req, res) => {
 
 
 
-//LOAD ACCOUNT
+//LOAD PROFILE
 approuter.get('/profile/:username', (req, res) => {
 
 
 });
-
-
-
-
-//close connection
-//sqldb.end()
-
 
 module.exports = approuter;
