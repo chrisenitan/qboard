@@ -90,12 +90,12 @@ approuter.get('/profile', (req, res) => {
 
 		if(result.length == 0){
 		//register new user
-		let question = sqldb.format('UPDATE posts SET name = ?, username = ?, email = ? WHERE id = ?', [newUser.title, newUser.body, newUser.owner]); 
+		let question = 'INSERT INTO posts SET ?'
 
-		sqldb.query(question, (err, result)=>{
+		sqldb.query(question, newUser, (err, result, fields)=>{
 			if(err) throw err;
-
-			res.render("onboard", result)
+			newUser.id = result.insertId
+			res.render("onboard", newUser)
 
 		})
 		}

@@ -143,7 +143,7 @@ approuter.post("/createpost", (req, res)=>{
 	sqldb.query(sql, postData, (err, result, fields) =>{
 		if(err) throw err
 		console.log(`${postData.title} new post added...`)
-		postData.id = result.insertId //give id of saved post back to object
+		postData.id = result.insertId //give id of saved post back to object. insertId is sent back by default
 		postData.message = "New Book Saved" //Custom message for frontend
 
 		res.render("book", postData)
