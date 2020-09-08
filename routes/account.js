@@ -121,6 +121,16 @@ approuter.get('/profile/:username', (req, res) => {
 	let userName = req.params.username
 	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
 
+	sqldb.query(question, (err, result)=>{
+		if(err) throw err;
+		//populate user data
+		let user = Object.assign(result[0], ["name","email","username"]);
+	    res.render("profile", user); 
+
+
+
+	})
+
 
 });
 
