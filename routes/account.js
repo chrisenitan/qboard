@@ -118,6 +118,8 @@ approuter.get('/profile', (req, res) => {
 
 //LOAD PROFILE
 approuter.get('/profile/:username', (req, res) => {
+	let userName = req.params.username
+	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
 
 
 });
