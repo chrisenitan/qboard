@@ -117,6 +117,7 @@ approuter.get('/account', (req, res) => {
 		}
 		else if (login != "" && signUp == ""){
 
+			//user login
 		}
 
 		else{
@@ -124,10 +125,6 @@ approuter.get('/account', (req, res) => {
 		}
 	}
 	
-
-	
-
-
 	
 		
 	});
