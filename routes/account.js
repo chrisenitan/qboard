@@ -56,7 +56,7 @@ approuter.get('/logout', (req, res) => {
 
 
 //CREATE ACCOUNT query base
-approuter.get('/accounts', (req, res) => {
+approuter.get('/account', (req, res) => {
 	let signUp = req.query.signup
 	let login = req.query.login
 
@@ -72,52 +72,64 @@ approuter.get('/accounts', (req, res) => {
 
 		})
 	}
-
-	if(signUp != ""){
-		
-	}
-	//no cookie so we try to register new user
-	else if(req.body != ""){
-
-		if(req.body.bt != ""){
-			console.log("Bot live")
-		}
-		else{
-		//get user details from login form
-		let newUser = {
-			name: req.body.name,
-			username: req.body.username,
-			email: req.body.email,
-			bt: req.body.bt
-		}
-		//check if user never existed
-		let question = `SELECT * FROM posts WHERE id = ` + sqldb.escape(newUser.name);
-		sqldb.query(question, (err, result)=>{
-		if(err) throw err;
-
-		if(result.length == 0){
-		//register new user
-		let question = 'INSERT INTO posts SET ?'
-
-		sqldb.query(question, newUser, (err, result, fields)=>{
+	//no cookie found, check if user is loggin in or signing up
+	else{
+	//sign up
+	if(signUp != "" && login == ""){
+			if(req.body.bt != ""){
+				console.log("Bot live")
+			}
+			else{
+			//get user details from login form
+			let newUser = {
+				name: req.body.name,
+				username: req.body.username,
+				email: req.body.email,
+				bt: req.body.bt
+			}
+			//check if user never existed
+			let question = `SELECT * FROM posts WHERE id = ` + sqldb.escape(newUser.name);
+			sqldb.query(question, (err, result)=>{
 			if(err) throw err;
-			newUser.id = result.insertId
-			res.render("onboard", newUser)
-
-		})
+	
+			if(result.length == 0){
+			//register new user
+			let question = 'INSERT INTO posts SET ?'
+	
+			sqldb.query(question, newUser, (err, result, fields)=>{
+				if(err) throw err;
+				newUser.id = result.insertId
+				res.render("onboard", newUser)
+	
+			})
+			}
+			//user found in db, load profile
+			else{
+				console.log("User existed. Please go to profile page")
+				res.redirect("/profile/"+newUser.username)
+	
+			}
+	
+			})
+	
+			}
+	
 		}
-		//user found in db, load profile
+		else if (login != "" && signUp == ""){
+
+		}
+
 		else{
-			console.log("User existed. Please go to profile page")
-			res.redirect("/profile/"+newUser.username)
-
+			//not handled
 		}
+	}
+	
 
-		})
+	
 
-		}
 
-	}	
+	
+		
 	});
 
 
