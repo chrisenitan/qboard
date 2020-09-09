@@ -55,8 +55,11 @@ approuter.get('/logout', (req, res) => {
 	
 
 
-//CREATE ACCOUNT
-approuter.get('/profile', (req, res) => {
+//CREATE ACCOUNT query base
+approuter.get('/accounts', (req, res) => {
+	let signUp = req.query.signup
+	let login = req.query.login
+
 
 	//check for cookie 
 	if(cookie){
@@ -68,6 +71,10 @@ approuter.get('/profile', (req, res) => {
 		res.redirect("/profile/"+cookieUser)
 
 		})
+	}
+
+	if(signUp != ""){
+		
 	}
 	//no cookie so we try to register new user
 	else if(req.body != ""){
