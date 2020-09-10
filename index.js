@@ -46,12 +46,16 @@ const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex); */
 
 //set and imoort router for sql links
-const mainRoute = require("./routes/mainRoute")
-app.use("/", middle, mainRoute);
+/* const mainRoute = require("./routes/mainRoute")
+app.use("/", middle, mainRoute); */
 
 //set and imoort router for sql links
+/* const account = require("./routes/account")
+app.use("/account", account); */
+
+//set and imoort router for all links
 const account = require("./routes/account")
-app.use("/account", account);
+app.use("/", middle, account);
 
 
 /*  deprecating

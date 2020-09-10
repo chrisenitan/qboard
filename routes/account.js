@@ -72,10 +72,12 @@ approuter.get('/account', (req, res) => {
 
 		})
 	}
+
 	//no cookie found, check if user is loggin in or signing up
 	else{
 	//sign up
 	if(signUp != "" && login == ""){
+		//check for bot
 			if(req.body.bt != ""){
 				console.log("Bot live")
 			}
@@ -88,7 +90,7 @@ approuter.get('/account', (req, res) => {
 				bt: req.body.bt
 			}
 			//check if user never existed
-			let question = `SELECT * FROM posts WHERE id = ` + sqldb.escape(newUser.name);
+			let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
 			sqldb.query(question, (err, result)=>{
 			if(err) throw err;
 	
@@ -103,10 +105,10 @@ approuter.get('/account', (req, res) => {
 	
 			})
 			}
-			//user found in db, load profile
+			//user found in db, should never happen if we prewarn usernames, send to profile. 
 			else{
 				console.log("User existed. Please go to profile page")
-				res.redirect("/profile/"+newUser.username)
+				res.redirect("/"+newUser.username)
 	
 			}
 	
@@ -132,8 +134,8 @@ approuter.get('/account', (req, res) => {
 
 
 
-//LOAD PROFILE
-approuter.get('/profile/:username', (req, res) => {
+//LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
+approuter.get('/:username', (req, res) => {
 	let userName = req.params.username
 	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
 
