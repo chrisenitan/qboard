@@ -6,6 +6,7 @@ const mysql = require('mysql')
 const approuter = express();
 
 
+
 /* GCP
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
@@ -15,25 +16,6 @@ const sqldb = mysql.createConnection({
 });
 */
 
-/*
-add ssh access to shared hosting for namecheap
-ssh -f cafaqadu@server161.web-hosting.com -p21098 -L 3306:127.0.0.1:3306 -N
-Pass: MuYR@xjBc5Wam88
-check all ssh conns: ps aux | grep sshd
-Close tunnel: kill -9 <pid>
-*/
-/*   const sqldbCafa = mysql.createConnection({
-    host     : process.env.cafahost,
-    user     : process.env.cafauser,
-    password : process.env.cafapass,
-	database : process.env.cafadb
-});
-
- sqldbCafa.connect((err) => {
-    if(err){ throw err }
-      console.log("MySQL Cafa Database Connected..." + sqldbCafa.threadId)
-}) 
- */
 
 const sqldb = mysql.createConnection({
     host     : process.env.fhserver,
@@ -57,21 +39,117 @@ approuter.get('/signup', (req, res) => {
 
 
 //LOG IN
-approuter.get('/signup', (req, res) => {
+approuter.get('/login', (req, res) => {
 
-	res.render("signup");
+//	res.render("signup");
 
 });
 
 
+//LOG OUT
+approuter.get('/logout', (req, res) => {
+
+	//	res.render("signup");
+	
+});
+	
+
+
+//CREATE ACCOUNT query base
+approuter.get('/account', (req, res) => {
+	let signUp = req.query.signup
+	let login = req.query.login
+
+
+	//check for cookie 
+	if(cookie){
+		//get user from cookie and redirect user to page
+		let question = `SELECT * FROM posts`;
+		sqldb.query(question, (err, result)=>{
+		if(err) throw err;
+	
+		res.redirect("/profile/"+cookieUser)
+
+		})
+	}
+
+	//no cookie found, check if user is loggin in or signing up
+	else{
+	//sign up
+	if(signUp != "" && login == ""){
+		//check for bot
+			if(req.body.bt != ""){
+				console.log("Bot live")
+			}
+			else{
+			//get user details from login form
+			let newUser = {
+				name: req.body.name,
+				username: req.body.username,
+				email: req.body.email,
+				bt: req.body.bt
+			}
+			//check if user never existed
+			let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
+			sqldb.query(question, (err, result)=>{
+			if(err) throw err;
+	
+			if(result.length == 0){
+			//register new user
+			let question = 'INSERT INTO posts SET ?'
+	
+			sqldb.query(question, newUser, (err, result, fields)=>{
+				if(err) throw err;
+				newUser.id = result.insertId
+				res.render("onboard", newUser)
+	
+			})
+			}
+			//user found in db, should never happen if we prewarn usernames, send to profile. 
+			else{
+				console.log("User existed. Please go to profile page")
+				res.redirect("/"+newUser.username)
+	
+			}
+	
+			})
+	
+			}
+	
+		}
+		else if (login != "" && signUp == ""){
+
+			//user login
+		}
+
+		else{
+			//not handled
+		}
+	}
+	
+	
+		
+	});
 
 
 
 
+//LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
+approuter.get('/:username', (req, res) => {
+	let userName = req.params.username
+	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
+
+	sqldb.query(question, (err, result)=>{
+		if(err) throw err;
+		//populate user data
+		let user = Object.assign(result[0], ["name","email","username"]);
+	    res.render("profile", user); 
 
 
-//close connection
-//sqldb.end()
 
+	})
+
+
+});
 
 module.exports = approuter;

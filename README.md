@@ -1,5 +1,5 @@
 # qboard
-Qboard helps you post quick questions online 
+Qboard helps you post questions and find answers on your favourite sources online.
 
 ## Main
 **A Node Js based web app**
