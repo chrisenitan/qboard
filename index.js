@@ -45,17 +45,21 @@ let middle = require("./cModules/middle.js")
 const routerIndex = require("./routes/routerIndex")
 app.use("/", routerIndex); */
 
-//set and imoort router for sql links
-/* const mainRoute = require("./routes/mainRoute")
+/* //set and imoort router for sql links
+const mainRoute = require("./routes/mainRoute")
 app.use("/", middle, mainRoute); */
 
 //set and imoort router for sql links
-/* const account = require("./routes/account")
-app.use("/account", account); */
+const main = require("./routes/main")
+app.use("/", middle, main);
+
+//set and imoort router for sql links
+const settings = require("./routes/settings")
+app.use("/settings", settings); 
 
 //set and imoort router for all links
 const account = require("./routes/account")
-app.use("/", middle, account);
+app.use("/account", middle, account);
 
 
 /*  deprecating

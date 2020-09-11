@@ -6,7 +6,6 @@ const mysql = require('mysql')
 const approuter = express();
 
 
-
 /* GCP
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
@@ -31,7 +30,7 @@ sqldb.connect((err) => {
 
 
 //SIGN UP
-approuter.get('/signup', (req, res) => {
+approuter.get('/account/signup', (req, res) => {
 
 	res.render("signup");
 
@@ -39,24 +38,24 @@ approuter.get('/signup', (req, res) => {
 
 
 //LOG IN
-approuter.get('/login', (req, res) => {
+approuter.get('/account/login', (req, res) => {
 
-//	res.render("signup");
+//	res.render("login");
 
 });
 
 
 //LOG OUT
-approuter.get('/logout', (req, res) => {
+approuter.get('/account/logout', (req, res) => {
 
-	//	res.render("signup");
+	//	res.render("logout");
 	
 });
 	
 
 
-//CREATE ACCOUNT query base
-approuter.get('/account', (req, res) => {
+//CREATE ACCOUNT QUERY BASED
+approuter.get('/account/create', (req, res) => {
 	let signUp = req.query.signup
 	let login = req.query.login
 
@@ -133,23 +132,5 @@ approuter.get('/account', (req, res) => {
 
 
 
-
-//LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
-approuter.get('/:username', (req, res) => {
-	let userName = req.params.username
-	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
-
-	sqldb.query(question, (err, result)=>{
-		if(err) throw err;
-		//populate user data
-		let user = Object.assign(result[0], ["name","email","username"]);
-	    res.render("profile", user); 
-
-
-
-	})
-
-
-});
 
 module.exports = approuter;
