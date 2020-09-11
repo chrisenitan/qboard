@@ -32,7 +32,7 @@ sqldb.connect((err) => {
 //EDIT PROFILE
 approuter.get('/settings/profile', (req, res) => {
 
-	res.render("signup");
+	res.render("editProfile");
 
 });
 
@@ -42,7 +42,16 @@ approuter.get('/settings/profile', (req, res) => {
 //EDIT ACCOUNT
 approuter.get('/settings/account', (req, res) => {
 
-	res.render("signup");
+	res.render("editAccount");
+
+});
+
+
+
+//EDIT APP SETTINGS
+approuter.get('/settings/account', (req, res) => {
+
+	res.render("appSettings");
 
 });
 
