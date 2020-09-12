@@ -59,7 +59,7 @@ app.use("/settings", settings);
 
 //set and imoort router for all links
 const account = require("./routes/account")
-app.use("/account", middle, account);
+app.use("/account", account);
 
 
 /*  deprecating

@@ -25,7 +25,7 @@ const sqldb = mysql.createConnection({
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log("MySQL FreeHost Database Connected..." + sqldb.threadId)
+      console.log("Free DB 'Main' Connected..." + sqldb.threadId)
 })
 
 

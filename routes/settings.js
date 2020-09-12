@@ -25,12 +25,12 @@ const sqldb = mysql.createConnection({
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log("MySQL FreeHost Database Connected..." + sqldb.threadId)
+      console.log("Free DB 'Settings' Connected..." + sqldb.threadId)
 })
 
 
 //EDIT PROFILE
-approuter.get('/settings/profile', (req, res) => {
+approuter.get('/profile', (req, res) => {
 
 	res.render("editProfile");
 
@@ -40,7 +40,7 @@ approuter.get('/settings/profile', (req, res) => {
 
 
 //EDIT ACCOUNT
-approuter.get('/settings/account', (req, res) => {
+approuter.get('/account', (req, res) => {
 
 	res.render("editAccount");
 
@@ -49,7 +49,7 @@ approuter.get('/settings/account', (req, res) => {
 
 
 //EDIT APP SETTINGS
-approuter.get('/settings/account', (req, res) => {
+approuter.get('/account', (req, res) => {
 
 	res.render("appSettings");
 

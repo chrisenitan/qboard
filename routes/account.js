@@ -25,12 +25,12 @@ const sqldb = mysql.createConnection({
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log("MySQL FreeHost Database Connected..." + sqldb.threadId)
+      console.log("Free DB 'Accounts' Connected..." + sqldb.threadId)
 })
 
 
 //SIGN UP
-approuter.get('/account/signup', (req, res) => {
+approuter.get('/signup', (req, res) => {
 
 	res.render("signup");
 
@@ -38,7 +38,7 @@ approuter.get('/account/signup', (req, res) => {
 
 
 //LOG IN
-approuter.get('/account/login', (req, res) => {
+approuter.get('/login', (req, res) => {
 
 //	res.render("login");
 
@@ -46,7 +46,7 @@ approuter.get('/account/login', (req, res) => {
 
 
 //LOG OUT
-approuter.get('/account/logout', (req, res) => {
+approuter.get('/logout', (req, res) => {
 
 	//	res.render("logout");
 	
@@ -55,7 +55,7 @@ approuter.get('/account/logout', (req, res) => {
 
 
 //CREATE ACCOUNT QUERY BASED
-approuter.get('/account/create', (req, res) => {
+approuter.get('/create', (req, res) => {
 	let signUp = req.query.signup
 	let login = req.query.login
 
