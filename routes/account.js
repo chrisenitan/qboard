@@ -15,7 +15,6 @@ const sqldb = mysql.createConnection({
 });
 */
 
-
 const sqldb = mysql.createConnection({
     host     : process.env.fhserver,
     user     : process.env.fhuser,
@@ -52,6 +51,14 @@ approuter.get('/logout', (req, res) => {
 	
 });
 	
+
+
+//ACCOUNT RECOVERY
+approuter.get('/recovery', (req, res) => {
+
+	//	res.render("recovery");
+	
+});
 
 
 //CREATE ACCOUNT QUERY BASED

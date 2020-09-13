@@ -47,7 +47,7 @@ app.use("/", routerIndex); */
 
 /* //set and imoort router for sql links
 const mainRoute = require("./routes/mainRoute")
-app.use("/", middle, mainRoute); */
+app.use("/", mainRoute); */
 
 //set and imoort router for sql links
 const main = require("./routes/main")
@@ -61,11 +61,6 @@ app.use("/settings", settings);
 const account = require("./routes/account")
 app.use("/account", account);
 
-
-/*  deprecating
-//set and imoort router for sql links
-const sqlRoute = require("./routes/sqlRoute")
-app.use("/sql", middle, sqlRoute); */
 
 
 //DATABASE
@@ -82,7 +77,6 @@ mongoose.connect(
 mongoose.connection.on("error", err => {
     console.log(`Error connecting to Mongo Database: ${err.message}`)
 })
-
 
 
 
