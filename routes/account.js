@@ -55,11 +55,10 @@ approuter.get('/recovery', (req, res) => {
 
 // sign up .. CREATE ACCOUNT QUERY BASED
 approuter.get('/create', (req, res) => {
-	let signUp = req.query.signup
-	let login = req.query.login
 
 	//get user details from login form
 	let newUser = {
+		request: req.body.request,
 		name: req.body.name,
 		username: req.body.username,
 		email: req.body.email,
