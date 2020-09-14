@@ -28,14 +28,6 @@ sqldb.connect((err) => {
 })
 
 
-//SIGN UP
-approuter.get('/signup', (req, res) => {
-
-	res.render("signup");
-
-});
-
-
 //LOG IN
 approuter.get('/login', (req, res) => {
 
@@ -61,10 +53,18 @@ approuter.get('/recovery', (req, res) => {
 });
 
 
-//CREATE ACCOUNT QUERY BASED
+// sign up .. CREATE ACCOUNT QUERY BASED
 approuter.get('/create', (req, res) => {
 	let signUp = req.query.signup
 	let login = req.query.login
+
+	//get user details from login form
+	let newUser = {
+		name: req.body.name,
+		username: req.body.username,
+		email: req.body.email,
+		bt: req.body.bt
+	}
 
 
 	//check for cookie 
@@ -84,17 +84,10 @@ approuter.get('/create', (req, res) => {
 	//sign up
 	if(signUp != "" && login == ""){
 		//check for bot
-			if(req.body.bt != ""){
+			if(newUser.bt != ""){
 				console.log("Bot live")
 			}
 			else{
-			//get user details from login form
-			let newUser = {
-				name: req.body.name,
-				username: req.body.username,
-				email: req.body.email,
-				bt: req.body.bt
-			}
 			//check if user never existed
 			let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
 			sqldb.query(question, (err, result)=>{
@@ -123,11 +116,6 @@ approuter.get('/create', (req, res) => {
 			}
 	
 		}
-		else if (login != "" && signUp == ""){
-
-			//user login
-		}
-
 		else{
 			//not handled
 		}
