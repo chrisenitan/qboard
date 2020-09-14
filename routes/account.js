@@ -81,7 +81,7 @@ approuter.get('/create', (req, res) => {
 	//no cookie found, check if user is loggin in or signing up
 	else{
 	//sign up
-	if(signUp != "" && login == ""){
+	if(newUser.request == "signup"){
 		//check for bot
 			if(newUser.bt != ""){
 				console.log("Bot live")
@@ -107,7 +107,6 @@ approuter.get('/create', (req, res) => {
 			else{
 				console.log("User existed. Please go to profile page")
 				res.redirect("/"+newUser.username)
-	
 			}
 	
 			})
@@ -116,7 +115,7 @@ approuter.get('/create', (req, res) => {
 	
 		}
 		else{
-			//not handled
+			//not handled. might not be a signup
 		}
 	}
 	
