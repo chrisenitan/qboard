@@ -29,6 +29,12 @@ sqldb.connect((err) => {
 })
 
 
+//LOG IN
+approuter.get('/login', (req, res) => {
+
+	res.render("login");
+
+});
 
 
 

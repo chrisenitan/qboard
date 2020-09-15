@@ -28,11 +28,21 @@ sqldb.connect((err) => {
 })
 
 
-//LOG IN
-approuter.get('/login', (req, res) => {
+//Get user
+approuter.post('/login', (req, res) => {
 
-//	res.render("login");
-
+	//get user details from login form
+	let newUser = {
+		request: req.body.request,
+		name: req.body.name,
+		username: req.body.username,
+		email: req.body.email,
+		bt: req.body.bt
+	}
+	
+//log user in ans send user to profile page 
+res.render(`/${newUser.username}`, newUser)
+	
 });
 
 
@@ -73,7 +83,7 @@ approuter.get('/create', (req, res) => {
 		sqldb.query(question, (err, result)=>{
 		if(err) throw err;
 	
-		res.redirect("/profile/"+cookieUser)
+		res.redirect("/"+cookieUser)
 
 		})
 	}
