@@ -39,7 +39,7 @@ approuter.get('/login', (req, res) => {
 
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
-approuter.get('/:username', (req, res) => {
+approuter.get('/', (req, res) => {
 let userName = req.params.username
 /* 		let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
 

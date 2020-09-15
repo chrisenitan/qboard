@@ -40,8 +40,9 @@ approuter.post('/login', (req, res) => {
 	}
 	
 //log user in ans send user to profile page 
-res.redirect(`../${newUser.username}`, newUser)
-	
+res.redirect('/' + newUser.username, newUser)
+
+//res.send("sfdgfhgjh")
 });
 
 
