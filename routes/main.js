@@ -40,8 +40,8 @@ approuter.get('/login', (req, res) => {
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
-	let userName = req.params.username
-	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
+let userName = req.params.username
+/* 		let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
 
 	sqldb.query(question, (err, result)=>{
 		if(err) throw err;
@@ -49,7 +49,9 @@ approuter.get('/:username', (req, res) => {
 		let user = Object.assign(result[0], ["name","email","username"]);
 	    res.render("profile", user); 
 
-	})
+    }) */
+    res.send("profile page reached")
+    console.log("reached profile page")
 
 });
 

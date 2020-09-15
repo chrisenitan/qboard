@@ -34,14 +34,13 @@ approuter.post('/login', (req, res) => {
 	//get user details from login form
 	let newUser = {
 		request: req.body.request,
-		name: req.body.name,
 		username: req.body.username,
 		email: req.body.email,
 		bt: req.body.bt
 	}
 	
 //log user in ans send user to profile page 
-res.render(`/${newUser.username}`, newUser)
+res.redirect(`../${newUser.username}`, newUser)
 	
 });
 
@@ -64,7 +63,7 @@ approuter.get('/recovery', (req, res) => {
 
 
 // sign up .. CREATE ACCOUNT QUERY BASED
-approuter.get('/create', (req, res) => {
+approuter.post('/create', (req, res) => {
 
 	//get user details from login form
 	let newUser = {
