@@ -39,9 +39,9 @@ approuter.get('/login', (req, res) => {
 
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
-approuter.get('/', (req, res) => {
-let userName = req.params.username
-/* 		let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
+approuter.get('/:username', (req, res) => {
+/* 	let userName = req.params.username
+	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
 
 	sqldb.query(question, (err, result)=>{
 		if(err) throw err;
@@ -50,11 +50,22 @@ let userName = req.params.username
 	    res.render("profile", user); 
 
     }) */
-    res.send("profile page reached")
-    console.log("reached profile page")
+
+
+    //dummy data
+    //get user details from login form
+	let newUser = {
+		request: "login",
+		username: req.params.username,
+		email: "test@test.com",
+		bt: "req.body.bt"
+    }
+    
+    //show user logged in
+    res.send("profile page reached" + ` welcome ${newUser.username}`)
+
 
 });
-
 
 
 

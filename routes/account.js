@@ -31,19 +31,22 @@ sqldb.connect((err) => {
 //Get user
 approuter.post('/login', (req, res) => {
 
-	//get user details from login form
+	//do some sanitisation
 	let newUser = {
 		request: req.body.request,
 		username: req.body.username,
 		email: req.body.email,
 		bt: req.body.bt
-	}
+    }
 	
 //log user in ans send user to profile page 
-res.redirect('/' + newUser.username, newUser)
+res.redirect('/' + newUser.username)
 
-//res.send("sfdgfhgjh")
+
 });
+
+
+
 
 
 //LOG OUT
