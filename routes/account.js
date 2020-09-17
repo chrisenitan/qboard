@@ -46,9 +46,6 @@ res.redirect('/' + newUser.username)
 });
 
 
-
-
-
 //LOG OUT
 approuter.get('/logout', (req, res) => {
 

@@ -37,6 +37,14 @@ approuter.get('/login', (req, res) => {
 });
 
 
+//SIGN UP
+approuter.get('/signup', (req, res) => {
+
+	res.render("signup");
+
+});
+
+
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
@@ -57,12 +65,12 @@ approuter.get('/:username', (req, res) => {
 	let newUser = {
 		request: "login",
 		username: req.params.username,
-		email: "test@test.com",
+		email: req.params.email, //currently does not work as this is not sent from redrect cus the url only takes /username to check
 		bt: "req.body.bt"
     }
     
     //show user logged in
-    res.send("profile page reached" + ` welcome ${newUser.username}`)
+    res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
 
 
 });
