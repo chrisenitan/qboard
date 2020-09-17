@@ -29,12 +29,26 @@ sqldb.connect((err) => {
 })
 
 
+//LOG IN
+approuter.get('/login', (req, res) => {
+
+	res.render("login");
+
+});
+
+
+//SIGN UP
+approuter.get('/signup', (req, res) => {
+
+	res.render("signup");
+
+});
 
 
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
-	let userName = req.params.username
+/* 	let userName = req.params.username
 	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
 
 	sqldb.query(question, (err, result)=>{
@@ -43,10 +57,23 @@ approuter.get('/:username', (req, res) => {
 		let user = Object.assign(result[0], ["name","email","username"]);
 	    res.render("profile", user); 
 
-	})
+    }) */
+
+
+    //dummy data
+    //get user details from login form
+	let newUser = {
+		request: "login",
+		username: req.params.username,
+		email: req.params.email, //currently does not work as this is not sent from redrect cus the url only takes /username to check
+		bt: "req.body.bt"
+    }
+    
+    //show user logged in
+    res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
+
 
 });
-
 
 
 

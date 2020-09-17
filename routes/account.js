@@ -15,7 +15,6 @@ const sqldb = mysql.createConnection({
 });
 */
 
-
 const sqldb = mysql.createConnection({
     host     : process.env.fhserver,
     user     : process.env.fhuser,
@@ -29,18 +28,20 @@ sqldb.connect((err) => {
 })
 
 
-//SIGN UP
-approuter.get('/signup', (req, res) => {
+//Get user
+approuter.post('/login', (req, res) => {
 
-	res.render("signup");
+	//do some sanitisation
+	let newUser = {
+		request: req.body.request,
+		username: req.body.username,
+		email: req.body.email,
+		bt: req.body.bt
+    }
+	
+//log user in ans send user to profile page 
+res.redirect('/' + newUser.username)
 
-});
-
-
-//LOG IN
-approuter.get('/login', (req, res) => {
-
-//	res.render("login");
 
 });
 
@@ -54,10 +55,25 @@ approuter.get('/logout', (req, res) => {
 	
 
 
-//CREATE ACCOUNT QUERY BASED
-approuter.get('/create', (req, res) => {
-	let signUp = req.query.signup
-	let login = req.query.login
+//ACCOUNT RECOVERY
+approuter.get('/recovery', (req, res) => {
+
+	//	res.render("recovery");
+	
+});
+
+
+// sign up .. CREATE ACCOUNT QUERY BASED
+approuter.post('/create', (req, res) => {
+
+	//get user details from login form
+	let newUser = {
+		request: req.body.request,
+		name: req.body.name,
+		username: req.body.username,
+		email: req.body.email,
+		bt: req.body.bt
+	}
 
 
 	//check for cookie 
@@ -67,7 +83,7 @@ approuter.get('/create', (req, res) => {
 		sqldb.query(question, (err, result)=>{
 		if(err) throw err;
 	
-		res.redirect("/profile/"+cookieUser)
+		res.redirect("/"+cookieUser)
 
 		})
 	}
@@ -75,19 +91,12 @@ approuter.get('/create', (req, res) => {
 	//no cookie found, check if user is loggin in or signing up
 	else{
 	//sign up
-	if(signUp != "" && login == ""){
+	if(newUser.request == "signup"){
 		//check for bot
-			if(req.body.bt != ""){
+			if(newUser.bt != ""){
 				console.log("Bot live")
 			}
 			else{
-			//get user details from login form
-			let newUser = {
-				name: req.body.name,
-				username: req.body.username,
-				email: req.body.email,
-				bt: req.body.bt
-			}
 			//check if user never existed
 			let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
 			sqldb.query(question, (err, result)=>{
@@ -108,7 +117,6 @@ approuter.get('/create', (req, res) => {
 			else{
 				console.log("User existed. Please go to profile page")
 				res.redirect("/"+newUser.username)
-	
 			}
 	
 			})
@@ -116,13 +124,8 @@ approuter.get('/create', (req, res) => {
 			}
 	
 		}
-		else if (login != "" && signUp == ""){
-
-			//user login
-		}
-
 		else{
-			//not handled
+			//not handled. might not be a signup
 		}
 	}
 	

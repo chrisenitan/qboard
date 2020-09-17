@@ -10,14 +10,20 @@
 
 <p>Welcome to Q board</p>
 
-<p>Please login to your account below</p>
+<p>Hello there {{username}} </p>
 
+{{!-- let newUser = {
+		request: req.body.request,
+		username: req.body.username,
+		email: req.body.email,
+		bt: req.body.bt
+	} --}}
 
-<form action="/account/login" method="post">
+<form action="/login" method="post">
 
-<input type="text" name="username" placeholder="Username" value="crisenitan"/><br><br>
+<input type="text" name="username" placeholder="Username"/><br><br>
 
-<input type="text" name="email" placeholder="Email" value="enycris1@gmail.com"/><br><br>
+<input type="text" name="email" placeholder="Email"/><br><br>
 
 <input type="hidden" name="bt" value=""/><br><br>
 
