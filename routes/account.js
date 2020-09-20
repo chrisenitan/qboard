@@ -24,7 +24,7 @@ const sqldb = mysql.createConnection({
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log("Free DB 'Accounts' Connected..." + sqldb.threadId)
+      console.log(`Connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
 
 
