@@ -24,7 +24,7 @@ const sqldb = mysql.createConnection({
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log("Free DB 'Accounts' Connected..." + sqldb.threadId)
+      console.log(`Connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
 
 
@@ -77,15 +77,16 @@ approuter.post('/create', (req, res) => {
 
 
 	//check for cookie 
-	if(cookie){
+	if(cookie != ""){
 		//get user from cookie and redirect user to page
-		let question = `SELECT * FROM posts`;
+		/* let question = `SELECT * FROM posts`;
 		sqldb.query(question, (err, result)=>{
-		if(err) throw err;
+		if(err) throw err; */
 	
-		res.redirect("/"+cookieUser)
+		console.log("cookie found")
+		res.redirect("/"+cookie)
 
-		})
+		//})
 	}
 
 	//no cookie found, check if user is loggin in or signing up
