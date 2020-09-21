@@ -1,5 +1,2 @@
 .env
 node_modules/
-cypress/integration/examples
-videos/
-screenshots/
