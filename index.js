@@ -5,7 +5,6 @@ const app = express();
 //set env file
 require("dotenv").config();
 
-
 //setup views dir
 //import built in path module
 const path = require("path")
@@ -31,7 +30,6 @@ app.engine('mustache', hogan.__express)
 //set static assets 
 app.use(express.static(path.join(__dirname, "public")))
 
-
 //use body parser. Required to be used before sending Form Posts 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -39,15 +37,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 //custom midlewares
 let middle = require("./cModules/middle.js")
-
-/* deprecating
- //set and import routes 
-const routerIndex = require("./routes/routerIndex")
-app.use("/", routerIndex); */
-
-/* //set and imoort router for sql links
-const mainRoute = require("./routes/mainRoute")
-app.use("/", mainRoute); */
 
 //set and imoort router for sql links
 const main = require("./routes/main")
@@ -61,10 +50,12 @@ app.use("/settings", settings);
 const account = require("./routes/account")
 app.use("/account", account);
 
+//questions routes
+const question = require("./routes/question")
+app.use("/question", question);
 
 
-//DATABASE
-//get mongoose
+//mongoose DB
 const mongoose = require("mongoose")
 
 //connect to db
@@ -80,7 +71,6 @@ mongoose.connection.on("error", err => {
 
 
 
-//SERVER
 //create a port and start server
 const port = process.env.Port || 4000;
 app.listen(port, () =>{

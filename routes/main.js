@@ -1,6 +1,6 @@
 
 const express = require('express'); //param body query
-const mysql = require('mysql')
+const mysql   = require('mysql')
 
 //initislaize express
 const approuter = express();
@@ -43,7 +43,6 @@ approuter.get('/signup', (req, res) => {
 	res.render("signup");
 
 });
-
 
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
