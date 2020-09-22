@@ -40,8 +40,8 @@ approuter.get('/:id', (req, res) => {
 
 //Question data
 approuter.get('/:id/data', (req, res) => {
-
-    res.send("This is where we post a questions data so far")
+    let id = req.params.id
+    res.send(`This is where we post a questions data so far ${id}`)
 	//do we need this?
 
 });
