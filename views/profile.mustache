@@ -8,9 +8,11 @@
 <br>
 <img src="/images/art.jpg"/>
 
-<p>Welcome to Q board</p>
+<p>{{request}} successful. <br> Welcome to Q board</p>
 
 <p>Hello there {{username}} </p>
+
+<p>Your email is {{email}} </p>
 
 {{!-- let newUser = {
 		request: req.body.request,
@@ -18,19 +20,6 @@
 		email: req.body.email,
 		bt: req.body.bt
 	} --}}
-
-<form action="/login" method="post">
-
-<input type="text" name="username" placeholder="Username"/><br><br>
-
-<input type="text" name="email" placeholder="Email"/><br><br>
-
-<input type="hidden" name="bt" value=""/><br><br>
-
-<input type="hidden" name="request" value="login" placeholder="Username"/><br><br>
-
-
-<button>Log In</button>
 
 
 </form>
