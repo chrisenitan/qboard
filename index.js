@@ -18,6 +18,9 @@ app.set('view engine', 'mustache')
 //initialize view engine as middleware
 app.engine('mustache', require("hogan-middleware").__express)
 
+//custom midlewares
+let middle = require("./cModules/middle.js")
+
 /* 
 incase template hogan becoms hard to dig: 
 https://www.udemy.com/course/intro-to-node-js-express/learn/lecture/12546954?start=313#bookmarks
@@ -26,7 +29,6 @@ let hogan = require("hogan-middleware")
 app.engine('mustache', hogan.__express) 
 */
 
-
 //set static assets 
 app.use(express.static(path.join(__dirname, "public")))
 
@@ -34,9 +36,6 @@ app.use(express.static(path.join(__dirname, "public")))
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
-
-//custom midlewares
-let middle = require("./cModules/middle.js")
 
 //set and imoort router for sql links
 const main = require("./routes/main")
@@ -57,8 +56,6 @@ app.use("/question", question);
 
 //mongoose DB
 const mongoose = require("mongoose")
-
-//connect to db
 mongoose.connect(
     process.env.Server,
     {useNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
