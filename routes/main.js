@@ -1,6 +1,6 @@
 
 const express = require('express'); //param body query
-const mysql = require('mysql')
+const mysql   = require('mysql')
 
 //initislaize express
 const approuter = express();
@@ -45,9 +45,11 @@ approuter.get('/signup', (req, res) => {
 });
 
 
-
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
+
+    //handle or check if user is loading or updating. 
+
 /* 	let userName = req.params.username
 	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
 
@@ -70,7 +72,9 @@ approuter.get('/:username', (req, res) => {
     }
     
     //show user logged in
-    res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
+    //res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
+
+    res.render("profile", newUser)
 
 
 });

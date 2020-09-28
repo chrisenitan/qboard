@@ -47,7 +47,7 @@ res.redirect('/' + newUser.username)
 
 
 //LOG OUT
-approuter.get('/logout', (req, res) => {
+approuter.post('/logout', (req, res) => {
 
 	//	res.render("logout");
 	
@@ -55,9 +55,10 @@ approuter.get('/logout', (req, res) => {
 	
 
 
-//ACCOUNT RECOVERY
-approuter.get('/recovery', (req, res) => {
+//ACCOUNT recovery, collect and reset password
+approuter.post('/recovery', (req, res) => {
 
+	//password reset
 	//	res.render("recovery");
 	
 });
