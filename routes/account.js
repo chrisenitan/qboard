@@ -47,9 +47,10 @@ res.redirect('/' + newUser.username)
 
 
 //LOG OUT
-approuter.post('/logout', (req, res) => {
+approuter.get('/logout', (req, res) => {
 
 	//	res.render("logout");
+	res.redirect("/login")
 	
 });
 	

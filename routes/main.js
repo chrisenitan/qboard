@@ -28,6 +28,13 @@ sqldb.connect((err) => {
     console.log(`Connected to Main ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
 
+//HOME
+approuter.get('/', (req, res) => {
+
+	res.send("Welcome to Qboard");
+
+});
+
 
 //LOG IN
 approuter.get('/login', (req, res) => {
@@ -43,6 +50,7 @@ approuter.get('/signup', (req, res) => {
 	res.render("signup");
 
 });
+
 
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
