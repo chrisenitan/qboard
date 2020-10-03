@@ -49,8 +49,10 @@ res.redirect('/' + newUser.username)
 //LOG OUT
 approuter.get('/logout', (req, res) => {
 
-	//	res.render("logout");
-	res.redirect("/login")
+	//log user out
+
+	//send user to home
+	res.redirect("/?r=logout")
 	
 });
 	

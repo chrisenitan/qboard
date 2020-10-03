@@ -13,6 +13,9 @@ const sqldb = mysql.createConnection({
     password : 'process.env.GCPsqlPassword',
     database : 'nodepress'
 });
+? query
+: params
+form body
 */
 
 
@@ -30,8 +33,18 @@ sqldb.connect((err) => {
 
 //HOME
 approuter.get('/', (req, res) => {
+    const act = req.query.r
 
-	res.send("Welcome to Qboard");
+if(act == "logout"){
+    let data ={
+        ref: act,
+        message: `Successful ${act}`
+    } 
+    res.render("index", data)
+}
+else{
+   res.render("index")
+} 
 
 });
 
@@ -50,7 +63,6 @@ approuter.get('/signup', (req, res) => {
 	res.render("signup");
 
 });
-
 
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
@@ -86,9 +98,6 @@ approuter.get('/:username', (req, res) => {
 
 
 });
-
-
-
 
 
 
