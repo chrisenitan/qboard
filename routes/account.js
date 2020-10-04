@@ -47,15 +47,24 @@ res.redirect('/' + newUser.username)
 
 
 //LOG OUT
-approuter.post('/logout', (req, res) => {
+approuter.get('/logout', (req, res) => {
 
-	//	res.render("logout");
+	//log user out
+
+	//send user to home
+	res.redirect("/?r=logout")
 	
 });
 	
+//recovery, just incase anyone wants to rest their passowrd from a link
+approuter.get('/recovery', (req, res) => {
 
+	//password reset
+	//res.render("recovery");
+	
+});
 
-//ACCOUNT recovery, collect and reset password
+//recovery, collect user code and verify that token was correct the reset passowrd and ask user to login 
 approuter.post('/recovery', (req, res) => {
 
 	//password reset

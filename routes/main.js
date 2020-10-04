@@ -13,6 +13,9 @@ const sqldb = mysql.createConnection({
     password : 'process.env.GCPsqlPassword',
     database : 'nodepress'
 });
+? query
+: params
+form body
 */
 
 
@@ -27,6 +30,23 @@ sqldb.connect((err) => {
     if(err){ throw err }
     console.log(`Connected to Main ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
+
+//HOME
+approuter.get('/', (req, res) => {
+    const act = req.query.r
+
+if(act == "logout"){
+    let data ={
+        ref: act,
+        message: `Successful ${act}`
+    } 
+    res.render("index", data)
+}
+else{
+   res.render("index")
+} 
+
+});
 
 
 //LOG IN
@@ -78,9 +98,6 @@ approuter.get('/:username', (req, res) => {
 
 
 });
-
-
-
 
 
 

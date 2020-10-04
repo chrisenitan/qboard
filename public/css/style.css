@@ -1,8 +1,10 @@
 body{
 	background-color: #384150;
 	font-family: 'Rubik';
-	margin:0px;
 	text-align: center;
+	width:100%;
+	max-width: 500px;
+	margin:auto;
 }
 p{
 	color: #04d098;
@@ -67,7 +69,7 @@ textarea{
 	border-left: none;
 	border-right: none;
 }
-.labels{
+label{
     color: #79a2e0;
     width: 205px;
     font-size: 12px;
