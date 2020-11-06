@@ -155,7 +155,7 @@ approuter.post("/createpost", (req, res)=>{
 // ---- READ ----- 
 
 //Get one post by parameter getpost/9
-approuter.get("/getposts/:id", (req, res) =>{
+approuter.get("/getpost/:id", (req, res) =>{
 	let request = req.params.id
 
 	if(request == "redirect"){

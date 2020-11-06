@@ -53,6 +53,10 @@ app.use("/account", account);
 const question = require("./routes/question")
 app.use("/question", question);
 
+//questions routes
+const sqlDB = require("./routes/sqlTest")
+app.use("/sql", sqlDB);
+
 
 //mongoose DB
 const mongoose = require("mongoose")
