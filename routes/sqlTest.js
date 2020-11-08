@@ -5,7 +5,6 @@ const mysql = require('mysql')
 //initislaize express
 const approuter = express();
 
-
 /* GCP
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
@@ -191,7 +190,9 @@ approuter.get('/getposts', (req, res) => {
 		let allpost = Object.assign(results[0], ["id","title","body","owner"])
 		//console.log(results)
         res.render("allpost", { results: results });
-    });
+	});
+	console.log('Cookies: ', req.cookies)
+	res.cookie("Test","testValue")
 });
 
 
