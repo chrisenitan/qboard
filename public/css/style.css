@@ -74,5 +74,6 @@ label{
     width: 205px;
     font-size: 12px;
     text-align: left;
-    margin: auto;
+	margin: auto;
+	margin-bottom: 10px;
 }
