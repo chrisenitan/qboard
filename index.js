@@ -45,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 //set and imoort router for sql links
 const main = require("./routes/main")
-app.use("/", middle, main);
+app.use("/", middle, validateCookie, main);
 
 //set and imoort router for sql links
 const settings = require("./routes/settings")

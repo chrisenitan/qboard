@@ -75,6 +75,7 @@ approuter.post('/recovery', (req, res) => {
 
 // sign up .. CREATE ACCOUNT QUERY BASED
 approuter.post('/create', (req, res) => {
+	const {cookies} = req
 
 	//get user details from login form
 	let newUser = {
@@ -87,14 +88,16 @@ approuter.post('/create', (req, res) => {
 
 
 	//check for cookie 
-	if(cookie != ""){
+	if("user" in cookies){
 		//get user from cookie and redirect user to page
 		/* let question = `SELECT * FROM posts`;
 		sqldb.query(question, (err, result)=>{
 		if(err) throw err; */
 	
-		console.log("cookie found")
-		res.redirect("/"+cookie)
+		console.log("user cookie provided")
+
+//check if cookie matches db
+//check if cookie matches broser setup
 
 		//})
 	}

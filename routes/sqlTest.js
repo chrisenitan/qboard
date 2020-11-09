@@ -191,6 +191,12 @@ approuter.get('/getposts', (req, res) => {
 		//console.log(results)
         res.render("allpost", { results: results });
 	});
+
+	const {cookies} = req
+	if("user" in cookies){
+		console.log('Cookies found user')
+	}else{console.log('Cookies not found user ')}
+
 	console.log('Cookies: ', req.cookies)
 	res.cookie("Test","testValue")
 });
