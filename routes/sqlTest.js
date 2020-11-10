@@ -187,8 +187,8 @@ approuter.get('/getposts', (req, res) => {
     let query = sqldb.query(sql, (err, results) => {
         if(err) throw err;
 		
-		let allpost = Object.assign(results[0], ["id","title","body","owner"])
-		//console.log(results)
+	//Object.assign(results[0], ["id","title","body","owner"])
+		console.log(results)
         res.render("allpost", { results: results });
 	});
 
@@ -215,8 +215,10 @@ sqldb.query(sql, (err, result)=>{
 
 	res.status(200).json({
 		id: fetchedPost.id,
-		title: fetchedPost.title
-	})
+		title: fetchedPost.title,
+		body: fetchedPost.body,
+		owner: fetchedPost.owner
+	}) 
 })
 })
 
@@ -248,7 +250,6 @@ approuter.get("/renderpost/:id", (req, res) =>{
 
 
 // ---- UPDATE ----- 
-
 //update a post from params id
 approuter.get("/updatepost/:id", (req, res) =>{
 	let newTitle = "New Title Update";

@@ -111,6 +111,27 @@ approuter.post('/create', (req, res) => {
 				console.log("Bot live")
 			}
 			else{
+			//prevent signup with protected usernames
+			let checkProtectedUsernames = `SELECT * FROM posts WHERE email =` +
+			sqldb.escape(newUser.username)	
+			sqldb.query(checkProtectedUsernames, (err, result)=>{
+			if (err) throw err;
+
+				if(!result[0]){
+					console.log("Username is allowed")
+				}
+				else{
+					console.log("Username is not allowed")
+					let faqref = {
+						reason: "protectedUsername",
+						ref: newUser.username
+					}
+					res.render("faq", faqref);
+				}
+
+			})	
+
+
 			//check if user never existed
 			let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
 			sqldb.query(question, (err, result)=>{
