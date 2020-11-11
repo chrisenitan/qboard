@@ -76,7 +76,6 @@ approuter.post('/recovery', (req, res) => {
 // sign up .. CREATE ACCOUNT QUERY BASED
 approuter.post('/create', (req, res) => {
 	const {cookies} = req
-	var canCreate
 
 	//get user details from login form
 	let newUser = {
@@ -119,7 +118,6 @@ approuter.post('/create', (req, res) => {
 
 							if(!result[0]){
 								console.log("Username is allowed")
-								var canCreate = true
 
 								//check if user never existed
 								let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
@@ -138,7 +136,7 @@ approuter.post('/create', (req, res) => {
 										}
 										//user found in db, should never happen if we prewarn usernames, send to profile. 
 										else{
-											console.log("User existed. Please go to profile page")
+											console.log("User existed. Please go to profile page and load public or private view")
 											res.redirect("/"+newUser.username)
 										}
 				
@@ -151,12 +149,11 @@ approuter.post('/create', (req, res) => {
 							ref: newUser.username
 							}
 							res.render("faq", faqref);
-							var canCreate = false
 							return false;
 						}
 					})
 				}
-				console.log("This is a bot stop")
+				console.log("User is not signing up. What else?")
 		}
 			else{
 					//not handled. might not be a signup
