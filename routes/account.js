@@ -39,8 +39,23 @@ approuter.post('/login', (req, res) => {
 		bt: req.body.bt
     }
 	
-//log user in ans send user to profile page 
-res.redirect('/' + newUser.username)
+//log user in ans send user to profile page
+let getUser = `SELECT * FROM posts WHERE user =` + sqldb.escape(newUser.username) + `LIMIT 1` 
+sqldb.query(getUser, (err, result)=>{
+	if (err) throw err;
+	if(result.length != 0){
+		console.log("Login User found")
+		//delete old cookie of available
+		res.clearCookie("user")
+
+		//create new cookie
+		res.cookie("user",result.cookie)
+		res.redirect('/' + result.username)
+	}
+	else{
+		console.log("User not found")
+	}
+})
 
 
 });

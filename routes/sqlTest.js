@@ -48,8 +48,6 @@ sqldb.connect((err) => {
 
 
 
-
-
 /* //CAFA.WORK
 //get from cafa
 approuter.get("/cafa/:id", (req, res) =>{
