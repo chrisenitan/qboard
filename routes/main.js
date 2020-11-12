@@ -53,7 +53,8 @@ else{
 
 //LOG IN
 approuter.get('/login', (req, res) => {
-
+    let request = req.query
+    console.log(`Redirected because ${request.reason}`)
 	res.render("login");
 
 });
