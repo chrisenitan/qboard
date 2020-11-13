@@ -15,9 +15,9 @@ const sqldb = mysql.createConnection({
     password : 'process.env.GCPsqlPassword',
     database : 'nodepress'
 });
-? query
-: params
-form body
+? = query
+: = params
+form = body
 */
 
 
@@ -75,7 +75,25 @@ approuter.get('/signup', (req, res) => {
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
+    /*
+    let userUsername = req.params.username
+    let userCookie = req.cookies.user
+    console.log(userCookie + " cookie: " + userUsername)
+    res.status(200).json({
+        message: "User found",
+        username: userUsername,
+        cookie: userCookie
+    })
 
+    let checkForUser = `SELECT * FROM posts WHERE username =` + sqldb.escape(userUsername) + `AND WHERE cookie = ` + sqldb.escape(userCookie);
+    sqldb.query(checkForUser, (err, result)=>{
+        if (err) throw err;
+        
+        if(Object.keys(result) == 0){
+            console.log("User not found")
+        }
+    })
+ */
     //handle or check if user is loading or updating. 
 
 /* 	let userName = req.params.username
@@ -103,7 +121,7 @@ approuter.get('/:username', (req, res) => {
     //res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
 
     res.render("profile", newUser)
-
+ 
 
 });
 

@@ -45,11 +45,13 @@ sqldb.query(getUser, (err, result)=>{
 	if (err) throw err;
 	if(Object.keys(result).length != 0){
 		console.log("Login User found")
+		result.purpose = "login" //set pupose to login as opposed to updating account...
+
 		//delete old cookie if available
 		res.clearCookie("user")
 
 		//create new cookie
-		res.cookie("user",result.cookie)
+		res.cookie("user", result.cookie)
 		res.redirect('/' + result.username)
 	} 
 	else{
@@ -140,7 +142,7 @@ approuter.post('/create', (req, res) => {
 								sqldb.query(question, (err, result)=>{
 									if(err) throw err;
 				
-										if(result.length == 0){
+										if(Object.keys(result).length == 0){
 										//register new user
 										let question = 'INSERT INTO posts SET ?'
 										sqldb.query(question, newUser, (err, result, fields)=>{

@@ -163,7 +163,7 @@ approuter.get("/getpost/:id", (req, res) =>{
 		sqldb.query(sql, (err, result)=>{
 			if (err) throw err;
 			
-			if(result.length == 0){
+			if(Object.keys(result).length == 0){
 				console.log("Nothing found")
 				//render 404 page
 				res.render("404", {message: `No Post with ID ${request}`}) 
