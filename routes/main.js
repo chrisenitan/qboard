@@ -53,9 +53,14 @@ else{
 
 //LOG IN
 approuter.get('/login', (req, res) => {
-    let request = req.query
-    console.log(`Redirected because ${request.reason}`)
-	res.render("login",request);
+    var request = req.query
+    if(Object.keys(request).length != 0){
+       console.log(`Redirected because ${request.message}`)
+       res.render("login",request);
+    }
+    else{
+        res.render("login");
+    }
 
 });
 
