@@ -36,18 +36,16 @@ sqldb.connect((err) => {
 //HOME
 approuter.get('/', (req, res) => {
     const act = req.query.act
-
-if(act == "logout"){
-    let data ={
-        ref: act,
-        message: `Successful ${act}`
-    } 
-    res.render("index", data)
-}
-else{
-   res.render("index")
-} 
-
+    if(act == "logout"){
+        let data ={
+            ref: act,
+            message: `Successful ${act}`
+        } 
+        res.render("index", data)
+    }
+    else{
+    res.render("index")
+    }
 });
 
 
