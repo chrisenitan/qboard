@@ -35,7 +35,7 @@ sqldb.connect((err) => {
 
 //HOME
 approuter.get('/', (req, res) => {
-    const act = req.query.r
+    const act = req.query.act
 
 if(act == "logout"){
     let data ={

@@ -65,13 +65,21 @@ sqldb.query(getUser, (err, result)=>{
 
 
 //LOG OUT
-approuter.get('/logout', (req, res) => {
-
-	//log user out
-
-	//send user to home
-	res.redirect("/?r=logout")
-	
+approuter.post('/logout', (req, res) => {
+	//do some sanitisation
+	let newUser = {
+		request: req.body.request,
+		username: req.body.username,
+		bt: req.body.bt
+	}
+	if(newUser.bt == ""){
+		console.log("bot log out or something")
+	}
+	else{
+		console.log("can log user out")
+		res.clearCookie("user")
+		res.redirect("/?act=logout")
+	}	
 });
 	
 //recovery, just incase anyone wants to rest their passowrd from a link
