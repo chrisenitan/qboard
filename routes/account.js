@@ -84,7 +84,15 @@ approuter.post('/logout', (req, res) => {
 
 //EDIT PROFILE
 approuter.get('/edit', (req, res) => {
+	var userCookie = req.cookies.user
 
+	let getUser = "SELECT * FROM posts WHERE cookie = " + userCookie + "LIMIT 1"
+	sqldb.query(getUser, (err, result)=>{
+		if (err) throw err
+		
+	})
+
+	console.log(userCookie)
 	//res.send("Edit profile")
 	res.render("account/edit");
 
@@ -173,7 +181,7 @@ approuter.post('/create', (req, res) => {
 										sqldb.query(question, newUser, (err, result, fields)=>{
 											if(err) throw err;
 											newUser.id = result.insertId
-											res.render("onboard", newUser)
+											res.render("account/onboard", newUser)
 				
 										})
 										}
