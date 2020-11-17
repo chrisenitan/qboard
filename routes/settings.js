@@ -1,4 +1,4 @@
-
+//app settings only
 const express = require('express'); //param body query
 const mysql = require('mysql')
 
@@ -27,24 +27,6 @@ sqldb.connect((err) => {
     if(err){ throw err }
     console.log(`Connected to Settings ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
-
-
-//EDIT PROFILE
-approuter.get('/profile', (req, res) => {
-
-	res.render("editProfile");
-
-});
-
-
-
-
-//EDIT ACCOUNT
-approuter.get('/account', (req, res) => {
-
-	res.render("editAccount");
-
-});
 
 
 

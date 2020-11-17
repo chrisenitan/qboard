@@ -1,4 +1,4 @@
-
+//account settings only
 const express = require('express'); //param body query
 const mysql = require('mysql')
 
@@ -72,7 +72,7 @@ approuter.post('/logout', (req, res) => {
 		username: req.body.username,
 		bt: req.body.bt
 	}
-	if(newUser.bt == ""){
+	if(newUser.bt != ""){
 		console.log("bot log out or something")
 	}
 	else{
@@ -81,7 +81,24 @@ approuter.post('/logout', (req, res) => {
 		res.redirect("/?act=logout")
 	}	
 });
-	
+
+//EDIT PROFILE
+approuter.get('/edit', (req, res) => {
+
+	//res.send("Edit profile")
+	res.render("account/edit");
+
+});
+
+
+//EDIT ACCOUNT
+approuter.get('/account', (req, res) => {
+
+	//res.render("editAccount");
+
+});
+
+
 //recovery, just incase anyone wants to rest their passowrd from a link
 approuter.get('/recovery', (req, res) => {
 
