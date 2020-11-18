@@ -86,10 +86,15 @@ approuter.post('/logout', (req, res) => {
 approuter.get('/edit', (req, res) => {
 	var userCookie = req.cookies.user
 
-	let getUser = "SELECT * FROM posts WHERE cookie = " + userCookie + "LIMIT 1"
+	let getUser = `SELECT * FROM posts WHERE cookie = ${userCookie} LIMIT 1`
 	sqldb.query(getUser, (err, result)=>{
 		if (err) throw err
-		
+		if(Object.keys(result).length != 0){
+			console.log("User not found")
+		}
+		else{
+			console.log("User found")
+		}
 	})
 
 	console.log(userCookie)
