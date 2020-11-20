@@ -2,6 +2,10 @@
 const express = require("express");
 const app = express();
 
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
+
 //set env file
 require("dotenv").config();
 
@@ -21,6 +25,8 @@ app.engine('mustache', require("hogan-middleware").__express)
 //custom midlewares
 let middle = require("./cModules/middle.js")
 
+let validateCookie = require("./cModules/validateCookie.js")
+
 /* 
 incase template hogan becoms hard to dig: 
 https://www.udemy.com/course/intro-to-node-js-express/learn/lecture/12546954?start=313#bookmarks
@@ -39,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 //set and imoort router for sql links
 const main = require("./routes/main")
-app.use("/", middle, main);
+app.use("/", middle, validateCookie, main);
 
 //set and imoort router for sql links
 const settings = require("./routes/settings")
@@ -53,8 +59,12 @@ app.use("/account", account);
 const question = require("./routes/question")
 app.use("/question", question);
 
+//sql test routes
+const sqlDB = require("./routes/sqlTest")
+app.use("/sql", validateCookie, sqlDB);
 
-//mongoose DB
+
+//connect mongoose DB
 const mongoose = require("mongoose")
 mongoose.connect(
     process.env.Server,

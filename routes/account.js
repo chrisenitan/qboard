@@ -1,4 +1,4 @@
-
+//account settings only
 const express = require('express'); //param body query
 const mysql = require('mysql')
 
@@ -39,23 +39,82 @@ approuter.post('/login', (req, res) => {
 		bt: req.body.bt
     }
 	
-//log user in ans send user to profile page 
-res.redirect('/' + newUser.username)
+//log user in and send user to profile page
+let getUser = `SELECT * FROM posts WHERE username =` + sqldb.escape(newUser.username) + `LIMIT 1` 
+sqldb.query(getUser, (err, result)=>{
+	if (err) throw err;
+	if(Object.keys(result).length != 0){
+		console.log("Login User found")
+		result.purpose = "login" //set pupose to login as opposed to updating account...
+
+		//delete old cookie if available
+		res.clearCookie("user")
+
+		//create new cookie
+		res.cookie("user", result.cookie)
+		res.redirect('/' + result.username)
+	} 
+	else{
+		console.log("User not found")
+		res.redirect("/login?message=userNotFound")
+	}
+})
 
 
 });
 
 
 //LOG OUT
-approuter.get('/logout', (req, res) => {
-
-	//log user out
-
-	//send user to home
-	res.redirect("/?r=logout")
-	
+approuter.post('/logout', (req, res) => {
+	//do some sanitisation
+	let newUser = {
+		request: req.body.request,
+		username: req.body.username,
+		bt: req.body.bt
+	}
+	if(newUser.bt != ""){
+		console.log("bot log out or something")
+	}
+	else{
+		console.log("can log user out")
+		res.clearCookie("user")
+		res.redirect("/?act=logout")
+	}	
 });
-	
+
+//EDIT PROFILE
+approuter.get('/edit', (req, res) => {
+	var userCookie = req.cookies.user
+
+/* 	let getUser = `SELECT * FROM posts WHERE cookie = ${userCookie} LIMIT 1`
+	sqldb.query(getUser, (err, result)=>{
+		if (err) throw err
+		if(Object.keys(result).length != 0){
+			console.log("User not found")
+			//what to do?
+			res.render("account/edit", result)
+		}
+		else{
+			console.log("User found")
+			res.render("account/edit", result)
+		}
+	})
+ */
+	let userData={user:userCookie}
+	//res.send("Edit profile")
+	res.render("account/edit", userData);
+
+});
+
+
+//EDIT ACCOUNT
+approuter.get('/account', (req, res) => {
+
+	//res.render("editAccount");
+
+});
+
+
 //recovery, just incase anyone wants to rest their passowrd from a link
 approuter.get('/recovery', (req, res) => {
 
@@ -75,6 +134,7 @@ approuter.post('/recovery', (req, res) => {
 
 // sign up .. CREATE ACCOUNT QUERY BASED
 approuter.post('/create', (req, res) => {
+	const {cookies} = req
 
 	//get user details from login form
 	let newUser = {
@@ -85,64 +145,80 @@ approuter.post('/create', (req, res) => {
 		bt: req.body.bt
 	}
 
-
 	//check for cookie 
-	if(cookie != ""){
+	if("user" in cookies){
 		//get user from cookie and redirect user to page
 		/* let question = `SELECT * FROM posts`;
 		sqldb.query(question, (err, result)=>{
 		if(err) throw err; */
 	
-		console.log("cookie found")
-		res.redirect("/"+cookie)
+		console.log("user cookie provided")
+
+	//check if cookie matches db
+	//check if cookie matches broser setup
 
 		//})
 	}
 
 	//no cookie found, check if user is loggin in or signing up
 	else{
-	//sign up
-	if(newUser.request == "signup"){
-		//check for bot
-			if(newUser.bt != ""){
-				console.log("Bot live")
-			}
-			else{
-			//check if user never existed
-			let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
-			sqldb.query(question, (err, result)=>{
-			if(err) throw err;
-	
-			if(result.length == 0){
-			//register new user
-			let question = 'INSERT INTO posts SET ?'
-	
-			sqldb.query(question, newUser, (err, result, fields)=>{
-				if(err) throw err;
-				newUser.id = result.insertId
-				res.render("onboard", newUser)
-	
-			})
-			}
-			//user found in db, should never happen if we prewarn usernames, send to profile. 
-			else{
-				console.log("User existed. Please go to profile page")
-				res.redirect("/"+newUser.username)
-			}
-	
-			})
-	
-			}
-	
+		//sign up
+		if(newUser.request == "signup"){
+			//check for bot
+				if(newUser.bt != ""){
+					console.log("Bot live")
+				}
+				else{
+					//prevent signup with protected usernames again
+					let checkProtectedUsernames = `SELECT * FROM posts WHERE email =` +
+					sqldb.escape(newUser.username)	
+					sqldb.query(checkProtectedUsernames, (err, result)=>{
+						if (err) throw err;
+
+							if(!result[0]){
+								console.log("Username is allowed")
+
+								//check if user never existed
+								let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
+								sqldb.query(question, (err, result)=>{
+									if(err) throw err;
+				
+										if(Object.keys(result).length == 0){
+										//register new user
+										let question = 'INSERT INTO posts SET ?'
+										sqldb.query(question, newUser, (err, result, fields)=>{
+											if(err) throw err;
+											newUser.id = result.insertId
+											res.render("account/onboard", newUser)
+				
+										})
+										}
+										//user found in db, should never happen if we prewarn usernames, send to profile. 
+										else{
+											console.log("User existed. Please go to profile page and load public or private view")
+											res.redirect("/"+newUser.username)
+										}
+				
+									})
+							}
+						else{
+							console.log("Username is part of restricted names")
+							let faqref = {
+							reason: "protectedUsername",
+							ref: newUser.username
+							}
+							res.render("faq", faqref);
+							return false;
+						}
+					})
+				}
+				console.log("User is not signing up. What else?")
 		}
-		else{
-			//not handled. might not be a signup
-		}
+			else{
+					//not handled. might not be a signup
+			}
 	}
-	
-	
-		
-	});
+})
 
 
 

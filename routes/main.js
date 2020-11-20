@@ -2,6 +2,8 @@
 const express = require('express'); //param body query
 const mysql   = require('mysql')
 
+
+
 //initislaize express
 const approuter = express();
 
@@ -13,9 +15,9 @@ const sqldb = mysql.createConnection({
     password : 'process.env.GCPsqlPassword',
     database : 'nodepress'
 });
-? query
-: params
-form body
+? = query
+: = params
+form = body
 */
 
 
@@ -33,26 +35,30 @@ sqldb.connect((err) => {
 
 //HOME
 approuter.get('/', (req, res) => {
-    const act = req.query.r
-
-if(act == "logout"){
-    let data ={
-        ref: act,
-        message: `Successful ${act}`
-    } 
-    res.render("index", data)
-}
-else{
-   res.render("index")
-} 
-
+    const act = req.query.act
+    if(act == "logout"){
+        let data ={
+            ref: act,
+            message: `Successful ${act}`
+        } 
+        res.render("index", data)
+    }
+    else{
+    res.render("index")
+    }
 });
 
 
 //LOG IN
 approuter.get('/login', (req, res) => {
-
-	res.render("login");
+    var request = req.query
+    if(Object.keys(request).length != 0){
+       console.log(`Redirected because ${request.message}`)
+       res.render("login",request);
+    }
+    else{
+        res.render("login");
+    }
 
 });
 
@@ -67,7 +73,25 @@ approuter.get('/signup', (req, res) => {
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
+    /*
+    let userUsername = req.params.username
+    let userCookie = req.cookies.user
+    console.log(userCookie + " cookie: " + userUsername)
+    res.status(200).json({
+        message: "User found",
+        username: userUsername,
+        cookie: userCookie
+    })
 
+    let checkForUser = `SELECT * FROM posts WHERE username =` + sqldb.escape(userUsername) + `AND WHERE cookie = ` + sqldb.escape(userCookie);
+    sqldb.query(checkForUser, (err, result)=>{
+        if (err) throw err;
+        
+        if(Object.keys(result) == 0){
+            console.log("User not found")
+        }
+    })
+ */
     //handle or check if user is loading or updating. 
 
 /* 	let userName = req.params.username
@@ -95,7 +119,7 @@ approuter.get('/:username', (req, res) => {
     //res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
 
     res.render("profile", newUser)
-
+ 
 
 });
 

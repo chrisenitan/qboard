@@ -2,6 +2,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
  {{> resources}}
+  <title>@{{username}} - Qboard </title>
 	</head>
 
 	<body>
@@ -22,7 +23,12 @@
 	} --}}
 
 
-<a href="/account/logout"><button>Log Out</button></a>
+<form method="post" action="/account/logout">
+<input type="hidden" value="" name="bt">
+<button>Log Out</button>
+</form>
+<a href="/account/edit"><button>Edit profile</button></a>
+
 
 
 

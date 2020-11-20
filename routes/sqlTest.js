@@ -5,7 +5,6 @@ const mysql = require('mysql')
 //initislaize express
 const approuter = express();
 
-
 /* GCP
 const sqldb = mysql.createConnection({
     host     : process.env.SQLServer,
@@ -46,8 +45,6 @@ sqldb.connect((err) => {
     if(err){ throw err }
       console.log("MySQL FreeHost Database Connected..." + sqldb.threadId)
 })
-
-
 
 
 
@@ -155,7 +152,7 @@ approuter.post("/createpost", (req, res)=>{
 // ---- READ ----- 
 
 //Get one post by parameter getpost/9
-approuter.get("/getposts/:id", (req, res) =>{
+approuter.get("/getpost/:id", (req, res) =>{
 	let request = req.params.id
 
 	if(request == "redirect"){
@@ -166,7 +163,7 @@ approuter.get("/getposts/:id", (req, res) =>{
 		sqldb.query(sql, (err, result)=>{
 			if (err) throw err;
 			
-			if(result.length == 0){
+			if(Object.keys(result).length == 0){
 				console.log("Nothing found")
 				//render 404 page
 				res.render("404", {message: `No Post with ID ${request}`}) 
@@ -188,10 +185,18 @@ approuter.get('/getposts', (req, res) => {
     let query = sqldb.query(sql, (err, results) => {
         if(err) throw err;
 		
-		let allpost = Object.assign(results[0], ["id","title","body","owner"])
-		//console.log(results)
+	//Object.assign(results[0], ["id","title","body","owner"])
+		console.log(results)
         res.render("allpost", { results: results });
-    });
+	});
+
+	const {cookies} = req
+	if("user" in cookies){
+		console.log('Cookies found user')
+	}else{console.log('Cookies not found user ')}
+
+	console.log('Cookies: ', req.cookies)
+	res.cookie("Test","testValue")
 });
 
 
@@ -208,8 +213,10 @@ sqldb.query(sql, (err, result)=>{
 
 	res.status(200).json({
 		id: fetchedPost.id,
-		title: fetchedPost.title
-	})
+		title: fetchedPost.title,
+		body: fetchedPost.body,
+		owner: fetchedPost.owner
+	}) 
 })
 })
 
@@ -241,7 +248,6 @@ approuter.get("/renderpost/:id", (req, res) =>{
 
 
 // ---- UPDATE ----- 
-
 //update a post from params id
 approuter.get("/updatepost/:id", (req, res) =>{
 	let newTitle = "New Title Update";
