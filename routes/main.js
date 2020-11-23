@@ -123,6 +123,10 @@ approuter.get('/:username', (req, res) => {
 
 });
 
+//save new peofile...
+approuter.post('/:username', (req, res) => {
+
+})
 
 
 
