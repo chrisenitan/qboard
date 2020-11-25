@@ -129,4 +129,11 @@ approuter.post('/:username', (req, res) => {
 })
 
 
+//explore tags and other topics
+approuter.get("/explore", (req, res)=>{
+
+})
+
+
+
 module.exports = approuter;

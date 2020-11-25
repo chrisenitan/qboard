@@ -38,14 +38,17 @@ approuter.get('/:id', (req, res) => {
 });
 
 
-//Question data
-approuter.get('/:id/data', (req, res) => {
+//Question data in more details
+approuter.get('/data/:id', (req, res) => {
     let id = req.params.id
     res.send(`This is where we post a questions data so far ${id}`)
 	//do we need this?
 
 });
 
+//edit your question.. how do we keep intergity here?
+approuter.get("/edit/:id", (req, res)=>{
 
+})
 
 module.exports = approuter;
