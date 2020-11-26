@@ -30,17 +30,24 @@ sqldb.connect((err) => {
 
 //Save new Question
 approuter.post('/create', (req, res) => {
-    let newQuestion = req
+    var rawQuestion = req
+
+    //collect data valuable to user
+    var userQuestion = {
+        question: req.question
+    }
 
     //check for bot
-    if(newQuestion.bt != ""){
+    if(rawQuestion.bt != ""){
         console.log("Bot found")
     }
     else{
         //post question
         let postQuestion = `INSERT into posts set ?`
-        sqldb.query(postQuestion, newQuestion, (err, result, fields)=>{
-            
+        sqldb.query(postQuestion, rawQuestion, (err, result, fields)=>{
+            if (err) throw err
+            userQuestion.id = result.insertId
+            res.render(`/question/:${userQuestion.id}`, userQuestion)
         })
     }
 	//res.render("editProfile");
