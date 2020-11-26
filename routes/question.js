@@ -28,6 +28,24 @@ sqldb.connect((err) => {
     console.log(`Connected to Settings ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
 
+//Save new Question
+approuter.post('/create', (req, res) => {
+    let newQuestion = req
+
+    //check for bot
+    if(newQuestion.bt != ""){
+        console.log("Bot found")
+    }
+    else{
+        //post question
+        let postQuestion = `INSERT into posts set ?`
+        sqldb.query(postQuestion, newQuestion, (err, result, fields)=>{
+            
+        })
+    }
+	//res.render("editProfile");
+
+});
 
 //VIEW Question
 approuter.get('/:id', (req, res) => {
