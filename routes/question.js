@@ -42,12 +42,20 @@ approuter.post('/create', (req, res) => {
         console.log("Bot found")
     }
     else{
+        //make a secure random string
+        var qRef = "";
+        let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for(var i = 0; i < 7; i++){
+            qRef += chars.charAt(Math.floor(Math.random(52) * chars.length))
+        }
+        rawQuestion.ref = qRef 
+        userQuestion.ref = qRef 
         //post question
-        let postQuestion = `INSERT into posts set ?`
+        let postQuestion = `INSERT INTO posts set ?`
         sqldb.query(postQuestion, rawQuestion, (err, result, fields)=>{
             if (err) throw err
             userQuestion.id = result.insertId
-            res.render(`/question/:${userQuestion.id}`, userQuestion)
+            res.render(`/question/:${userQuestion.ref}`, userQuestion)
         })
     }
 	//res.render("editProfile");
