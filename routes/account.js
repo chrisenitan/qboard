@@ -141,6 +141,7 @@ approuter.post('/create', (req, res) => {
 		request: req.body.request,
 		name: req.body.name,
 		username: req.body.username,
+		id: "random",
 		email: req.body.email,
 		bt: req.body.bt
 	}
@@ -170,16 +171,16 @@ approuter.post('/create', (req, res) => {
 				}
 				else{
 					//prevent signup with protected usernames again
-					let checkProtectedUsernames = `SELECT * FROM profiles WHERE email =` +
+					let checkProtectedUsernames = `SELECT * FROM protectedUsernames WHERE username =` + sqldb.escape(newUser.username) + `OR id =` + sqldb.escape(newUser.id)
 					sqldb.escape(newUser.username)	
-					sqldb.query(checkProtectedUsernames, (err, result)=>{
+					sqldb.query(checkProtectedUsernames, (err, protected)=>{
 						if (err) throw err;
 
-							if(!result[0]){
-								console.log("Username is allowed")
+							if(Object.keys(protected).length == 0){
+								console.log("Username or ID is allowed")
 
 								//check if user never existed
-								let question = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
+								let question = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username) + `OR ID = ` + sqldb.escape(newUser.id);
 								sqldb.query(question, (err, result)=>{
 									if(err) throw err;
 				
