@@ -40,7 +40,7 @@ approuter.post('/login', (req, res) => {
     }
 	
 //log user in and send user to profile page
-let getUser = `SELECT * FROM posts WHERE username =` + sqldb.escape(newUser.username) + `LIMIT 1` 
+let getUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(newUser.username) + `LIMIT 1` 
 sqldb.query(getUser, (err, result)=>{
 	if (err) throw err;
 	if(Object.keys(result).length != 0){
@@ -148,7 +148,7 @@ approuter.post('/create', (req, res) => {
 	//check for cookie 
 	if("user" in cookies){
 		//get user from cookie and redirect user to page
-		/* let question = `SELECT * FROM posts`;
+		/* let question = `SELECT * FROM profiles`;
 		sqldb.query(question, (err, result)=>{
 		if(err) throw err; */
 	
@@ -170,7 +170,7 @@ approuter.post('/create', (req, res) => {
 				}
 				else{
 					//prevent signup with protected usernames again
-					let checkProtectedUsernames = `SELECT * FROM posts WHERE email =` +
+					let checkProtectedUsernames = `SELECT * FROM profiles WHERE email =` +
 					sqldb.escape(newUser.username)	
 					sqldb.query(checkProtectedUsernames, (err, result)=>{
 						if (err) throw err;
@@ -179,13 +179,13 @@ approuter.post('/create', (req, res) => {
 								console.log("Username is allowed")
 
 								//check if user never existed
-								let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
+								let question = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
 								sqldb.query(question, (err, result)=>{
 									if(err) throw err;
 				
 										if(Object.keys(result).length == 0){
 										//register new user
-										let question = 'INSERT INTO posts SET ?'
+										let question = 'INSERT INTO profiles SET ?'
 										sqldb.query(question, newUser, (err, result, fields)=>{
 											if(err) throw err;
 											newUser.id = result.insertId

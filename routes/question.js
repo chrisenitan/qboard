@@ -51,7 +51,7 @@ approuter.post('/create', (req, res) => {
         rawQuestion.ref = qRef 
         userQuestion.ref = qRef 
         //post question
-        let postQuestion = `INSERT INTO posts set ?`
+        let postQuestion = `INSERT INTO questions set ?`
         sqldb.query(postQuestion, rawQuestion, (err, result, fields)=>{
             if (err) throw err
             userQuestion.id = result.insertId
@@ -66,8 +66,9 @@ approuter.post('/create', (req, res) => {
 approuter.get('/:id', (req, res) => {
 
     res.send("This is where we post a question")
+    //get username via ID
 	//res.render("editProfile");
-
+ 
 });
 
 

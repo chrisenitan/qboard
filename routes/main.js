@@ -83,7 +83,7 @@ approuter.get('/:username', (req, res) => {
         cookie: userCookie
     })
 
-    let checkForUser = `SELECT * FROM posts WHERE username =` + sqldb.escape(userUsername) + `AND WHERE cookie = ` + sqldb.escape(userCookie);
+    let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername) + `AND WHERE cookie = ` + sqldb.escape(userCookie);
     sqldb.query(checkForUser, (err, result)=>{
         if (err) throw err;
         
@@ -95,7 +95,7 @@ approuter.get('/:username', (req, res) => {
     //handle or check if user is loading or updating. 
 
 /* 	let userName = req.params.username
-	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
+	let question = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userName)
 
 	sqldb.query(question, (err, result)=>{
 		if(err) throw err;
