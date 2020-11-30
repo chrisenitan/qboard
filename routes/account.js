@@ -136,12 +136,19 @@ approuter.post('/recovery', (req, res) => {
 approuter.post('/create', (req, res) => {
 	const {cookies} = req
 
+	//create random id
+	var ranId = ""
+	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+	for(var i = 0; i < 8; i++){
+		ranId += characters.charAt(Math.floor(Math.random) * characters.length)
+	}
+
 	//get user details from login form
 	let newUser = {
 		request: req.body.request,
 		name: req.body.name,
 		username: req.body.username,
-		id: "random",
+		id: ranId,
 		email: req.body.email,
 		bt: req.body.bt
 	}
@@ -149,18 +156,15 @@ approuter.post('/create', (req, res) => {
 	//check for cookie 
 	if("user" in cookies){
 		//get user from cookie and redirect user to page
-		/* let question = `SELECT * FROM profiles`;
+		let question = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user);
 		sqldb.query(question, (err, result)=>{
-		if(err) throw err; */
-	
+		if(err) throw err; 
 		console.log("user cookie provided")
-
 	//check if cookie matches db
 	//check if cookie matches broser setup
 
-		//})
+		})
 	}
-
 	//no cookie found, check if user is loggin in or signing up
 	else{
 		//sign up
