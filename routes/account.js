@@ -191,9 +191,9 @@ approuter.post('/create', (req, res) => {
 										if(Object.keys(result).length == 0){
 										//register new user
 										let question = 'INSERT INTO profiles SET ?'
-										sqldb.query(question, newUser, (err, result, fields)=>{
-											if(err) throw err;
-											newUser.id = result.insertId
+										sqldb.query(question, newUser, (failed, returnedUser, fields)=>{
+											if(failed) throw failed;
+											newUser.id = returnedUser.insertId
 											res.render("account/onboard", newUser)
 				
 										})
@@ -210,17 +210,18 @@ approuter.post('/create', (req, res) => {
 							console.log("Username is part of restricted names")
 							let faqref = {
 							reason: "protectedUsername",
-							ref: newUser.username
+							user: newUser.username
 							}
 							res.render("faq", faqref);
 							return false;
 						}
 					})
 				}
-				console.log("User is not signing up. What else?")
+				console.log("User signing up, but not but and still did not sign up?")
 		}
 			else{
-					//not handled. might not be a signup
+				console.log("Page hit with minimal post params and cookie. Ask for sign up")
+				res.send("register please")
 			}
 	}
 })
