@@ -45,14 +45,15 @@ sqldb.query(getUser, (err, result)=>{
 	if (err) throw err;
 	if(Object.keys(result).length != 0){
 		console.log("Login User found")
+		//export user
+		let user = Object.assign(result[0],['name','username','','','cookie'])
 		result.purpose = "login" //set pupose to login as opposed to updating account...
-
 		//delete old cookie if available
 		res.clearCookie("user")
 
 		//create new cookie
-		res.cookie("user", result.cookie)
-		res.redirect('/' + result.username)
+		res.cookie("user", user.cookie)
+		res.redirect('/' + user.username)
 	} 
 	else{
 		console.log("User not found")
