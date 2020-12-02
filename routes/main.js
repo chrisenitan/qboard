@@ -78,38 +78,24 @@ approuter.get('/:username', (req, res) => {
     let userCookie = req.cookies.user
     console.log(userCookie + " cookie: " + userUsername)
 
-    let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername) + `AND id = ` + sqldb.escape(userCookie);
+    let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername) + `AND cookie = ` + sqldb.escape(userCookie);
     sqldb.query(checkForUser, (err, result)=>{
         if (err) throw err;
         
         if(Object.keys(result).length == 0){
             console.log("User not found.")
-            res.json({
-                message:"no user found"
+            res.status(204).json({
+                message:"no user found",
+                status: result.status
             })
         }
         //user found
         else{
-            console.log(result)
+           console.log(result)
            let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
            res.render("profile", foundUser)
         }
-    })
-/* 
-    //dummy data
-    //get user details from login form
-	let newUser = {
-		request: "login",
-		username: req.params.username,
-		email: req.params.email, //currently does not work as this is not sent from redrect cus the url only takes /username to check
-		bt: "req.body.bt"
-    }
-    
-    //show user logged in
-    //res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
-
-    res.render("profile", newUser) */
- 
+    }) 
 
 });
 
