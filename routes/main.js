@@ -73,39 +73,29 @@ approuter.get('/signup', (req, res) => {
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
-    /*
+    
     let userUsername = req.params.username
     let userCookie = req.cookies.user
     console.log(userCookie + " cookie: " + userUsername)
-    res.status(200).json({
-        message: "User found",
-        username: userUsername,
-        cookie: userCookie
-    })
 
-    let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername) + `AND WHERE cookie = ` + sqldb.escape(userCookie);
+    let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername) + `AND id = ` + sqldb.escape(userCookie);
     sqldb.query(checkForUser, (err, result)=>{
         if (err) throw err;
         
-        if(Object.keys(result) == 0){
-            console.log("User not found")
+        if(Object.keys(result).length == 0){
+            console.log("User not found.")
+            res.json({
+                message:"no user found"
+            })
+        }
+        //user found
+        else{
+            console.log(result)
+           let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
+           res.render("profile", foundUser)
         }
     })
- */
-    //handle or check if user is loading or updating. 
-
-/* 	let userName = req.params.username
-	let question = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userName)
-
-	sqldb.query(question, (err, result)=>{
-		if(err) throw err;
-		//populate user data
-		let user = Object.assign(result[0], ["name","email","username"]);
-	    res.render("profile", user); 
-
-    }) */
-
-
+/* 
     //dummy data
     //get user details from login form
 	let newUser = {
@@ -118,13 +108,25 @@ approuter.get('/:username', (req, res) => {
     //show user logged in
     //res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
 
-    res.render("profile", newUser)
+    res.render("profile", newUser) */
  
 
 });
 
 //save new peofile...
 approuter.post('/:username', (req, res) => {
+ //handle or check if user is loading or updating. 
+
+/* 	let userName = req.params.username
+	let question = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userName)
+
+	sqldb.query(question, (err, result)=>{
+		if(err) throw err;
+		//populate user data
+		let user = Object.assign(result[0], ["name","email","username"]);
+	    res.render("profile", user); 
+
+    }) */
 
 })
 
