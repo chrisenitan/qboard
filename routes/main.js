@@ -98,7 +98,7 @@ approuter.get('/:username', (req, res) => {
            let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
            res.render("profile", foundUser)
         }
-    }) 
+    })
     }
     //not a cookie user, must be public page visit?
     else{
@@ -119,7 +119,7 @@ approuter.get('/:username', (req, res) => {
            let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
            res.render("profile", foundUser)
         }
-    }) 
+    })  
     }
     
     
