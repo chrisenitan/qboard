@@ -56,7 +56,7 @@ sqldb.query(getUser, (err, result)=>{
 		res.redirect('/' + user.username)
 	} 
 	else{
-		console.log("User not found")
+		console.log("User not found: accounts")
 		res.redirect("/login?message=userNotFound")
 	}
 })

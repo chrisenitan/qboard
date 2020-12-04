@@ -100,6 +100,7 @@ approuter.get('/:username', (req, res) => {
         }
     })
     }
+    
     //not a cookie user, must be public page visit?
     else{
         let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername)
@@ -108,10 +109,8 @@ approuter.get('/:username', (req, res) => {
         
         //all these are already done on main route. we should just collect the object or check if its a login or url vivist
         if(Object.keys(result).length == 0){
-            console.log("User not found.")
-            res.status(204).json({
-                message:"no user found"
-            })
+            console.log("User not found: main")
+            res.redirect("/login?message=userNotFound")
         }
         //user found
         else{
