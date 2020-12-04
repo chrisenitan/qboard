@@ -29,7 +29,13 @@
 </form>
 
 <button>New Question</button>
-<a href="/account/edit"><button>Edit profile</button></a>
+
+{{#self}}
+<br><br><a href="/account/edit"><button>Edit profile</button></a>
+{{/self}}
+{{^self}}
+{{/self}}
+
 
 
 

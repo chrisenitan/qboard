@@ -96,11 +96,12 @@ approuter.get('/:username', (req, res) => {
         else{
            console.log(result)
            let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
+           foundUser.self = true
            res.render("profile", foundUser)
         }
     })
     }
-    
+
     //not a cookie user, must be public page visit?
     else{
         let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername)
