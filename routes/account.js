@@ -120,13 +120,17 @@ approuter.get('/account', (req, res) => {
 //recovery, just incase anyone wants to rest their passowrd from a link
 approuter.get('/recovery', (req, res) => {
 
-	//password reset
-	//res.render("recovery");
+	res.render("account/recovery");
+	//send form to post route
 	
 });
 
 //recovery, collect user code and verify that token was correct the reset passowrd and ask user to login 
 approuter.post('/recovery', (req, res) => {
+
+	let requestingUser = {
+		username: req.body.username
+	}
 
 	//password reset
 	//	res.render("recovery");
