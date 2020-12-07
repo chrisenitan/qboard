@@ -36,11 +36,12 @@ approuter.post('/login', (req, res) => {
 		request: req.body.request,
 		username: req.body.username,
 		email: req.body.email,
+		password: req.body.password,
 		bt: req.body.bt
     }
 	
 //log user in and send user to profile page
-let getUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(newUser.username) + `LIMIT 1` 
+let getUser = `SELECT * FROM profiles WHERE username = ` + sqldb.escape(newUser.username) + ` AND password = ` + sqldb.escape(newUser.password) + `LIMIT 1` 
 sqldb.query(getUser, (err, result)=>{
 	if (err) throw err;
 	if(Object.keys(result).length != 0){

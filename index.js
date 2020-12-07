@@ -69,7 +69,7 @@ const mongoose = require("mongoose")
 mongoose.connect(
     process.env.Server,
     {useNewUrlParser: true, useUnifiedTopology: true},//require by mongo  
-).then(() => {console.log("Mongo Database Connected..."); console.log("\x1b[32mQboard ready... \x1b[0m  \n")})
+).then(() => {console.log("Mongo Database Connected..."); console.log("\x1b[32m...Qboard ready... \x1b[0m  \n")})
 
 //confirm connection
 mongoose.connection.on("error", err => {
