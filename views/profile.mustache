@@ -11,23 +11,33 @@
 
 <p>{{request}} successful. <br> Welcome to Q board</p>
 
+{{#self}}
 <p>Hello there {{username}} </p>
-
 <p>Your email is {{email}} </p>
-
-{{!-- let newUser = {
-		request: req.body.request,
-		username: req.body.username,
-		email: req.body.email,
-		bt: req.body.bt
-	} --}}
-
+{{/self}}
+{{^self}}
+<p>You are viewing @{{username}}'s profile </p>
+{{/self}}
 
 <form method="post" action="/account/logout">
 <input type="hidden" value="" name="bt">
-<button>Log Out</button>
+
 </form>
-<a href="/account/edit"><button>Edit profile</button></a>
+
+<button>New Question</button>
+
+{{#self}}
+<br><br><a href="/account/edit"><button>Edit profile</button></a>
+<form action="account/logout" method="post">
+<br><br><button>Log Out</button>
+<input type="hidden" value="" name="bt">
+<input type="hidden" value="{{username}}" name="username">
+<input type="hidden" value="lo" name="request">
+</form>
+{{/self}}
+{{^self}}
+{{/self}}
+
 
 
 

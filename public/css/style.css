@@ -77,3 +77,6 @@ label{
 	margin: auto;
 	margin-bottom: 10px;
 }
+form{
+	display: inline;
+}

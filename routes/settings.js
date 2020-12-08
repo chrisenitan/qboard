@@ -30,11 +30,27 @@ sqldb.connect((err) => {
 
 
 
-//EDIT APP SETTINGS
+//EDIT App account SETTINGS... deactivate etc
 approuter.get('/account', (req, res) => {
 
 	res.render("appSettings");
 
 });
+
+
+//app settings 
+approuter.get("/notifications", (req, res)=>{
+    //res.render("appSettings");
+})
+
+
+//app settings 
+approuter.get("/privacy_and_safety", (req, res)=>{
+    //res.render("appSettings");
+})
+
+
+
+
 
 module.exports = approuter;

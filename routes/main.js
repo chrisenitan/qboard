@@ -36,15 +36,19 @@ sqldb.connect((err) => {
 //HOME
 approuter.get('/', (req, res) => {
     const act = req.query.act
-    if(act == "logout"){
-        let data ={
-            ref: act,
-            message: `Successful ${act}`
-        } 
-        res.render("index", data)
-    }
-    else{
-    res.render("index")
+    switch (act) {
+        case "act":
+            let data = {
+                ref: act,
+                message: `Successful ${act}`
+            }
+            res.render("index", data)
+
+        break;
+
+        default:
+            res.render("index")
+
     }
 });
 
@@ -57,7 +61,7 @@ approuter.get('/login', (req, res) => {
        res.render("login",request);
     }
     else{
-        res.render("login");
+       res.render("login");
     }
 
 });
@@ -73,29 +77,68 @@ approuter.get('/signup', (req, res) => {
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
-    /*
-    let userUsername = req.params.username
-    let userCookie = req.cookies.user
-    console.log(userCookie + " cookie: " + userUsername)
-    res.status(200).json({
-        message: "User found",
-        username: userUsername,
-        cookie: userCookie
-    })
+    //check if own profile or not
 
-    let checkForUser = `SELECT * FROM posts WHERE username =` + sqldb.escape(userUsername) + `AND WHERE cookie = ` + sqldb.escape(userCookie);
+    let userUsername = req.params.username
+
+    if(req.cookies.user != undefined){
+        //login cookie user
+        let userCookie = req.cookies.user
+        console.log(userCookie + " cookie: " + userUsername)
+        let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername) + `AND cookie = ` + sqldb.escape(userCookie);
     sqldb.query(checkForUser, (err, result)=>{
         if (err) throw err;
         
-        if(Object.keys(result) == 0){
-            console.log("User not found")
+        //all these are already done on main route. we should just collect the object or check if its a login or url vivist
+        if(Object.keys(result).length == 0){
+            console.log("User not found.")
+            res.status(204).json({
+                message:"no user found"
+            })
+        }
+        //user found
+        else{
+           console.log(result)
+           let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
+           foundUser.self = true
+           res.render("profile", foundUser)
         }
     })
- */
-    //handle or check if user is loading or updating. 
+    }
+
+    //not a cookie user, must be public page visit?
+    else{
+        let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername)
+    sqldb.query(checkForUser, (err, result)=>{
+        if (err) throw err;
+        
+        //all these are already done on main route. we should just collect the object or check if its a login or url vivist
+        if(Object.keys(result).length == 0){
+            console.log("User not found: main")
+            res.redirect("/login?message=userNotFound")
+        }
+        //user found
+        else{
+           console.log(result)
+           let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
+           res.render("profile", foundUser)
+        }
+    })  
+    }
+    
+    
+   
+
+    
+
+});
+
+//save new peofile...
+approuter.post('/:username', (req, res) => {
+ //handle or check if user is loading or updating. 
 
 /* 	let userName = req.params.username
-	let question = `SELECT * FROM posts WHERE username =` + sqldb.escape(userName)
+	let question = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userName)
 
 	sqldb.query(question, (err, result)=>{
 		if(err) throw err;
@@ -105,24 +148,13 @@ approuter.get('/:username', (req, res) => {
 
     }) */
 
+})
 
-    //dummy data
-    //get user details from login form
-	let newUser = {
-		request: "login",
-		username: req.params.username,
-		email: req.params.email, //currently does not work as this is not sent from redrect cus the url only takes /username to check
-		bt: "req.body.bt"
-    }
-    
-    //show user logged in
-    //res.send("profile page reached" + ` welcome ${newUser.username}, your email is ${newUser.email}`)
 
-    res.render("profile", newUser)
- 
+//explore tags and other topics
+approuter.get("/explore", (req, res)=>{
 
-});
-
+})
 
 
 

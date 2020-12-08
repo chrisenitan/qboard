@@ -36,26 +36,28 @@ approuter.post('/login', (req, res) => {
 		request: req.body.request,
 		username: req.body.username,
 		email: req.body.email,
+		password: req.body.password,
 		bt: req.body.bt
     }
 	
 //log user in and send user to profile page
-let getUser = `SELECT * FROM posts WHERE username =` + sqldb.escape(newUser.username) + `LIMIT 1` 
+let getUser = `SELECT * FROM profiles WHERE username = ` + sqldb.escape(newUser.username) + ` AND password = ` + sqldb.escape(newUser.password) + `LIMIT 1` 
 sqldb.query(getUser, (err, result)=>{
 	if (err) throw err;
 	if(Object.keys(result).length != 0){
 		console.log("Login User found")
+		//export user
+		let user = Object.assign(result[0],['name','username','','','cookie'])
 		result.purpose = "login" //set pupose to login as opposed to updating account...
-
 		//delete old cookie if available
 		res.clearCookie("user")
 
 		//create new cookie
-		res.cookie("user", result.cookie)
-		res.redirect('/' + result.username)
+		res.cookie("user", user.cookie)
+		res.redirect('/' + user.username)
 	} 
 	else{
-		console.log("User not found")
+		console.log("User not found: accounts")
 		res.redirect("/login?message=userNotFound")
 	}
 })
@@ -118,13 +120,17 @@ approuter.get('/account', (req, res) => {
 //recovery, just incase anyone wants to rest their passowrd from a link
 approuter.get('/recovery', (req, res) => {
 
-	//password reset
-	//res.render("recovery");
+	res.render("account/recovery");
+	//send form to post route
 	
 });
 
 //recovery, collect user code and verify that token was correct the reset passowrd and ask user to login 
 approuter.post('/recovery', (req, res) => {
+
+	let requestingUser = {
+		username: req.body.username
+	}
 
 	//password reset
 	//	res.render("recovery");
@@ -136,11 +142,19 @@ approuter.post('/recovery', (req, res) => {
 approuter.post('/create', (req, res) => {
 	const {cookies} = req
 
+	//create random id
+	var ranId = ""
+	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+	for(var i = 0; i < 8; i++){
+		ranId += characters.charAt(Math.floor(Math.random) * characters.length)
+	}
+
 	//get user details from login form
 	let newUser = {
 		request: req.body.request,
 		name: req.body.name,
 		username: req.body.username,
+		id: ranId,
 		email: req.body.email,
 		bt: req.body.bt
 	}
@@ -148,18 +162,15 @@ approuter.post('/create', (req, res) => {
 	//check for cookie 
 	if("user" in cookies){
 		//get user from cookie and redirect user to page
-		/* let question = `SELECT * FROM posts`;
+		let question = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user);
 		sqldb.query(question, (err, result)=>{
-		if(err) throw err; */
-	
+		if(err) throw err; 
 		console.log("user cookie provided")
-
 	//check if cookie matches db
 	//check if cookie matches broser setup
 
-		//})
+		})
 	}
-
 	//no cookie found, check if user is loggin in or signing up
 	else{
 		//sign up
@@ -170,25 +181,25 @@ approuter.post('/create', (req, res) => {
 				}
 				else{
 					//prevent signup with protected usernames again
-					let checkProtectedUsernames = `SELECT * FROM posts WHERE email =` +
+					let checkProtectedUsernames = `SELECT * FROM protectedUsernames WHERE username =` + sqldb.escape(newUser.username) + `OR id =` + sqldb.escape(newUser.id)
 					sqldb.escape(newUser.username)	
-					sqldb.query(checkProtectedUsernames, (err, result)=>{
+					sqldb.query(checkProtectedUsernames, (err, protected)=>{
 						if (err) throw err;
 
-							if(!result[0]){
-								console.log("Username is allowed")
+							if(Object.keys(protected).length == 0){
+								console.log("Username or ID is allowed")
 
 								//check if user never existed
-								let question = `SELECT * FROM posts WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username);
+								let question = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(newUser.email) + `OR username = ` + sqldb.escape(newUser.username) + `OR ID = ` + sqldb.escape(newUser.id);
 								sqldb.query(question, (err, result)=>{
 									if(err) throw err;
 				
 										if(Object.keys(result).length == 0){
 										//register new user
-										let question = 'INSERT INTO posts SET ?'
-										sqldb.query(question, newUser, (err, result, fields)=>{
-											if(err) throw err;
-											newUser.id = result.insertId
+										let question = 'INSERT INTO profiles SET ?'
+										sqldb.query(question, newUser, (failed, returnedUser, fields)=>{
+											if(failed) throw failed;
+											newUser.id = returnedUser.insertId
 											res.render("account/onboard", newUser)
 				
 										})
@@ -205,17 +216,18 @@ approuter.post('/create', (req, res) => {
 							console.log("Username is part of restricted names")
 							let faqref = {
 							reason: "protectedUsername",
-							ref: newUser.username
+							user: newUser.username
 							}
 							res.render("faq", faqref);
 							return false;
 						}
 					})
 				}
-				console.log("User is not signing up. What else?")
+				console.log("User signing up, but not but and still did not sign up?")
 		}
 			else{
-					//not handled. might not be a signup
+				console.log("Page hit with minimal post params and cookie. Ask for sign up")
+				res.send("register please")
 			}
 	}
 })

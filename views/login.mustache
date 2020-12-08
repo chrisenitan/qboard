@@ -18,17 +18,17 @@
 <form action="/account/login" method="post">
 
 <label for="username">Your Username</label><br>
-<input type="text" name="username" placeholder="Username" value="crisenitan" required /><br><br>
+<input type="text" name="username" placeholder="Username" value="enchrised" required /><br><br>
 
 <label for="username">Your Password</label><br>
-<input type="password" name="password" placeholder="Password" required /><br><br>
+<input type="password" name="password" placeholder="Password" value="abcdefg" required /><br><br>
 
-<input type="hidden" name="bt" value=""/><br><br>
+<input type="hidden" name="bt" value=""/>
+<input type="hidden" name="request" value="login" placeholder="Username"/>
 
-<input type="hidden" name="request" value="login" placeholder="Username"/><br><br>
+<button>Log In</button><br><br>
 
-
-<button>Log In</button>
+<a href="/account/recovery"><label for="username">Forgot password?</label></a><br>
 
 
 </form>
