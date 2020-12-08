@@ -28,7 +28,12 @@
 
 {{#self}}
 <br><br><a href="/account/edit"><button>Edit profile</button></a>
+<form action="account/logout" method="post">
 <br><br><button>Log Out</button>
+<input type="hidden" value="" name="bt">
+<input type="hidden" value="{{username}}" name="username">
+<input type="hidden" value="lo" name="request">
+</form>
 {{/self}}
 {{^self}}
 {{/self}}
