@@ -1,6 +1,6 @@
 body{
 	background-color: #384150;
-	font-family: 'Rubik';
+	font-family: 'Montserrat', sans-serif;
 	text-align: center;
 	width:100%;
 	max-width: 500px;
@@ -18,7 +18,7 @@ h{
 }
 .wtxt{
 	color:#fff;
-	font-family: Raleway;
+	font-family: 'Montserrat', sans-serif;
 }
 img{
 	width: auto;
@@ -29,13 +29,18 @@ li{
 	color: #fff;
 }
 input{
-	height: 30px;
-	width: 210px;
-	background-color: transparent;
-	border: 1px solid #a9a9a9;
-	border-radius: 3px;
-	color: #fff;
-	padding: 5px;
+	height: 40px;
+    width: 210px;
+    background-color: #262d39;
+    border: none;
+    color: #fff;
+    outline: none;
+    padding: 10px;
+    padding-left: 5%;
+    padding-right: 5%;
+    border-radius: 5px;
+	font-size: 14px;
+	font-family: 'Montserrat', sans-serif;
 }
 button{
 	height: 30px;
@@ -53,7 +58,7 @@ textarea{
 	border-radius: 3px;
 	color: #fff;
 	padding: 5px;
-	font-family: Rubik;
+	font-family: 'Montserrat', sans-serif;
 }
 .bookPost{
 	text-align: left;
