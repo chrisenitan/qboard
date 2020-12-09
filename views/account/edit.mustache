@@ -6,9 +6,9 @@
 	</head>
 
 	<body>
-<img src="/images/art.jpg"/>
+<a href="/"><img src="/images/art.jpg"/></a>
 
-<p>Hello {{user}}</p>
+<p>Hello {{username}}</p>
 
 <p>Welcome to Qboard</p>
 
@@ -17,14 +17,17 @@
 <form action="/{{username}}" method="post">
 
 <label for="username">Account Name</label><br>
-<input type="text" name="name" placeholder="Name" value="{{username}}" required /><br><br>
+<input type="text" name="accountname" placeholder="Name" value="{{name}}" required /><br><br>
+
+<label for="username">Username</label><br>
+<input type="text" name="username" placeholder="Name" value="{{username}}" required /><br><br>
 
 <label for="username">Date of birth</label><br>
 <input type="date" name="dob" placeholder="dd.mm.yyy" required /><br><br>
 
 <label for="username">Account Hint</label><br>
 <textarea name="password" required/>
-Say something to people who may know you, though even they would have to do some digging...
+{{hint}}
 </textarea><br><br>
 
 <input type="hidden" name="bt" value=""/>
