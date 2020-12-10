@@ -99,7 +99,7 @@ approuter.get('/:username', (req, res) => {
         //user found
         else{
            console.log(result)
-           let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
+           let foundUser = result[0]
            foundUser.self = true
            res.render("profile", foundUser)
         }
