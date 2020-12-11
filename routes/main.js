@@ -56,11 +56,15 @@ approuter.get('/', (req, res) => {
 //LOG IN
 approuter.get('/login', (req, res) => {
     var request = req.query
+
+    //check if a request was sent to page
     if(Object.keys(request).length != 0){
        console.log(`Redirected because ${request.message}`)
        res.render("login",request);
     }
     else{
+        //check if cookie exixts
+        
        res.render("login");
     }
 
