@@ -63,9 +63,24 @@ approuter.get('/login', (req, res) => {
        res.render("login",request);
     }
     else{
-        //check if cookie exixts
-        
-       res.render("login");
+        //check if cookie exists
+        if(req.cookies.user){
+            //get user from cookie
+            let checkForUser = `SELECT * FROM profiles WHERE cookie =` + sqldb.escape(req.cookies.user);
+            sqldb.query(checkForUser, (err, result)=>{
+                if (err) throw err;
+                
+                if(Object.keys(result).length != 0){
+                    let foundCookieUser = result[0]
+                    res.redirect(`/${foundCookieUser.username}`)
+                }
+
+            })
+        }
+        //no cookie
+        else{
+            res.render("login");
+        }
     }
 
 });
