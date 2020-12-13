@@ -29,7 +29,6 @@ sqldb.connect((err) => {
 })
 
 
-
 //EDIT App account SETTINGS... deactivate etc
 approuter.get('/account', (req, res) => {
 

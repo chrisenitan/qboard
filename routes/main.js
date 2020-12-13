@@ -56,12 +56,31 @@ approuter.get('/', (req, res) => {
 //LOG IN
 approuter.get('/login', (req, res) => {
     var request = req.query
+
+    //check if a request was sent to page
     if(Object.keys(request).length != 0){
        console.log(`Redirected because ${request.message}`)
        res.render("login",request);
     }
     else{
-       res.render("login");
+        //check if cookie exists
+        if(req.cookies.user){
+            //get user from cookie
+            let checkForUser = `SELECT * FROM profiles WHERE cookie =` + sqldb.escape(req.cookies.user);
+            sqldb.query(checkForUser, (err, result)=>{
+                if (err) throw err;
+                
+                if(Object.keys(result).length != 0){
+                    let foundCookieUser = result[0]
+                    res.redirect(`/${foundCookieUser.username}`)
+                }
+
+            })
+        }
+        //no cookie
+        else{
+            res.render("login");
+        }
     }
 
 });
@@ -99,7 +118,7 @@ approuter.get('/:username', (req, res) => {
         //user found
         else{
            console.log(result)
-           let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
+           let foundUser = result[0]
            foundUser.self = true
            res.render("profile", foundUser)
         }
@@ -133,20 +152,60 @@ approuter.get('/:username', (req, res) => {
 
 });
 
-//save new peofile...
+//update profile
 approuter.post('/:username', (req, res) => {
- //handle or check if user is loading or updating. 
+    //get form data
+    let currentUser = req.params.username
+    let newUserData = req.body
+    let userBrowserCookie = req.cookies.user
 
-/* 	let userName = req.params.username
-	let question = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userName)
+    //if cookie is available
+    if(userBrowserCookie){
+        //verify cookie is equal
+        let verifyCookie = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(userBrowserCookie) + `AND username = ` + sqldb.escape(currentUser)
+        sqldb.query(verifyCookie, (err, safeCookie)=>{
+            if (err) throw err
+            if(Object.keys(safeCookie).length != 0){
+    
+                sqldb.query('UPDATE profiles SET name = ?, username = ?, dob = ?, hint = ? WHERE cookie = ?', [`${newUserData.accountname}`, `${newUserData.username}`, `${newUserData.dob}`, `${newUserData.hint}`, `${userBrowserCookie}`], (err, result, fields)=>{
+                    if(err) throw err;
+                    //now we have to refetch teh user data and render profile page as placeholder
 
-	sqldb.query(question, (err, result)=>{
-		if(err) throw err;
-		//populate user data
-		let user = Object.assign(result[0], ["name","email","username"]);
-	    res.render("profile", user); 
+                    let getUpdatedUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(userBrowserCookie) + `AND username = ` + sqldb.escape(newUserData.username)
+                    sqldb.query(getUpdatedUser, (err, gottenNewUser)=>{
+                        if (err) throw err
+                        if(Object.keys(gottenNewUser).length != 0){
+                            console.log("Successful account update and fetch")
+                            let fetchedNewUserData = gottenNewUser[0]
+                            fetchedNewUserData.updated = true
+                            fetchedNewUserData.self = true
+                            res.render("profile", fetchedNewUserData)
+                        }
+                        else{
+                            console.log("Could not fetch account that was just saved :( retry")
+                            res.json({
+                                newUserData,
+                                message: "not successful fetch"
+                            })
+                        }
+                    })
+                }) 
+            }
+            else{
+                //cookie and username dont match
+                console.log("cookie and username does not match")
+                res.send("cookie and username does not match")
+            }
+        })
 
-    }) */
+
+       
+    }
+    else{
+        //cookie not in browser while update wa srequested.
+    }
+
+
 
 })
 

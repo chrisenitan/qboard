@@ -5,7 +5,6 @@ const app = express();
 var cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
-
 //set env file
 require("dotenv").config();
 
@@ -43,15 +42,15 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 
-//set and imoort router for sql links
+//main route for everything that ends up on home
 const main = require("./routes/main")
 app.use("/", middle, validateCookie, main);
 
-//set and imoort router for sql links
+//app settings mostly, notificatons, privacy...
 const settings = require("./routes/settings")
 app.use("/settings", settings); 
 
-//set and imoort router for all links
+//account related actions, create edit...
 const account = require("./routes/account")
 app.use("/account", account);
 
@@ -75,7 +74,6 @@ mongoose.connect(
 mongoose.connection.on("error", err => {
     console.log(`Error connecting to Mongo Database: ${err.message}`)
 })
-
 
 
 //create a port and start server
