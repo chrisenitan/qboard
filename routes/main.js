@@ -171,12 +171,23 @@ approuter.post('/:username', (req, res) => {
                     if(err) throw err;
                     //now we have to refetch teh user data and render profile page as placeholder
 
-                    /* placeholder.profileUpdated = true
-                    let placeholder = result[0]
-                    res.render("profile", placeholder); 
-                    */
-                    res.json({
-                        newUserData
+                    let getUpdatedUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(userBrowserCookie) + `AND username = ` + sqldb.escape(newUserData.username)
+                    sqldb.query(getUpdatedUser, (err, gottenNewUser)=>{
+                        if (err) throw err
+                        if(Object.keys(gottenNewUser).length != 0){
+                            console.log("Successful account update and fetch")
+                            let fetchedNewUserData = gottenNewUser[0]
+                            fetchedNewUserData.updated = true
+                            fetchedNewUserData.self = true
+                            res.render("profile", fetchedNewUserData)
+                        }
+                        else{
+                            console.log("Could not fetch account that was just saved :( retry")
+                            res.json({
+                                newUserData,
+                                message: "not successful fetch"
+                            })
+                        }
                     })
                 }) 
             }
