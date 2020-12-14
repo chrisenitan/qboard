@@ -159,15 +159,18 @@ approuter.post('/create', (req, res) => {
 	if("user" in cookies){
 		//get user from cookie and redirect user to page
 		let question = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user);
-		sqldb.query(question, (err, result)=>{
+		sqldb.query(question, (err, fetchUserFromCookie)=>{
 		if(err) throw err; 
-		console.log("user cookie provided")
-	//check if cookie matches db
-	//check if cookie matches broser setup
+		
+		if(Objeck.keys(fetchUserFromCookie).length != 0){
+			console.log("user cookie found")
+			let gotUserFromCookie = fetchUserFromCookie[0]
+			res.redirect(`/${gotUserFromCookie.username}`)
+		}
 
 		})
 	}
-	//no cookie found, check if user is loggin in or signing up
+	//no cookie found, check if user is loggin in or signing up. just do this
 	else{
 		//sign up
 		if(newUser.request == "signup"){
