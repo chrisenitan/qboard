@@ -136,7 +136,6 @@ approuter.post('/recovery', (req, res) => {
 
 // sign up .. CREATE ACCOUNT QUERY BASED
 approuter.post('/create', (req, res) => {
-	const {cookies} = req
 
 	//create random id
 	var ranId = ""
@@ -154,9 +153,10 @@ approuter.post('/create', (req, res) => {
 		email: req.body.email,
 		bt: req.body.bt
 	}
+	console.log(req.cookies.user)
 
 	//check for cookie 
-	if("user" in cookies){
+	if(req.cookies.user){
 		//get user from cookie and redirect user to page
 		let question = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user);
 		sqldb.query(question, (err, fetchUserFromCookie)=>{
@@ -196,6 +196,8 @@ approuter.post('/create', (req, res) => {
 										if(Object.keys(result).length == 0){
 										//register new user
 										let question = 'INSERT INTO profiles SET ?'
+										//sanitise newUser object 
+										delete newUser.request; delete newUser.bt
 										sqldb.query(question, newUser, (failed, returnedUser, fields)=>{
 											if(failed) throw failed;
 											newUser.id = returnedUser.insertId
