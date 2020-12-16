@@ -27,6 +27,16 @@ sqldb.connect((err) => {
       console.log(`Connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
 
+//quick delete user. not part of code 
+approuter.get("/delete/:username", (req, res)=>{
+	let userToDelete = req.params.username
+	let deleteUser = `DELETE FROM profiles WHERE username = ` + sqldb.escape(userToDelete)
+	sqldb.query(deleteUser, (err, result)=>{
+		if (err) throw err
+		res.send(`${userToDelete} Deleted: Confirm ${result.affectedRows}`)
+	})
+})
+
 
 //Get user
 approuter.post('/login', (req, res) => {
