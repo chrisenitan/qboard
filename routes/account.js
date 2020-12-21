@@ -27,6 +27,32 @@ sqldb.connect((err) => {
       console.log(`Connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
 
+//quick delete user. not part of code 
+approuter.get("/delete/:username", (req, res)=>{
+	let userToDelete = req.params.username
+	let deleteUser = `DELETE FROM profiles WHERE username = ` + sqldb.escape(userToDelete)
+	sqldb.query(deleteUser, (err, result)=>{
+		if (err) throw err
+		res.send(`${userToDelete} Deleted: Confirm ${result.affectedRows}`)
+	})
+})
+
+//get all users 
+approuter.get("/all", (req, res)=>{
+	let deleteUser = `SELECT * FROM profiles WHERE username != '' `
+	sqldb.query(deleteUser, (err, result)=>{
+		if (err) throw err
+		
+		if(Object.keys(result) != 0){
+			res.json({result})
+		}
+		else{
+
+		}
+
+	})
+})
+
 
 //Get user
 approuter.post('/login', (req, res) => {
@@ -136,7 +162,6 @@ approuter.post('/recovery', (req, res) => {
 
 // sign up .. CREATE ACCOUNT QUERY BASED
 approuter.post('/create', (req, res) => {
-	const {cookies} = req
 
 	//create random id
 	var ranId = ""
@@ -154,20 +179,24 @@ approuter.post('/create', (req, res) => {
 		email: req.body.email,
 		bt: req.body.bt
 	}
+	console.log(req.cookies.user)
 
 	//check for cookie 
-	if("user" in cookies){
+	if(req.cookies.user){
 		//get user from cookie and redirect user to page
 		let question = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user);
-		sqldb.query(question, (err, result)=>{
+		sqldb.query(question, (err, fetchUserFromCookie)=>{
 		if(err) throw err; 
-		console.log("user cookie provided")
-	//check if cookie matches db
-	//check if cookie matches broser setup
+		
+		if(Objeck.keys(fetchUserFromCookie).length != 0){
+			console.log("user cookie found")
+			let gotUserFromCookie = fetchUserFromCookie[0]
+			res.redirect(`/${gotUserFromCookie.username}`)
+		}
 
 		})
 	}
-	//no cookie found, check if user is loggin in or signing up
+	//no cookie found, check if user is loggin in or signing up. just do this
 	else{
 		//sign up
 		if(newUser.request == "signup"){
@@ -193,6 +222,8 @@ approuter.post('/create', (req, res) => {
 										if(Object.keys(result).length == 0){
 										//register new user
 										let question = 'INSERT INTO profiles SET ?'
+										//sanitise newUser object 
+										delete newUser.request; delete newUser.bt
 										sqldb.query(question, newUser, (failed, returnedUser, fields)=>{
 											if(failed) throw failed;
 											newUser.id = returnedUser.insertId
