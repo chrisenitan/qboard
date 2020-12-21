@@ -37,9 +37,8 @@ approuter.get("/delete/:username", (req, res)=>{
 	})
 })
 
-//quick delete user. not part of code 
+//get all users 
 approuter.get("/all", (req, res)=>{
-	let userToDelete = req.params.username
 	let deleteUser = `SELECT * FROM profiles WHERE username != '' `
 	sqldb.query(deleteUser, (err, result)=>{
 		if (err) throw err
