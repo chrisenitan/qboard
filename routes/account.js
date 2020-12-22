@@ -33,6 +33,7 @@ approuter.get("/delete/:username", (req, res)=>{
 	let deleteUser = `DELETE FROM profiles WHERE username = ` + sqldb.escape(userToDelete)
 	sqldb.query(deleteUser, (err, result)=>{
 		if (err) throw err
+		res.clearCookie("user")
 		res.send(`${userToDelete} Deleted: Confirm ${result.affectedRows}`)
 	})
 })
