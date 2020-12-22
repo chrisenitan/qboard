@@ -43,11 +43,11 @@ approuter.get("/all", (req, res)=>{
 	sqldb.query(deleteUser, (err, result)=>{
 		if (err) throw err
 		
-		if(Object.keys(result) != 0){
+		if(Object.keys(result).length != 0){
 			res.json({result})
 		}
 		else{
-
+			res.json("No user found")
 		}
 
 	})
@@ -159,6 +159,11 @@ approuter.post('/recovery', (req, res) => {
 	
 });
 
+//page reload and stuff. should be handled with a 404
+approuter.get("/create", (req, res)=>{
+	res.redirect("/")
+})
+
 
 // sign up .. CREATE ACCOUNT QUERY BASED
 approuter.post('/create', (req, res) => {
@@ -177,6 +182,7 @@ approuter.post('/create', (req, res) => {
 		username: req.body.username,
 		id: ranId,
 		email: req.body.email,
+		cookie: "testcookie",
 		bt: req.body.bt
 	}
 	console.log(req.cookies.user)
@@ -221,14 +227,17 @@ approuter.post('/create', (req, res) => {
 				
 										if(Object.keys(result).length == 0){
 										//register new user
-										let question = 'INSERT INTO profiles SET ?'
+										let insertUser = 'INSERT INTO profiles SET ?'
 										//sanitise newUser object 
 										delete newUser.request; delete newUser.bt
-										sqldb.query(question, newUser, (failed, returnedUser, fields)=>{
+										sqldb.query(insertUser, newUser, (failed, returnedUser, fields)=>{
 											if(failed) throw failed;
-											newUser.id = returnedUser.insertId
-											res.render("account/onboard", newUser)
-				
+											//user was registered
+											if(returnedUser.insertId != undefined){
+												res.cookie("user", newUser.cookie)
+												newUser.id = returnedUser.insertId
+												res.render("account/onboard", newUser)
+											}
 										})
 										}
 										//user found in db, should never happen if we prewarn usernames, send to profile. 
