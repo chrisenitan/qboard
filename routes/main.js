@@ -36,20 +36,32 @@ sqldb.connect((err) => {
 //HOME
 approuter.get('/', (req, res) => {
     const act = req.query.act
-    switch (act) {
-        case "act":
+
+    //check for cookie user
+    if(req.cookies.user){
+        let getUserByCookie = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user)
+        sqldb.query(getUserByCookie, (err, userByCookie)=>{
+            if (err) throw err
+            if(Object.keys(userByCookie).length != 0){
+                let username = userByCookie[0].username
+                res.redirect(`/${username}`)
+            }
+        })
+    }
+    else{
+        if(act == "act"){
             let data = {
                 ref: act,
                 message: `Successful ${act}`
             }
             res.render("index", data)
-
-        break;
-
-        default:
+        }
+        else{
             res.render("index")
-
+        }
     }
+    
+   
 });
 
 
