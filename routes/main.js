@@ -227,6 +227,18 @@ approuter.get("/explore", (req, res)=>{
 
 })
 
+//faq route to get wth parans code
+approuter.get("/faq/:code", (req, res)=>{
+    let reqCode = req.params.code
+    let checkCode = `SELECT * FROM faq WHERE code = ` + sqldb.escape(reqCode)
+    sqldb.query(checkCode, (err, codeDetails)=>{
+        if (err) throw err
+        if(Object.keys(result).length != 0){
+            let codeData = codeDetails[0]
+            res.render("/faq", codeData)
+        }
+    })
+})
 
 
 module.exports = approuter;
