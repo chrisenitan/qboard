@@ -233,9 +233,9 @@ approuter.get("/faq/:code", (req, res)=>{
     let checkCode = `SELECT * FROM faq WHERE code = ` + sqldb.escape(reqCode)
     sqldb.query(checkCode, (err, codeDetails)=>{
         if (err) throw err
-        if(Object.keys(result).length != 0){
+        if(Object.keys(codeDetails).length != 0){
             let codeData = codeDetails[0]
-            res.render("/account/faq", codeData)
+            res.render("account/faq", codeData)
         }
     })
 })
