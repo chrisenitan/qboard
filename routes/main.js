@@ -235,7 +235,7 @@ approuter.get("/faq/:code", (req, res)=>{
         if (err) throw err
         if(Object.keys(result).length != 0){
             let codeData = codeDetails[0]
-            res.render("/faq", codeData)
+            res.render("/account/faq", codeData)
         }
     })
 })
