@@ -230,14 +230,30 @@ approuter.get("/explore", (req, res)=>{
 //faq route to get wth parans code
 approuter.get("/faq/:code", (req, res)=>{
     let reqCode = req.params.code
-    let checkCode = `SELECT * FROM faq WHERE code = ` + sqldb.escape(reqCode)
-    sqldb.query(checkCode, (err, codeDetails)=>{
-        if (err) throw err
-        if(Object.keys(codeDetails).length != 0){
-            let codeData = codeDetails[0]
-            res.render("account/faq", codeData)
-        }
-    })
+
+    if(reqCode){
+        let checkCode = `SELECT * FROM faq WHERE code = ` + sqldb.escape(reqCode)
+        sqldb.query(checkCode, (err, codeDetails)=>{
+            if (err) throw err
+            if(Object.keys(codeDetails).length != 0){
+                let codeData = codeDetails[0]
+                res.render("account/faq", codeData)
+            }
+            else{
+                //nothing found on code given
+                let getDefaultErrorCode = `SELECT * FROM faq WHERE code = 'ERCD1' `
+                sqldb.query(getDefaultErrorCode, (err, errCode)=>{
+                    let codeData = errCode[0]
+                    res.render("account/faq", codeData)
+                })
+            }
+        })
+    }
+    //no code given. load page normally
+    else{
+
+    }
+ 
 })
 
 
