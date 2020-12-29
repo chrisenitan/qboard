@@ -70,9 +70,21 @@ approuter.get('/login', (req, res) => {
     var request = req.query
 
     //check if a request was sent to page
-    if(Object.keys(request).length != 0){
-       console.log(`Redirected because ${request.message}`)
-       res.render("login",request);
+    if(request.a){
+        console.log(`Redirected because ${request.a}`)
+        switch (request.a) {
+            case "userNotFound":
+            let loginContent = {
+                message: request.a,
+                details: "We could not find any account for the username you tried to log in"
+            }
+            res.render("login", loginContent);
+            break;
+
+            default:
+            break;
+        }
+       
     }
     else{
         //check if cookie exists
@@ -146,7 +158,7 @@ approuter.get('/:username', (req, res) => {
         //all these are already done on main route. we should just collect the object or check if its a login or url vivist
         if(Object.keys(result).length == 0){
             console.log("User not found: main")
-            res.redirect("/login?message=userNotFound")
+            res.redirect("/login?a=userNotFound")
         }
         //user found
         else{

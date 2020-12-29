@@ -13,7 +13,10 @@
 
 <p>Please login to your account below</p>
 
-<p>{{message}}</p>
+{{#message}}
+<p>{{message}}<br>
+{{details}}</p>
+{{/message}}
 
 <form action="/account/login" method="post">
 
