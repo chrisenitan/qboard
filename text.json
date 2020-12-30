@@ -1,0 +1,5 @@
+{
+    "userNotFound":{
+        "details": "We could not find any account for the username you tried to log in."
+    }
+}

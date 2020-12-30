@@ -1,6 +1,7 @@
 
 const express = require('express'); //param body query
 const mysql   = require('mysql')
+const copy = require('../text.json')
 
 
 
@@ -76,7 +77,7 @@ approuter.get('/login', (req, res) => {
             case "userNotFound":
             let loginContent = {
                 message: request.a,
-                details: "We could not find any account for the username you tried to log in"
+                details: copy.userNotFound.details
             }
             res.render("login", loginContent);
             break;
