@@ -28,6 +28,21 @@ sqldb.connect((err) => {
     console.log(`Connected to Settings ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
 
+//create new question
+approuter.get("/new", (req, res)=>{
+    //cookie verify user can do this action
+    if(req.cookies.user){
+        console.log("You can make a new post")
+        res.render("new")
+    }
+    else{
+        res.redirect("/")
+    }
+
+
+})
+
+
 //Save new Question
 approuter.post('/create', (req, res) => {
     var rawQuestion = req

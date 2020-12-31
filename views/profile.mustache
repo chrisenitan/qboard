@@ -16,17 +16,17 @@
 
 {{#self}}
 <p>Hello there {{name}}. @{{username}} </p>
-<p>Your email is {{email}}<br>
-Registered date of birth is {{dob}}</p>
+<h class="wtxt">Your email is:</h> <p>{{email}}</p>
+
+<h class="wtxt">Date of birth:</h> <p>{{dob}}</p>
+
+<h class="wtxt">Profile hint:</h><p>{{hint}}</p>
 {{/self}}
 {{^self}}
 <p>You are viewing @{{username}}'s profile </p>
+
+<h class="wtxt">Profile hint:</h><p>{{hint}}</p>
 {{/self}}
-
-<form method="post" action="/account/logout">
-<input type="hidden" value="" name="bt">
-
-</form>
 
 <button>New Question</button>
 
