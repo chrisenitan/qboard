@@ -45,7 +45,7 @@ approuter.get("/new", (req, res)=>{
 
 //Save new Question
 approuter.post('/create', (req, res) => {
-    var rawQuestion = req
+    var rawQuestion = req.body
 
     //collect data valuable to user
     var userQuestion = {
@@ -54,7 +54,7 @@ approuter.post('/create', (req, res) => {
 
     //check for bot
     if(rawQuestion.bt != ""){
-        console.log("Bot found")
+        console.log(`${rawQuestion.bt} Bot found`)
     }
     else{
         //make a secure random string
@@ -65,13 +65,14 @@ approuter.post('/create', (req, res) => {
         }
         rawQuestion.ref = qRef 
         userQuestion.ref = qRef 
-        //post question
+        res.send(`you asked: ${req.body.q}`)
+        /* //post question
         let postQuestion = `INSERT INTO questions set ?`
         sqldb.query(postQuestion, rawQuestion, (err, result, fields)=>{
             if (err) throw err
             userQuestion.id = result.insertId
             res.render(`/question/:${userQuestion.ref}`, userQuestion)
-        })
+        }) */
     }
 	//res.render("editProfile");
 
