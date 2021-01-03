@@ -135,7 +135,7 @@ approuter.get('/:username', (req, res) => {
         
         //all these are already done on main route. we should just collect the object or check if its a login or url vivist
         if(Object.keys(result).length == 0){
-            console.log("User not found.")
+            console.log("User not found: /username")
             res.status(204).json({
                 message:"no user found"
             })

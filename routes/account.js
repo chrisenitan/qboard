@@ -123,7 +123,7 @@ approuter.get('/edit', (req, res) => {
 			res.render("account/edit", result[0])
 		}
 		else{
-			console.log("User not found")
+			console.log("User not found: edit account")
 			//what to do?
 			res.send("User not found")
 		}

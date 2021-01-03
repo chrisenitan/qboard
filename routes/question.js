@@ -45,15 +45,9 @@ approuter.get("/new", (req, res)=>{
 
 //Save new Question
 approuter.post('/create', (req, res) => {
-    var rawQuestion = req.body
-
-    //collect data valuable to user
-    var userQuestion = {
-        question: req.question
-    }
 
     //check for bot
-    if(rawQuestion.bt != ""){
+    if(req.body.bt != ""){
         console.log(`${rawQuestion.bt} Bot found`)
     }
     else{
@@ -63,10 +57,19 @@ approuter.post('/create', (req, res) => {
         for(var i = 0; i < 7; i++){
             qRef += chars.charAt(Math.floor(Math.random(52) * chars.length))
         }
-        rawQuestion.ref = qRef 
-        userQuestion.ref = qRef 
-        res.send(`you asked: ${req.body.q}`)
-        /* //post question
+        var nDate = new Date()
+        let question = {
+            questions: req.body.q,
+            datePosted: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
+            lastEdit: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
+            refID: qRef,
+            ownerID: "ws",
+            ownerUsername: "chris"
+        }
+        res.send(`you asked: ${req.body.q} and you ref is ${qRef}`)
+        console.log(question)
+
+       /*  //post question
         let postQuestion = `INSERT INTO questions set ?`
         sqldb.query(postQuestion, rawQuestion, (err, result, fields)=>{
             if (err) throw err
