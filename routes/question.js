@@ -47,7 +47,7 @@ approuter.get("/new", (req, res)=>{
 approuter.post('/create', (req, res) => {
 
     //check for bot
-    if(req.body.bt != ""){
+    if(req.body.bt != "" || req.cookies.user == undefined){
         console.log(`${rawQuestion.bt} Bot found`)
     }
     else{
@@ -58,16 +58,25 @@ approuter.post('/create', (req, res) => {
             qRef += chars.charAt(Math.floor(Math.random(52) * chars.length))
         }
         var nDate = new Date()
-        let question = {
+        //create question object
+         var question = {
             questions: req.body.q,
             datePosted: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
             lastEdit: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
-            refID: qRef,
-            ownerID: "ws",
-            ownerUsername: "chris"
+            refID: qRef
         }
+        //get user from cookie
+        let getCookieUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user)
+        sqldb.query(getCookieUser, (err, cookieUser)=>{
+            if(err) throw err
+            if(Object.keys(cookieUser).length != 0){
+                question.ownerID = cookieUser[0].id
+                question.ownerUsername = cookieUser[0].username
+            }
+        })
+       
         res.send(`you asked: ${req.body.q} and you ref is ${qRef}`)
-        console.log(question)
+        console.log(req.cookies.user)
 
        /*  //post question
         let postQuestion = `INSERT INTO questions set ?`
