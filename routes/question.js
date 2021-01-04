@@ -73,11 +73,10 @@ approuter.post('/create', (req, res) => {
                 question.ownerID = cookieUser[0].id
                 question.ownerUsername = cookieUser[0].username
             }
+            res.send(`you asked: ${req.body.q} and you ref is ${qRef}`)
+            console.log(question)
         })
        
-        res.send(`you asked: ${req.body.q} and you ref is ${qRef}`)
-        console.log(req.cookies.user)
-
        /*  //post question
         let postQuestion = `INSERT INTO questions set ?`
         sqldb.query(postQuestion, rawQuestion, (err, result, fields)=>{
