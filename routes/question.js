@@ -75,17 +75,19 @@ approuter.post('/create', (req, res) => {
             }
             //res.send(`you asked: ${req.body.q} and you ref is ${qRef}`)
             console.log(question)
-        })
-       
-        //post question
-        let postQuestion = `INSERT INTO questions set ?`
-        sqldb.query(postQuestion, question, (err, result, fields)=>{
-            if (err) throw err
-            question.id = result.insertId
-            console.log(`you asked: ${req.body.q} and you ref is ${qRef} and your question ID is ${question.id}`)
-           // res.render(`/question/:${question.ref}`, question)
-           res.render("question", question) //this should be redirect and let /:id do the heavy liftin instead
-        }) 
+        
+        
+            //post question
+            let postQuestion = `INSERT INTO questions set ?`
+            sqldb.query(postQuestion, question, (err, result, fields)=>{
+                if (err) throw err
+                question.id = result.insertId
+                console.log(`you asked: ${req.body.q} and you ref is ${qRef} and your question ID is ${question.id}`)
+            // res.render(`/question/:${question.ref}`, question)
+            res.render("question", question) //this should be redirect and let /:id do the heavy liftin instead
+            })
+            
+         }) 
     }
     //res.render("editProfile");
     //id	questions	datePosted	lastEdit	refID	ownerID	ownerUsername
