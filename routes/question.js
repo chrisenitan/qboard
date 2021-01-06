@@ -43,7 +43,7 @@ approuter.get("/new", (req, res)=>{
 })
 
 
-//Save new Question
+//Save new Question object as: id	questions	datePosted	lastEdit	refID	ownerID	ownerUsername
 approuter.post('/create', (req, res) => {
 
     //check for bot
@@ -73,11 +73,9 @@ approuter.post('/create', (req, res) => {
                 question.ownerID = cookieUser[0].id
                 question.ownerUsername = cookieUser[0].username
             }
-            //res.send(`you asked: ${req.body.q} and you ref is ${qRef}`)
             console.log(question)
         
-        
-            //post question
+            //save question to db
             let postQuestion = `INSERT INTO questions set ?`
             sqldb.query(postQuestion, question, (err, result, fields)=>{
                 if (err) throw err
@@ -90,11 +88,10 @@ approuter.post('/create', (req, res) => {
          }) 
     }
     //res.render("editProfile");
-    //id	questions	datePosted	lastEdit	refID	ownerID	ownerUsername
 
 });
 
-//VIEW Question
+//VIEW Question via params
 approuter.get('/:id', (req, res) => {
 
     res.send("This is where we post a question")
