@@ -92,9 +92,17 @@ approuter.post('/create', (req, res) => {
 });
 
 //VIEW Question via params
-approuter.get('/:id', (req, res) => {
+approuter.get('/:refID', (req, res) => {
+    let qid = req.params.refID
 
-    res.send("This is where we post a question")
+    let getQuestion = `SELECT * FROM questions WHERE refID =` + sqldb.escape(qid)
+    sqldb.query(getQuestion, (err, result)=>{
+        if(err) throw err
+        if(Object.keys(result).length != 0){
+            console.log("Question found")
+            res.send(`${result[0].questions}`)
+        }
+    })
     //get username via ID
 	//res.render("editProfile");
  
