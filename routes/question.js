@@ -100,12 +100,18 @@ approuter.get('/:refID', (req, res) => {
         if(err) throw err
         if(Object.keys(result).length != 0){
             console.log("Question found")
-            res.send(`${result[0].questions}`)
+            let question = result[0]
+            res.render("question", question)
+        }
+        else{
+            let noData = {
+                message: "Question not found"
+            }
+            res.render("question", noData)
         }
     })
     //get username via ID
 	//res.render("editProfile");
- 
 });
 
 

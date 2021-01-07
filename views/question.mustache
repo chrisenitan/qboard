@@ -2,7 +2,7 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
  {{> resources}}
-  <title>@{{username}} - Qboard </title>
+  <title>{{#ownerUsername}}@{{ownerUsername}} asked{{/ownerUsername}}{{^ownerUsername}}Nil{{/ownerUsername}} Question - Qboard </title>
 	</head>
 
 	<body>
@@ -12,11 +12,15 @@
 
 <p class="wtxt">Your question has been posted:</p>
 
+{{#questions}}
 <p>question: {{questions}}</p>
 <p>id: {{ownerID}}</p>
 <p>username: {{ownerUsername}}</p>
+{{/questions}}
 
-
+{{^questions}}
+{{message}}
+{{/questions}}
 
 
 
