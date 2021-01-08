@@ -114,6 +114,7 @@ approuter.get('/:refID', (req, res) => {
             res.render("question", question)
         })
         }
+        //searched for question but none found
         else{
             let noData = {
                 message: "Question not found"
@@ -137,6 +138,7 @@ approuter.get('/data/:id', (req, res) => {
 //edit your question.. how do we keep intergity here?
 approuter.get("/edit/:id", (req, res)=>{
 
+    //js array push for new comments? do we want to support this
 })
 
 module.exports = approuter;
