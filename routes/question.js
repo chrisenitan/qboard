@@ -101,7 +101,18 @@ approuter.get('/:refID', (req, res) => {
         if(Object.keys(result).length != 0){
             console.log("Question found")
             let question = result[0]
+            //get question posters username
+            //this is done to allow traceable questions even if user changes username. 
+            let questionOwnerData = `SELECT * FROM profiles WHERE id =${question.ownerID}` 
+            sqldb.query(questionOwnerData, (err, ownerData)=>{
+                if(err) throw err
+                if(Object.keys(ownerData).length != 0){
+                    console.log(`latest username is ${ownerData[0].username}`)
+                }
+            //reset username to latest username
+            question.ownerUsername = `${ownerData[0].username}`
             res.render("question", question)
+        })
         }
         else{
             let noData = {
