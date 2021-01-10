@@ -81,13 +81,11 @@ approuter.post('/create', (req, res) => {
                 if (err) throw err
                 question.id = result.insertId
                 console.log(`you asked: ${req.body.q} and you ref is ${qRef} and your question ID is ${question.id}`)
-            // res.render(`/question/:${question.ref}`, question)
-            res.render("question", question) //this should be redirect and let /:id do the heavy liftin instead
+                res.redirect(`/question/${qRef}`)
             })
             
          }) 
     }
-    //res.render("editProfile");
 
 });
 
