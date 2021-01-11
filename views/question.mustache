@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+ {{> resources}}
+  <title>{{#ownerUsername}}@{{ownerUsername}} asked{{/ownerUsername}}{{^ownerUsername}}Nil{{/ownerUsername}} Question - Qboard </title>
+	</head>
+
+	<body>
+<br>
+<a href="/"><img src="/images/art.jpg"/></a>
+
+
+{{#new}}
+<p class="wtxt">Your question has been posted:</p>
+{{/new}}
+
+{{#questions}}
+<p>question: {{questions}}</p>
+<p>id: {{ownerID}}</p>
+<p>username: {{ownerUsername}}</p>
+{{/questions}}
+
+{{^questions}}
+{{message}}
+{{/questions}}
+
+
+
+	</body>
+</html>
+

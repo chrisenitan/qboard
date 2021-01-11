@@ -1,6 +1,7 @@
 
 const express = require('express'); //param body query
 const mysql   = require('mysql')
+const copy = require('../text.json')
 
 
 
@@ -36,20 +37,32 @@ sqldb.connect((err) => {
 //HOME
 approuter.get('/', (req, res) => {
     const act = req.query.act
-    switch (act) {
-        case "act":
+
+    //check for cookie user
+    if(req.cookies.user){
+        let getUserByCookie = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user)
+        sqldb.query(getUserByCookie, (err, userByCookie)=>{
+            if (err) throw err
+            if(Object.keys(userByCookie).length != 0){
+                let username = userByCookie[0].username
+                res.redirect(`/${username}`)
+            }
+        })
+    }
+    else{
+        if(act == "act"){
             let data = {
                 ref: act,
                 message: `Successful ${act}`
             }
             res.render("index", data)
-
-        break;
-
-        default:
+        }
+        else{
             res.render("index")
-
+        }
     }
+    
+   
 });
 
 
@@ -58,9 +71,21 @@ approuter.get('/login', (req, res) => {
     var request = req.query
 
     //check if a request was sent to page
-    if(Object.keys(request).length != 0){
-       console.log(`Redirected because ${request.message}`)
-       res.render("login",request);
+    if(request.a){
+        console.log(`Redirected because ${request.a}`)
+        switch (request.a) {
+            case "userNotFound":
+            let loginContent = {
+                message: request.a,
+                details: copy.userNotFound.details
+            }
+            res.render("login", loginContent);
+            break;
+
+            default:
+            break;
+        }
+       
     }
     else{
         //check if cookie exists
@@ -110,7 +135,7 @@ approuter.get('/:username', (req, res) => {
         
         //all these are already done on main route. we should just collect the object or check if its a login or url vivist
         if(Object.keys(result).length == 0){
-            console.log("User not found.")
+            console.log("User not found: /username")
             res.status(204).json({
                 message:"no user found"
             })
@@ -134,7 +159,7 @@ approuter.get('/:username', (req, res) => {
         //all these are already done on main route. we should just collect the object or check if its a login or url vivist
         if(Object.keys(result).length == 0){
             console.log("User not found: main")
-            res.redirect("/login?message=userNotFound")
+            res.redirect("/login?a=userNotFound")
         }
         //user found
         else{
@@ -215,6 +240,34 @@ approuter.get("/explore", (req, res)=>{
 
 })
 
+//faq route to get wth parans code
+approuter.get("/faq/:code", (req, res)=>{
+    let reqCode = req.params.code
+
+    if(reqCode){
+        let checkCode = `SELECT * FROM faq WHERE code = ` + sqldb.escape(reqCode)
+        sqldb.query(checkCode, (err, codeDetails)=>{
+            if (err) throw err
+            if(Object.keys(codeDetails).length != 0){
+                let codeData = codeDetails[0]
+                res.render("account/faq", codeData)
+            }
+            else{
+                //nothing found on code given
+                let getDefaultErrorCode = `SELECT * FROM faq WHERE code = 'ERCD1' `
+                sqldb.query(getDefaultErrorCode, (err, errCode)=>{
+                    let codeData = errCode[0]
+                    res.render("account/faq", codeData)
+                })
+            }
+        })
+    }
+    //no code given. load page normally
+    else{
+
+    }
+ 
+})
 
 
 module.exports = approuter;

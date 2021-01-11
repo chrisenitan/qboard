@@ -3,18 +3,28 @@
 		{{> resources}}
 <title>{{title}}</title>
 	</head>
-
 	<body>
 <!--recieve //id title body owner from sqlRoute.js-->
 	<p>{{title}}</p>
 <a href="/"><img src="/images/art.jpg"/></a>
 
+{{#code}}
 <p>Welcome to QBoard FAQ {{user}} </p> 
+<p>You were redirected because {{code}} </p>
 <span class="wtxt">{{id}}</span><br>
 
-<p>You were redirected because {{reason}} </p>
+<div id="">
+<p>{{code}}</p>
+<h class="wtxt">{{details}}</h>
 
+<p>Solution</p>
+<h class="wtxt">{{solution}}</h>
+</div>
+{{/code}}
 
+{{^code}}
+<p>This is the FAQ page with default topics to look through</p>
+{{/code}}
 
 
 

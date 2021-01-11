@@ -33,6 +33,7 @@ approuter.get("/delete/:username", (req, res)=>{
 	let deleteUser = `DELETE FROM profiles WHERE username = ` + sqldb.escape(userToDelete)
 	sqldb.query(deleteUser, (err, result)=>{
 		if (err) throw err
+		res.clearCookie("user")
 		res.send(`${userToDelete} Deleted: Confirm ${result.affectedRows}`)
 	})
 })
@@ -43,11 +44,11 @@ approuter.get("/all", (req, res)=>{
 	sqldb.query(deleteUser, (err, result)=>{
 		if (err) throw err
 		
-		if(Object.keys(result) != 0){
+		if(Object.keys(result).length != 0){
 			res.json({result})
 		}
 		else{
-
+			res.json("No user found")
 		}
 
 	})
@@ -84,7 +85,7 @@ sqldb.query(getUser, (err, result)=>{
 	} 
 	else{
 		console.log("User not found: accounts")
-		res.redirect("/login?message=userNotFound")
+		res.redirect("/login?a=userNotFound")
 	}
 })
 
@@ -122,7 +123,7 @@ approuter.get('/edit', (req, res) => {
 			res.render("account/edit", result[0])
 		}
 		else{
-			console.log("User not found")
+			console.log("User not found: edit account")
 			//what to do?
 			res.send("User not found")
 		}
@@ -159,6 +160,11 @@ approuter.post('/recovery', (req, res) => {
 	
 });
 
+//page reload and stuff. should be handled with a 404
+approuter.get("/create", (req, res)=>{
+	res.redirect("/")
+})
+
 
 // sign up .. CREATE ACCOUNT QUERY BASED
 approuter.post('/create', (req, res) => {
@@ -177,6 +183,7 @@ approuter.post('/create', (req, res) => {
 		username: req.body.username,
 		id: ranId,
 		email: req.body.email,
+		cookie: "testcookie",
 		bt: req.body.bt
 	}
 	console.log(req.cookies.user)
@@ -221,14 +228,17 @@ approuter.post('/create', (req, res) => {
 				
 										if(Object.keys(result).length == 0){
 										//register new user
-										let question = 'INSERT INTO profiles SET ?'
+										let insertUser = 'INSERT INTO profiles SET ?'
 										//sanitise newUser object 
 										delete newUser.request; delete newUser.bt
-										sqldb.query(question, newUser, (failed, returnedUser, fields)=>{
+										sqldb.query(insertUser, newUser, (failed, returnedUser, fields)=>{
 											if(failed) throw failed;
-											newUser.id = returnedUser.insertId
-											res.render("account/onboard", newUser)
-				
+											//user was registered
+											if(returnedUser.insertId != undefined){
+												res.cookie("user", newUser.cookie)
+												newUser.id = returnedUser.insertId
+												res.render("account/onboard", newUser)
+											}
 										})
 										}
 										//user found in db, should never happen if we prewarn usernames, send to profile. 

@@ -28,18 +28,27 @@ sqldb.connect((err) => {
     console.log(`Connected to Settings ${process.env.fhserver} on thread: ${sqldb.threadId}`)
 })
 
-//Save new Question
-approuter.post('/create', (req, res) => {
-    var rawQuestion = req
-
-    //collect data valuable to user
-    var userQuestion = {
-        question: req.question
+//create new question
+approuter.get("/new", (req, res)=>{
+    //cookie verify user can do this action
+    if(req.cookies.user){
+        console.log("You can make a new post")
+        res.render("new")
+    }
+    else{
+        res.redirect("/")
     }
 
+
+})
+
+
+//Save new Question object as: id	questions	datePosted	lastEdit	refID	ownerID	ownerUsername
+approuter.post('/create', (req, res) => {
+
     //check for bot
-    if(rawQuestion.bt != ""){
-        console.log("Bot found")
+    if(req.body.bt != "" || req.cookies.user == undefined){
+        console.log(`${rawQuestion.bt} Bot found`)
     }
     else{
         //make a secure random string
@@ -48,27 +57,72 @@ approuter.post('/create', (req, res) => {
         for(var i = 0; i < 7; i++){
             qRef += chars.charAt(Math.floor(Math.random(52) * chars.length))
         }
-        rawQuestion.ref = qRef 
-        userQuestion.ref = qRef 
-        //post question
-        let postQuestion = `INSERT INTO questions set ?`
-        sqldb.query(postQuestion, rawQuestion, (err, result, fields)=>{
-            if (err) throw err
-            userQuestion.id = result.insertId
-            res.render(`/question/:${userQuestion.ref}`, userQuestion)
-        })
+        var nDate = new Date()
+        //create question object
+         var question = {
+            questions: req.body.q,
+            datePosted: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
+            lastEdit: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
+            refID: qRef
+        }
+        //get user from cookie
+        let getCookieUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user)
+        sqldb.query(getCookieUser, (err, cookieUser)=>{
+            if(err) throw err
+            if(Object.keys(cookieUser).length != 0){
+                question.ownerID = cookieUser[0].id
+                question.ownerUsername = cookieUser[0].username
+            }
+            console.log(question)
+        
+            //save question to db
+            let postQuestion = `INSERT INTO questions set ?`
+            sqldb.query(postQuestion, question, (err, result, fields)=>{
+                if (err) throw err
+                question.id = result.insertId
+                console.log(`you asked: ${req.body.q} and you ref is ${qRef} and your question ID is ${question.id}`)
+                res.redirect(`/question/${qRef}?s=new`)
+            })
+            
+         }) 
     }
-	//res.render("editProfile");
 
 });
 
-//VIEW Question
-approuter.get('/:id', (req, res) => {
+//VIEW Question via params
+approuter.get('/:refID', (req, res) => {
+    let qid = req.params.refID
 
-    res.send("This is where we post a question")
+    let getQuestion = `SELECT * FROM questions WHERE refID =` + sqldb.escape(qid)
+    sqldb.query(getQuestion, (err, result)=>{
+        if(err) throw err
+        if(Object.keys(result).length != 0){
+            console.log("Question found")
+            let question = result[0]
+            //get question posters username
+            //this is done to allow traceable questions even if user changes username. 
+            let questionOwnerData = `SELECT * FROM profiles WHERE id =${question.ownerID}` 
+            sqldb.query(questionOwnerData, (err, ownerData)=>{
+                if(err) throw err
+                if(Object.keys(ownerData).length != 0){
+                    console.log(`latest username is ${ownerData[0].username}`)
+                }
+            //reset username to latest username and other question data
+            if(req.query.s){question.new = true}
+            question.ownerUsername = `${ownerData[0].username}`
+            res.render("question", question)
+        })
+        }
+        //searched for question but none found
+        else{
+            let noData = {
+                message: "Question not found"
+            }
+            res.render("question", noData)
+        }
+    })
     //get username via ID
 	//res.render("editProfile");
- 
 });
 
 
@@ -83,6 +137,7 @@ approuter.get('/data/:id', (req, res) => {
 //edit your question.. how do we keep intergity here?
 approuter.get("/edit/:id", (req, res)=>{
 
+    //js array push for new comments? do we want to support this
 })
 
 module.exports = approuter;
