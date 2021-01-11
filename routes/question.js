@@ -81,7 +81,7 @@ approuter.post('/create', (req, res) => {
                 if (err) throw err
                 question.id = result.insertId
                 console.log(`you asked: ${req.body.q} and you ref is ${qRef} and your question ID is ${question.id}`)
-                res.redirect(`/question/${qRef}`)
+                res.redirect(`/question/${qRef}?s=new`)
             })
             
          }) 
@@ -107,7 +107,8 @@ approuter.get('/:refID', (req, res) => {
                 if(Object.keys(ownerData).length != 0){
                     console.log(`latest username is ${ownerData[0].username}`)
                 }
-            //reset username to latest username
+            //reset username to latest username and other question data
+            if(req.query.s){question.new = true}
             question.ownerUsername = `${ownerData[0].username}`
             res.render("question", question)
         })
