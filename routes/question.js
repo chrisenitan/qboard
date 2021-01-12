@@ -33,7 +33,7 @@ approuter.get("/new", (req, res)=>{
     //cookie verify user can do this action
     if(req.cookies.user){
         console.log("You can make a new post")
-        res.render("new")
+        res.render("question/new")
     }
     else{
         res.redirect("/")
@@ -93,12 +93,14 @@ approuter.post('/create', (req, res) => {
 approuter.get('/:refID', (req, res) => {
     let qid = req.params.refID
 
+    //get requested question
     let getQuestion = `SELECT * FROM questions WHERE refID =` + sqldb.escape(qid)
     sqldb.query(getQuestion, (err, result)=>{
         if(err) throw err
         if(Object.keys(result).length != 0){
             console.log("Question found")
             let question = result[0]
+
             //get question posters username
             //this is done to allow traceable questions even if user changes username. 
             let questionOwnerData = `SELECT * FROM profiles WHERE id = '${question.ownerID}'` 
@@ -107,11 +109,11 @@ approuter.get('/:refID', (req, res) => {
                 if(Object.keys(ownerData).length != 0){
                     console.log(`latest username is ${ownerData[0].username}`)
                 }
-            //reset username to latest username and other question data
+            //set username to latest username and other question data
             if(req.query.s){question.new = true}
             question.ownerUsername = `${ownerData[0].username}`
             
-            //update question view count
+            //update question views count
             let newViews = question.views + 1
             let updateQuestion = `UPDATE questions SET views = ${newViews} WHERE refID = '${qid}'`
             sqldb.query(updateQuestion, (err, updatedQ)=>{
@@ -120,7 +122,7 @@ approuter.get('/:refID', (req, res) => {
             })
 
             //render question finally
-            res.render("question", question)
+            res.render("question/index", question)
         })
         }
         //searched for question but none found
@@ -128,11 +130,10 @@ approuter.get('/:refID', (req, res) => {
             let noData = {
                 message: "Question not found"
             }
-            res.render("question", noData)
+            res.render("question/index", noData)
         }
     })
-    //get username via ID
-	//res.render("editProfile");
+
 });
 
 
@@ -145,11 +146,13 @@ approuter.get('/data/:id', (req, res) => {
         if (err) throw err
         if(Object.keys(result).length != 0){
             console.log(result[0])
-            res.send(`This is where we post a questions data so far ${id}`)
+            res.json({
+                question: result[0].questions,
+                postedBy: result[0].ownerUsername,
+                views: result[0].views
+            })
         }
     })
-    
-	//do we need this?
 
 });
 
