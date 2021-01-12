@@ -129,7 +129,16 @@ approuter.get('/:refID', (req, res) => {
 //Question data in more details
 approuter.get('/data/:id', (req, res) => {
     let id = req.params.id
-    res.send(`This is where we post a questions data so far ${id}`)
+
+    let getQuestionData = `SELECT * FROM questions WHERE refID =` + sqldb.escape(id)
+    sqldb.query(getQuestionData, (err, result)=>{
+        if (err) throw err
+        if(Object.keys(result).length != 0){
+            console.log(result[0])
+            res.send(`This is where we post a questions data so far ${id}`)
+        }
+    })
+    
 	//do we need this?
 
 });
