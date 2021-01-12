@@ -101,7 +101,7 @@ approuter.get('/:refID', (req, res) => {
             let question = result[0]
             //get question posters username
             //this is done to allow traceable questions even if user changes username. 
-            let questionOwnerData = `SELECT * FROM profiles WHERE id =${question.ownerID}` 
+            let questionOwnerData = `SELECT * FROM profiles WHERE id = '${question.ownerID}'` 
             sqldb.query(questionOwnerData, (err, ownerData)=>{
                 if(err) throw err
                 if(Object.keys(ownerData).length != 0){
@@ -110,6 +110,16 @@ approuter.get('/:refID', (req, res) => {
             //reset username to latest username and other question data
             if(req.query.s){question.new = true}
             question.ownerUsername = `${ownerData[0].username}`
+            
+            //update question view count
+            let newViews = question.views + 1
+            let updateQuestion = `UPDATE questions SET views = ${newViews} WHERE refID = '${qid}'`
+            sqldb.query(updateQuestion, (err, updatedQ)=>{
+                if(err) throw err
+                console.log(`views updated ${newViews}`)
+            })
+
+            //render question finally
             res.render("question", question)
         })
         }
