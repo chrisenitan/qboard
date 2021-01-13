@@ -58,11 +58,18 @@ approuter.post('/create', (req, res) => {
             qRef += chars.charAt(Math.floor(Math.random(52) * chars.length))
         }
         var nDate = new Date()
+        if(nDate.getMonth() == 0){
+            var cM = nDate.getMonth() + 1
+        }else{
+            var cM = nDate.getMonth()
+        }
+        var cD = nDate.getDate()
+        var cY = nDate.getFullYear()
         //create question object
          var question = {
             questions: req.body.q,
-            datePosted: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
-            lastEdit: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
+            datePosted: `${cM}-${cD}-${cY}`,
+            lastEdit: `${cM}-${cD}-${cY}`,
             refID: qRef
         }
         //get user from cookie
