@@ -58,11 +58,7 @@ approuter.post('/create', (req, res) => {
             qRef += chars.charAt(Math.floor(Math.random(52) * chars.length))
         }
         var nDate = new Date()
-        if(nDate.getMonth() == 0){
-            var cM = nDate.getMonth() + 1
-        }else{
-            var cM = nDate.getMonth()
-        }
+        var cM = nDate.getMonth() + 1
         var cD = nDate.getDate()
         var cY = nDate.getFullYear()
         //create question object
