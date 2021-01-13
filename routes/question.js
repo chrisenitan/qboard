@@ -146,11 +146,9 @@ approuter.get('/data/:id', (req, res) => {
         if (err) throw err
         if(Object.keys(result).length != 0){
             console.log(result[0])
-            res.json({
-                question: result[0].questions,
-                postedBy: result[0].ownerUsername,
-                views: result[0].views
-            })
+            //set a valid state to avoid direct url hits failures
+            result[0].valid = true
+            res.render("question/data", result[0])
         }
     })
 
