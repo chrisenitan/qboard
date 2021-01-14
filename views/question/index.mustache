@@ -17,7 +17,9 @@
 {{#questions}}
 <p>question: {{questions}}</p>
 <p>id: {{ownerID}}</p>
-<p>username: {{ownerUsername}}</p>
+<a href="/{{ownerUsername}}"><p>username: @{{ownerUsername}}</p></a>
+
+<a href=""><button>Delete Question</button></a>
 {{/questions}}
 
 {{^questions}}
