@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+ {{> resources}}
+  <title>Question Data - Qboard </title>
+	</head>
+
+	<body>
+<br>
+<a href="/"><img src="/images/art.jpg"/></a>
+
+
+{{#valid}}
+<p>Question: <span class="wtxt">{{questions}}</span></p>
+<p>Views: <span class="wtxt">{{views}}</span></p>
+<p>Posted by: <a href="/{{ownerUsername}}" class="wtxt">@{{ownerUsername}}</a></p>
+<p>Created: <a href="/{{ownerUsername}}" class="wtxt">{{datePosted}}</a></p>
+<p>Last Edit: <a href="/{{ownerUsername}}" class="wtxt">{{lastEdit}}</a></p>
+
+{{/valid}}
+
+
+
+{{^valid}}
+We did not find your qiestion data here
+{{/valid}}
+
+
+
+	</body>
+</html>
+

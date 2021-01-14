@@ -33,7 +33,7 @@ approuter.get("/new", (req, res)=>{
     //cookie verify user can do this action
     if(req.cookies.user){
         console.log("You can make a new post")
-        res.render("new")
+        res.render("question/new")
     }
     else{
         res.redirect("/")
@@ -58,11 +58,14 @@ approuter.post('/create', (req, res) => {
             qRef += chars.charAt(Math.floor(Math.random(52) * chars.length))
         }
         var nDate = new Date()
+        var cM = nDate.getMonth() + 1
+        var cD = nDate.getDate()
+        var cY = nDate.getFullYear()
         //create question object
          var question = {
             questions: req.body.q,
-            datePosted: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
-            lastEdit: `${nDate.getMonth()}-${nDate.getDate()}-${nDate.getFullYear()}`,
+            datePosted: `${cM}-${cD}-${cY}`,
+            lastEdit: `${cM}-${cD}-${cY}`,
             refID: qRef
         }
         //get user from cookie
@@ -93,24 +96,36 @@ approuter.post('/create', (req, res) => {
 approuter.get('/:refID', (req, res) => {
     let qid = req.params.refID
 
+    //get requested question
     let getQuestion = `SELECT * FROM questions WHERE refID =` + sqldb.escape(qid)
     sqldb.query(getQuestion, (err, result)=>{
         if(err) throw err
         if(Object.keys(result).length != 0){
             console.log("Question found")
             let question = result[0]
+
             //get question posters username
             //this is done to allow traceable questions even if user changes username. 
-            let questionOwnerData = `SELECT * FROM profiles WHERE id =${question.ownerID}` 
+            let questionOwnerData = `SELECT * FROM profiles WHERE id = '${question.ownerID}'` 
             sqldb.query(questionOwnerData, (err, ownerData)=>{
                 if(err) throw err
                 if(Object.keys(ownerData).length != 0){
                     console.log(`latest username is ${ownerData[0].username}`)
                 }
-            //reset username to latest username and other question data
+            //set username to latest username and other question data
             if(req.query.s){question.new = true}
             question.ownerUsername = `${ownerData[0].username}`
-            res.render("question", question)
+            
+            //update question views count
+            let newViews = question.views + 1
+            let updateQuestion = `UPDATE questions SET views = ${newViews} WHERE refID = '${qid}'`
+            sqldb.query(updateQuestion, (err, updatedQ)=>{
+                if(err) throw err
+                console.log(`views updated ${newViews}`)
+            })
+
+            //render question finally
+            res.render("question/index", question)
         })
         }
         //searched for question but none found
@@ -118,19 +133,27 @@ approuter.get('/:refID', (req, res) => {
             let noData = {
                 message: "Question not found"
             }
-            res.render("question", noData)
+            res.render("question/index", noData)
         }
     })
-    //get username via ID
-	//res.render("editProfile");
+
 });
 
 
 //Question data in more details
 approuter.get('/data/:id', (req, res) => {
     let id = req.params.id
-    res.send(`This is where we post a questions data so far ${id}`)
-	//do we need this?
+
+    let getQuestionData = `SELECT * FROM questions WHERE refID =` + sqldb.escape(id)
+    sqldb.query(getQuestionData, (err, result)=>{
+        if (err) throw err
+        if(Object.keys(result).length != 0){
+            console.log(result[0])
+            //set a valid state to avoid direct url hits failures
+            result[0].valid = true
+            res.render("question/data", result[0])
+        }
+    })
 
 });
 
