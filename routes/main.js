@@ -132,7 +132,6 @@ approuter.get('/:username', (req, res) => {
         let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername) + `AND cookie = ` + sqldb.escape(userCookie);
     sqldb.query(checkForUser, (err, result)=>{
         if (err) throw err;
-        
         //all these are already done on main route. we should just collect the object or check if its a login or url vivist
         if(Object.keys(result).length == 0){
             console.log("User not found: /username")
@@ -142,10 +141,28 @@ approuter.get('/:username', (req, res) => {
         }
         //user found
         else{
-           console.log(result)
-           let foundUser = result[0]
-           foundUser.self = true
-           res.render("profile", foundUser)
+            //set userdata
+            let foundUser = result[0]
+
+            //get user questions data
+            let getUserQuestions = `SELECT * FROM questions WHERE ownerID = ${result[0].id}`
+            sqldb.query(getUserQuestions, (err, allUserQuestions)=>{
+                if(err) throw err;
+                if(Object.keys(allUserQuestions).length != 0){
+                    //questions exists
+                    let userQuestions = allUserQuestions
+                    console.log(userQuestions)
+                    //set new question object to user data
+                    foundUser.questions = userQuestions
+                }
+                //check for if none later...
+
+                console.log(foundUser)
+                foundUser.self = true
+                res.render("profile", foundUser)
+             
+            })
+          
         }
     })
     }
