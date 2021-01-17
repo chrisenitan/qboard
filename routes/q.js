@@ -63,7 +63,7 @@ approuter.post('/create', (req, res) => {
         var cY = nDate.getFullYear()
         //create question object
          var question = {
-            questions: req.body.q,
+            q: req.body.q,
             datePosted: `${cM}-${cD}-${cY}`,
             lastEdit: `${cM}-${cD}-${cY}`,
             refID: qRef
@@ -84,7 +84,7 @@ approuter.post('/create', (req, res) => {
                 if (err) throw err
                 question.id = result.insertId
                 console.log(`you asked: ${req.body.q} and you ref is ${qRef} and your question ID is ${question.id}`)
-                res.redirect(`/question/${qRef}?s=new`)
+                res.redirect(`/q/${qRef}?s=new`)
             })
             
          }) 
