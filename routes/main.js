@@ -155,7 +155,9 @@ approuter.get('/:username', (req, res) => {
                     //set new question object to user data
                     foundUser.questions = userQuestions
                 }
-                //check for if none later...
+                else{
+                    //no question found
+                }
 
                 console.log(foundUser)
                 foundUser.self = true

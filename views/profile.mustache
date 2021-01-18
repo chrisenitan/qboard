@@ -21,16 +21,9 @@
 <h class="wtxt">Date of birth:</h> <p>{{dob}}</p>
 
 <h class="wtxt">Profile hint:</h><p>{{hint}}</p>
-{{/self}}
-{{^self}}
-<p>You are viewing @{{username}}'s profile </p>
 
-<h class="wtxt">Profile hint:</h><p>{{hint}}</p>
-{{/self}}
+<a href="/question/new"><button>New Question</button></a><br>
 
-<a href="/question/new"><button>New Question</button></a>
-
-{{#self}}
 <br><br><a href="/account/edit"><button>Edit profile</button></a>
 <form action="account/logout" method="post">
 <br><br><button>Log Out</button>
@@ -39,7 +32,21 @@
 <input type="hidden" value="lo" name="request">
 </form>
 {{/self}}
+
+
+	{{#questions}}
+	<p class="wtxt">Questions</p>
+	{{./}}
+		<h class="wtxt">Question: </h>{{q}}<br>
+		<h class="wtxt">ID: </h>{{id}}<br>
+		<h class="wtxt">Date Posted: </h>{{datePosted}}<br><br>
+	{{/questions}}
+
+
 {{^self}}
+<p>You are viewing @{{username}}'s profile </p>
+
+<h class="wtxt">Profile hint:</h><p>{{hint}}</p>
 {{/self}}
 
 
