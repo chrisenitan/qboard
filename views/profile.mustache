@@ -33,6 +33,12 @@
 </form>
 {{/self}}
 
+{{^self}}
+<p>You are viewing @{{username}}'s profile </p>
+
+<h class="wtxt">Profile hint:</h><p>{{hint}}</p>
+{{/self}}
+
 
 	{{#questions}}
 	<p class="wtxt">Questions</p>
@@ -42,12 +48,6 @@
 		<h class="wtxt">Date Posted: </h>{{datePosted}}<br><br>
 	{{/questions}}
 
-
-{{^self}}
-<p>You are viewing @{{username}}'s profile </p>
-
-<h class="wtxt">Profile hint:</h><p>{{hint}}</p>
-{{/self}}
 
 
 
