@@ -122,6 +122,7 @@ approuter.get('/signup', (req, res) => {
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
 
+    var userFetchRef
     if(req.cookies.user){
         var userFetchRef = req.cookies.user
     }else{
@@ -132,7 +133,6 @@ approuter.get('/:username', (req, res) => {
     let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userFetchRef) + `OR cookie = ` + sqldb.escape(userFetchRef);
 sqldb.query(checkForUser, (err, result)=>{
     if (err) throw err;
-    //all these are already done on main route. we should just collect the object or check if its a login or url vivist
     if(Object.keys(result).length == 0){
         console.log("User not found: /username")
         res.status(204).json({
