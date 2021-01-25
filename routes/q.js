@@ -62,7 +62,7 @@ approuter.post('/create', (req, res) => {
         var cD = nDate.getDate()
         var cY = nDate.getFullYear()
         //create question object
-         var question = {
+        var question = {
             q: req.body.q,
             datePosted: `${cM}-${cD}-${cY}`,
             lastEdit: `${cM}-${cD}-${cY}`,
@@ -125,7 +125,7 @@ approuter.get('/:refID', (req, res) => {
             })
 
             //render question finally
-            res.render("question/index", question)
+            res.render("question/home", question)
         })
         }
         //searched for question but none found
@@ -133,7 +133,7 @@ approuter.get('/:refID', (req, res) => {
             let noData = {
                 message: "Question not found"
             }
-            res.render("question/index", noData)
+            res.render("question/home", noData)
         }
     })
 
