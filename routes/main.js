@@ -158,7 +158,6 @@ sqldb.query(checkForUser, (err, result)=>{
             else{
                 //no question found
             }
-
             console.log(foundUser)
            
             //own page visit login cookie user
