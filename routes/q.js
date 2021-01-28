@@ -157,6 +157,14 @@ approuter.get('/data/:id', (req, res) => {
 
 });
 
+//delete question
+approuter.delete("/delete/:id", (req, res)=>{
+
+
+    //send back to profile page. 
+})
+
+
 //edit your question.. how do we keep intergity here?
 approuter.get("/edit/:id", (req, res)=>{
 
