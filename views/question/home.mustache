@@ -14,17 +14,18 @@
 <p class="wtxt">Your question has been posted:</p>
 {{/new}}
 
-{{#questions}}
-<p>question: {{questions}}</p>
+{{#q}}
+<p>question: {{q}}</p>
 <p>id: {{ownerID}}</p>
 <a href="/{{ownerUsername}}"><p>username: @{{ownerUsername}}</p></a>
 
-<a href=""><button>Delete Question</button></a>
-{{/questions}}
+<a href="/q/delete/{{refID}}"><button>Delete Question</button></a>
+<a href="/q/data/{{refID}}"><button>View Question Data</button></a>
+{{/q}}
 
-{{^questions}}
+{{^q}}
 {{message}}
-{{/questions}}
+{{/q}}
 
 
 

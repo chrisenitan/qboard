@@ -121,61 +121,63 @@ approuter.get('/signup', (req, res) => {
 
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
-    //check if own profile or not
 
-    let userUsername = req.params.username
-
-    if(req.cookies.user != undefined){
-        //login cookie user
-        let userCookie = req.cookies.user
-        console.log(userCookie + " cookie: " + userUsername)
-        let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername) + `AND cookie = ` + sqldb.escape(userCookie);
-    sqldb.query(checkForUser, (err, result)=>{
-        if (err) throw err;
-        
-        //all these are already done on main route. we should just collect the object or check if its a login or url vivist
-        if(Object.keys(result).length == 0){
-            console.log("User not found: /username")
-            res.status(204).json({
-                message:"no user found"
-            })
-        }
-        //user found
-        else{
-           console.log(result)
-           let foundUser = result[0]
-           foundUser.self = true
-           res.render("profile", foundUser)
-        }
-    })
+    var userFetchRef
+    if(req.cookies.user){
+        var userFetchRef = req.cookies.user
+    }else{
+        var userFetchRef = req.params.username
     }
 
-    //not a cookie user, must be public page visit?
+    console.log(userFetchRef + " FETCH " + userFetchRef)
+    let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userFetchRef) + `OR cookie = ` + sqldb.escape(userFetchRef);
+sqldb.query(checkForUser, (err, result)=>{
+    if (err) throw err;
+    if(Object.keys(result).length == 0){
+        console.log("User not found: /username")
+        res.status(204).json({
+            message:"no user found"
+        })
+    }
+    //user found
     else{
-        let checkForUser = `SELECT * FROM profiles WHERE username =` + sqldb.escape(userUsername)
-    sqldb.query(checkForUser, (err, result)=>{
-        if (err) throw err;
-        
-        //all these are already done on main route. we should just collect the object or check if its a login or url vivist
-        if(Object.keys(result).length == 0){
-            console.log("User not found: main")
-            res.redirect("/login?a=userNotFound")
-        }
-        //user found
-        else{
-           console.log(result)
-           let foundUser = Object.assign(result[0], ["name","username","","hint","","","image",""])
-           res.render("profile", foundUser)
-        }
-    })  
-    }
-    
-    
-   
+        //set userdata
+        let foundUser = result[0]
 
-    
+        //get user questions data
+        let getUserQuestions = `SELECT * FROM questions WHERE ownerID = ${result[0].id}`
+        sqldb.query(getUserQuestions, (err, allUserQuestions)=>{
+            if(err) throw err;
+            if(Object.keys(allUserQuestions).length != 0){
+                //questions exists
+                let userQuestions = allUserQuestions
+                console.log(userQuestions)
+                //set new question object to user data
+                foundUser.questions = userQuestions
+            }
+            else{
+                //no question found
+            }
+            console.log(foundUser)
+           
+            //own page visit login cookie user
+            if(req.cookies.user != undefined){
+                foundUser.self = true
+                res.render("profile", foundUser)
+            }
+            //not a cookie user, must be public page visit?
+            else{
+                res.render("profile", foundUser)
+            }
+         
+        })
+      
+    }
+})   
 
 });
+
+
 
 //update profile
 approuter.post('/:username', (req, res) => {

@@ -11,12 +11,12 @@
 
 
 {{#valid}}
-<p>Question: <span class="wtxt">{{questions}}</span></p>
+<p>Question: <span class="wtxt">{{q}}</span></p>
 <p>Views: <span class="wtxt">{{views}}</span></p>
 <p>Posted by: <a href="/{{ownerUsername}}" class="wtxt">@{{ownerUsername}}</a></p>
-<p>Created: <a href="/{{ownerUsername}}" class="wtxt">{{datePosted}}</a></p>
-<p>Last Edit: <a href="/{{ownerUsername}}" class="wtxt">{{lastEdit}}</a></p>
-
+<p>Created: <h class="wtxt">{{datePosted}}</h></p>
+<p>Last Edit: <h class="wtxt">{{lastEdit}}</h></p>
+<a href="/q/{{refID}}"><button>Back to Question</button></a>
 {{/valid}}
 
 

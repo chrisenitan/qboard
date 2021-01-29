@@ -62,8 +62,8 @@ approuter.post('/create', (req, res) => {
         var cD = nDate.getDate()
         var cY = nDate.getFullYear()
         //create question object
-         var question = {
-            questions: req.body.q,
+        var question = {
+            q: req.body.q,
             datePosted: `${cM}-${cD}-${cY}`,
             lastEdit: `${cM}-${cD}-${cY}`,
             refID: qRef
@@ -84,7 +84,7 @@ approuter.post('/create', (req, res) => {
                 if (err) throw err
                 question.id = result.insertId
                 console.log(`you asked: ${req.body.q} and you ref is ${qRef} and your question ID is ${question.id}`)
-                res.redirect(`/question/${qRef}?s=new`)
+                res.redirect(`/q/${qRef}?s=new`)
             })
             
          }) 
@@ -125,7 +125,7 @@ approuter.get('/:refID', (req, res) => {
             })
 
             //render question finally
-            res.render("question/index", question)
+            res.render("question/home", question)
         })
         }
         //searched for question but none found
@@ -133,7 +133,7 @@ approuter.get('/:refID', (req, res) => {
             let noData = {
                 message: "Question not found"
             }
-            res.render("question/index", noData)
+            res.render("question/home", noData)
         }
     })
 
@@ -156,6 +156,26 @@ approuter.get('/data/:id', (req, res) => {
     })
 
 });
+
+//delete question
+approuter.get("/delete/:id", (req, res)=>{
+    //check for cookie
+    if(req.cookies.user == undefined){
+        console.log(`Cookie User not found: delete/q`)
+    }
+    else{
+        let deletePost = `DELETE FROM questions WHERE refID = '${req.params.id}'`
+        sqldb.query(deletePost, (err, result)=>{
+            if (err) throw err
+            if(Object.keys(result).length != 0){
+                console.log(`Can delete post`)
+                res.send(`${req.params.id} Deleted: Confirm ${result.affectedRows}`)
+            }
+        })
+    }
+    //send back to profile page. 
+})
+
 
 //edit your question.. how do we keep intergity here?
 approuter.get("/edit/:id", (req, res)=>{

@@ -55,8 +55,8 @@ const account = require("./routes/account")
 app.use("/account", account);
 
 //questions routes
-const question = require("./routes/question")
-app.use("/question", question);
+const question = require("./routes/q")
+app.use("/q", question);
 
 //sql test routes
 const sqlDB = require("./routes/sqlTest")
