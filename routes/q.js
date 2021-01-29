@@ -158,9 +158,21 @@ approuter.get('/data/:id', (req, res) => {
 });
 
 //delete question
-approuter.delete("/delete/:id", (req, res)=>{
-
-
+approuter.get("/delete/:id", (req, res)=>{
+    //check for cookie
+    if(req.cookies.user == undefined){
+        console.log(`Cookie User not found: delete/q`)
+    }
+    else{
+        let deletePost = `DELETE FROM questions WHERE refID = '${req.params.id}'`
+        sqldb.query(deletePost, (err, result)=>{
+            if (err) throw err
+            if(Object.keys(result).length != 0){
+                console.log(`Can delete post`)
+                res.send(`${req.params.id} Deleted: Confirm ${result.affectedRows}`)
+            }
+        })
+    }
     //send back to profile page. 
 })
 
