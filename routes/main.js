@@ -122,6 +122,9 @@ approuter.get('/signup', (req, res) => {
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
 
+    //set a return var
+    const rt = req.query.rt
+
     var userFetchRef
     if(req.cookies.user){
         var userFetchRef = req.cookies.user
@@ -143,6 +146,16 @@ sqldb.query(checkForUser, (err, result)=>{
     else{
         //set userdata
         let foundUser = result[0]
+        if(rt){
+            switch (rt) {
+                case "d":
+                    foundUser.qReturn = "Question has been deleted"
+                    break;
+            
+                default:
+                    break;
+            }
+        }
 
         //get user questions data
         let getUserQuestions = `SELECT * FROM questions WHERE ownerID = ${result[0].id}`

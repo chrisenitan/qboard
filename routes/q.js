@@ -168,8 +168,13 @@ approuter.get("/delete/:id", (req, res)=>{
         sqldb.query(deletePost, (err, result)=>{
             if (err) throw err
             if(Object.keys(result).length != 0){
-                console.log(`Can delete post`)
-                res.send(`${req.params.id} Deleted: Confirm ${result.affectedRows}`)
+                console.log(`${req.params.id} Deleted: Confirm ${result.affectedRows}`)
+                //get current user
+                let currentUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user)
+                sqldb.query(currentUser, (err, response)=>{
+                    if (err) throw err
+                    res.redirect(`/${response[0].username}?rt=d`)
+                })
             }
         })
     }
