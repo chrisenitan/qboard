@@ -151,6 +151,8 @@ sqldb.query(checkForUser, (err, result)=>{
                 case "d":
                     foundUser.qReturn = "Question has been deleted"
                     break;
+                case "update":
+                    foundUser.qReturn = "Account successfully updated"
             
                 default:
                     break;
@@ -217,9 +219,8 @@ approuter.post('/:username', (req, res) => {
                         if(Object.keys(gottenNewUser).length != 0){
                             console.log("Successful account update and fetch")
                             let fetchedNewUserData = gottenNewUser[0]
-                            fetchedNewUserData.updated = true
                             fetchedNewUserData.self = true
-                            res.render("profile", fetchedNewUserData)
+                            res.redirect(`/${gottenNewUser[0].username}?rt=update`)
                         }
                         else{
                             console.log("Could not fetch account that was just saved :( retry")
