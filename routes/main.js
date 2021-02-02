@@ -243,7 +243,7 @@ approuter.post('/:username', (req, res) => {
        
     }
     else{
-        //cookie not in browser while update wa srequested.
+        //cookie not in browser while update was requested, strange.
     }
 
 

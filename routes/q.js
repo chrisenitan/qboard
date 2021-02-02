@@ -182,8 +182,21 @@ approuter.get("/delete/:id", (req, res)=>{
 })
 
 
-//edit your question.. how do we keep intergity here?
+//edit your question.. how do we keep intergity here?: we keep the old one as title. each old one each change is title
 approuter.get("/edit/:id", (req, res)=>{
+    //only if logged in
+    if(req.cookies.user != undefined){
+        //only if question belongs to logged in user
+        //get user
+        let getLoggedInUser = `SELECT * FROM profiles WHERE cookie = '${req.cookies.user}'`
+
+
+        
+        let getQuestionData = `SELECT * FROM questions WHERE cookie`
+    }
+    else{
+        console.log(`Cookie User not found: delete/q`)
+    }
 
     //js array push for new comments? do we want to support this
 })
