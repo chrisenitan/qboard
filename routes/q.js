@@ -189,13 +189,23 @@ approuter.get("/edit/:id", (req, res)=>{
         //only if question belongs to logged in user
         //get user
         let getLoggedInUser = `SELECT * FROM profiles WHERE cookie = '${req.cookies.user}'`
+        sqldb.query(getLoggedInUser, (err, retLoggedInUser)=>{
+            if(err) throw err
+            if(Object.keys(retLoggedInUser).length != 0){
+                let loggedInUser = retLoggedInUser[0]
 
-
-        
-        let getQuestionData = `SELECT * FROM questions WHERE cookie`
+                //verify question and user association
+                let getQuestionData = `SELECT * FROM questions WHERE ownerID = ${loggedInUser.ownerID}`
+                res.send("We found the correlation")
+            }
+            else{
+                //could not find user logged in
+            }
+        })
     }
     else{
         console.log(`Cookie User not found: delete/q`)
+        res.send("Cookie User not found: delete/q")
     }
 
     //js array push for new comments? do we want to support this
