@@ -195,14 +195,22 @@ approuter.get("/edit/:id", (req, res)=>{
                 let loggedInUser = retLoggedInUser[0]
 
                 //verify question and user association
-                let getQuestionData = `SELECT * FROM questions WHERE ownerID = ${loggedInUser.ownerID}`
-                res.send("We found the correlation")
+                let getQuestionData = `SELECT * FROM questions WHERE ownerID = ${loggedInUser.id}`
+                sqldb.query(getQuestionData, (err, questionData)=>{
+                    if(err) throw err
+                    if(Object.keys(questionData).length != 0){
+                        res.send("We found the correlation")
+                    }
+                })
+                
             }
+            //did not find cookie user
             else{
                 //could not find user logged in
             }
         })
     }
+    //nobody is not logged in
     else{
         console.log(`Cookie User not found: delete/q`)
         res.send("Cookie User not found: delete/q")
