@@ -195,11 +195,12 @@ approuter.get("/edit/:id", (req, res)=>{
                 let loggedInUser = retLoggedInUser[0]
 
                 //verify question and user association
-                let getQuestionData = `SELECT * FROM questions WHERE ownerID = ${loggedInUser.id}`
+                let getQuestionData = `SELECT * FROM questions WHERE ownerID = '${loggedInUser.id}' AND refID =` + sqldb.escape(req.params.id)
                 sqldb.query(getQuestionData, (err, questionData)=>{
                     if(err) throw err
                     if(Object.keys(questionData).length != 0){
-                        res.send("We found the correlation")
+                        console.log(questionData[0])
+                        res.render("question/editQuestion", questionData[0])
                     }
                 })
                 
