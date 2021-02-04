@@ -2,15 +2,29 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
  {{> resources}}
-  <title>{{#ownerUsername}}@{{ownerUsername}} asked{{/ownerUsername}}{{^ownerUsername}}Nil{{/ownerUsername}} Question - Qboard </title>
+  <title>Edit Question {{refID}} - Qboard </title>
 	</head>
 
 	<body>
 <br>
 <a href="/"><img src="/images/art.jpg"/></a>
 
-<br>This is your question<br>
-<p>{{q}}</p>
+<br>Edit your question<br>
+
+<form action="" method="post">
+
+<label for="username">Question</label><br>
+<textarea name="hint" required/>
+{{q}}
+</textarea><br><br>
+
+<input type="hidden" name="bt" value=""/>
+<input type="hidden" name="request" value="update"/>
+
+<button>Update</button>
+<a href="/"><button type="button">Cancel</button></a>
+</form>
+
 
 
 
