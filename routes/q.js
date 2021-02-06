@@ -220,4 +220,13 @@ approuter.get("/edit/:id", (req, res)=>{
     //js array push for new comments? do we want to support this
 })
 
+//update question
+approuter.update("/update/:id", (req, res)=>{
+    //get and verify user
+
+    //update question
+
+
+})
+
 module.exports = approuter;
