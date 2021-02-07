@@ -230,13 +230,23 @@ approuter.post("/update", (req, res)=>{
             if (err) throw err
             if(Object.keys(userToVerify).length != 0){
                 console.log(`Cookie User found: update/q`)
-                res.send(`${req.body.username} found with cookie ${req.cookies.user} and can update question`)
+                console.log(`${req.body.username} found with cookie ${req.cookies.user} and can update question`)
             }
             else{
                 res.send(`No correlation between cookie and usrname, bounce`)
             }
-            //update question
-            let updateQuestion = `UPDATE questions SET ? = WHERE refID = '${req.body.username}'`
+            //get question and verify it belongs to this user
+            let verifyQuCon= `SELECT * FROM questions WHERE refID = ` + sqldb.escape(req.body.refID)
+            sqldb.query(verifyQuCon, (err, quCon)=>{
+                if(Object.keys(quCon).length != 0){
+                    //check for connection
+                    if(quCon[0].ownerID == userToVerify[0].id){
+                        res.send(`${req.body.username} found with cookie ${req.cookies.user} and can update question and ${quCon[0].ownerID} is equal to ${userToVerify[0].id} for sure can update`)
+                        //update question
+                        //let updateQuestion = `UPDATE questions SET ? = WHERE refID = '${req.body.username}'`
+                    }
+                }
+            })
         })
     }else{
         console.log(`Cookie User not found: update/q`)
