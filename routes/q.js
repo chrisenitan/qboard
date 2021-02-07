@@ -221,10 +221,29 @@ approuter.get("/edit/:id", (req, res)=>{
 })
 
 //update question
-approuter.update("/update/:id", (req, res)=>{
-    //get and verify user
+approuter.post("/update", (req, res)=>{
 
-    //update question
+    //get and verify user
+    if(req.cookies.user){
+        let verifyUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user) + `AND username = ` + sqldb.escape(req.body.username)
+        sqldb.query(verifyUser, (err, userToVerify)=>{
+            if (err) throw err
+            if(Object.keys(userToVerify).length != 0){
+                console.log(`Cookie User found: update/q`)
+                res.send(`${req.body.username} found with cookie ${req.cookies.user} and can update question`)
+            }
+            else{
+                res.send(`No correlation between cookie and usrname, bounce`)
+            }
+            //update question
+            let updateQuestion = `UPDATE questions SET ? = WHERE refID = '${req.body.username}'`
+        })
+    }else{
+        console.log(`Cookie User not found: update/q`)
+        res.send("Cookie User not found: update/q")
+    }
+
+    
 
 
 })

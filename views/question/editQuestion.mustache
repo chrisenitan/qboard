@@ -11,13 +11,14 @@
 
 <br>Edit your question<br>
 
-<form action="" method="post">
+<form action="/q/update" method="post">
 
 <label for="username">Question</label><br>
 <textarea name="q" required/>
 {{q}}
 </textarea><br><br>
 
+<input type="hidden" name="username" value="{{ownerUsername}}"/>
 <input type="hidden" name="bt" value=""/>
 <input type="hidden" name="request" value="update"/>
 
