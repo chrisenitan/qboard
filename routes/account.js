@@ -80,7 +80,7 @@ sqldb.query(getUser, (err, result)=>{
 		res.clearCookie("user")
 
 		//create new cookie
-		res.cookie("user", user.cookie)
+		res.cookie("user", user.cookie, {maxAge: 2592000000, httpOnly: false})
 		res.redirect('/' + user.username)
 	} 
 	else{

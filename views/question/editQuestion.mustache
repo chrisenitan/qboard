@@ -1,0 +1,36 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="/css/style.css"/>
+ {{> resources}}
+  <title>Edit Question {{refID}} - Qboard </title>
+	</head>
+
+	<body>
+<br>
+<a href="/"><img src="/images/art.jpg"/></a>
+
+<br>Edit your question<br>
+
+<form action="/q/update" method="post">
+
+<label for="username">Question</label><br>
+<textarea name="q" required/>
+{{q}}
+</textarea><br><br>
+
+<input type="hidden" name="username" value="{{ownerUsername}}"/>
+<input type="hidden" name="refID" value="{{refID}}"/>
+<input type="hidden" name="bt" value=""/>
+<input type="hidden" name="request" value="update"/>
+
+<button>Update</button>
+<a href="/"><button type="button">Cancel</button></a>
+</form>
+
+
+
+
+
+	</body>
+</html>
+

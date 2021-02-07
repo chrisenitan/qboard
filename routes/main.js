@@ -122,6 +122,9 @@ approuter.get('/signup', (req, res) => {
 //LOAD PROFILE DEFAULT FOR ALL ROOT LINKS EXPECT DEFINED
 approuter.get('/:username', (req, res) => {
 
+    //set a return var
+    const rt = req.query.rt
+
     var userFetchRef
     if(req.cookies.user){
         var userFetchRef = req.cookies.user
@@ -143,6 +146,18 @@ sqldb.query(checkForUser, (err, result)=>{
     else{
         //set userdata
         let foundUser = result[0]
+        if(rt){
+            switch (rt) {
+                case "d":
+                    foundUser.qReturn = "Question has been deleted"
+                    break;
+                case "update":
+                    foundUser.qReturn = "Account successfully updated"
+            
+                default:
+                    break;
+            }
+        }
 
         //get user questions data
         let getUserQuestions = `SELECT * FROM questions WHERE ownerID = ${result[0].id}`
@@ -204,9 +219,8 @@ approuter.post('/:username', (req, res) => {
                         if(Object.keys(gottenNewUser).length != 0){
                             console.log("Successful account update and fetch")
                             let fetchedNewUserData = gottenNewUser[0]
-                            fetchedNewUserData.updated = true
                             fetchedNewUserData.self = true
-                            res.render("profile", fetchedNewUserData)
+                            res.redirect(`/${gottenNewUser[0].username}?rt=update`)
                         }
                         else{
                             console.log("Could not fetch account that was just saved :( retry")
@@ -229,7 +243,7 @@ approuter.post('/:username', (req, res) => {
        
     }
     else{
-        //cookie not in browser while update wa srequested.
+        //cookie not in browser while update was requested, strange.
     }
 
 

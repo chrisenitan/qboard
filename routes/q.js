@@ -168,8 +168,13 @@ approuter.get("/delete/:id", (req, res)=>{
         sqldb.query(deletePost, (err, result)=>{
             if (err) throw err
             if(Object.keys(result).length != 0){
-                console.log(`Can delete post`)
-                res.send(`${req.params.id} Deleted: Confirm ${result.affectedRows}`)
+                console.log(`${req.params.id} Deleted: Confirm ${result.affectedRows}`)
+                //get current user
+                let currentUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user)
+                sqldb.query(currentUser, (err, response)=>{
+                    if (err) throw err
+                    res.redirect(`/${response[0].username}?rt=d`)
+                })
             }
         })
     }
@@ -177,10 +182,80 @@ approuter.get("/delete/:id", (req, res)=>{
 })
 
 
-//edit your question.. how do we keep intergity here?
+//edit your question.. how do we keep intergity here?: we keep the old one as title. each old one each change is title
 approuter.get("/edit/:id", (req, res)=>{
+    //only if logged in
+    if(req.cookies.user != undefined){
+        //only if question belongs to logged in user
+        //get user
+        let getLoggedInUser = `SELECT * FROM profiles WHERE cookie = '${req.cookies.user}'`
+        sqldb.query(getLoggedInUser, (err, retLoggedInUser)=>{
+            if(err) throw err
+            if(Object.keys(retLoggedInUser).length != 0){
+                let loggedInUser = retLoggedInUser[0]
+
+                //verify question and user association
+                let getQuestionData = `SELECT * FROM questions WHERE ownerID = '${loggedInUser.id}' AND refID =` + sqldb.escape(req.params.id)
+                sqldb.query(getQuestionData, (err, questionData)=>{
+                    if(err) throw err
+                    if(Object.keys(questionData).length != 0){
+                        console.log(questionData[0])
+                        res.render("question/editQuestion", questionData[0])
+                    }
+                })
+                
+            }
+            //did not find cookie user
+            else{
+                //could not find user logged in
+            }
+        })
+    }
+    //nobody is not logged in
+    else{
+        console.log(`Cookie User not found: delete/q`)
+        res.send("Cookie User not found: delete/q")
+    }
 
     //js array push for new comments? do we want to support this
+})
+
+//update question
+approuter.post("/update", (req, res)=>{
+
+    //get and verify user
+    if(req.cookies.user){
+        let verifyUser = `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user) + `AND username = ` + sqldb.escape(req.body.username)
+        sqldb.query(verifyUser, (err, userToVerify)=>{
+            if (err) throw err
+            if(Object.keys(userToVerify).length != 0){
+                console.log(`Cookie User found: update/q`)
+                console.log(`${req.body.username} found with cookie ${req.cookies.user} and can update question`)
+            }
+            else{
+                res.send(`No correlation between cookie and usrname, bounce`)
+            }
+            //get question and verify it belongs to this user
+            let verifyQuCon= `SELECT * FROM questions WHERE refID = ` + sqldb.escape(req.body.refID)
+            sqldb.query(verifyQuCon, (err, quCon)=>{
+                if(Object.keys(quCon).length != 0){
+                    //check for connection
+                    if(quCon[0].ownerID == userToVerify[0].id){
+                        res.send(`${req.body.username} found with cookie ${req.cookies.user} and can update question and ${quCon[0].ownerID} is equal to ${userToVerify[0].id} for sure can update`)
+                        //update question
+                        //let updateQuestion = `UPDATE questions SET ? = WHERE refID = '${req.body.username}'`
+                    }
+                }
+            })
+        })
+    }else{
+        console.log(`Cookie User not found: update/q`)
+        res.send("Cookie User not found: update/q")
+    }
+
+    
+
+
 })
 
 module.exports = approuter;
