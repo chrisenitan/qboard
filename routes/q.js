@@ -241,9 +241,14 @@ approuter.post("/update", (req, res)=>{
                 if(Object.keys(quCon).length != 0){
                     //check for connection
                     if(quCon[0].ownerID == userToVerify[0].id){
-                        res.send(`${req.body.username} found with cookie ${req.cookies.user} and can update question and ${quCon[0].ownerID} is equal to ${userToVerify[0].id} for sure can update`)
+                        console.log(`${req.body.username} found with cookie ${req.cookies.user} and can update question and ${quCon[0].ownerID} is equal to ${userToVerify[0].id} for sure can update`)
                         //update question
-                        //let updateQuestion = `UPDATE questions SET ? = WHERE refID = '${req.body.username}'`
+                        let updateQuestion = `UPDATE questions SET q = '${req.body.q}' WHERE refID = '${req.body.refID}'`
+                        sqldb.query(updateQuestion, (err, doneUpdating)=>{
+                            if (err) throw err
+                            console.log('changed ' + doneUpdating.changedRows + ' rows');
+                            res.send('changed ' + doneUpdating.changedRows + ' rows')
+                        })
                     }
                 }
             })
