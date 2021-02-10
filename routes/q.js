@@ -193,7 +193,6 @@ approuter.get("/edit/:id", (req, res)=>{
             if(err) throw err
             if(Object.keys(retLoggedInUser).length != 0){
                 let loggedInUser = retLoggedInUser[0]
-
                 //verify question and user association
                 let getQuestionData = `SELECT * FROM questions WHERE ownerID = '${loggedInUser.id}' AND refID =` + sqldb.escape(req.params.id)
                 sqldb.query(getQuestionData, (err, questionData)=>{
@@ -207,14 +206,14 @@ approuter.get("/edit/:id", (req, res)=>{
             }
             //did not find cookie user
             else{
-                //could not find user logged in
+                res.redirect("/")
             }
         })
     }
     //nobody is not logged in
     else{
-        console.log(`Cookie User not found: delete/q`)
-        res.send("Cookie User not found: delete/q")
+        console.log(`Cookie User not found: edit/q`)
+        res.redirect("/")
     }
 
     //js array push for new comments? do we want to support this
@@ -255,9 +254,10 @@ approuter.post("/update", (req, res)=>{
                 }
             })
         })
-    }else{
+    }
+    else{
         console.log(`Cookie User not found: update/q`)
-        res.send("Cookie User not found: update/q")
+        res.redirect("/")
     }
 
     
