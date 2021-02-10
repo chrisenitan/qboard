@@ -246,8 +246,10 @@ approuter.post("/update", (req, res)=>{
                         let updateQuestion = `UPDATE questions SET q = '${req.body.q}' WHERE refID = '${req.body.refID}'`
                         sqldb.query(updateQuestion, (err, doneUpdating)=>{
                             if (err) throw err
-                            console.log('changed ' + doneUpdating.changedRows + ' rows');
-                            res.send('changed ' + doneUpdating.changedRows + ' rows')
+                            if(doneUpdating.changedRows != 0 && doneUpdating.changedRows == 1){
+                                console.log('changed ' + doneUpdating.changedRows + ' rows');
+                                res.redirect(`/q/${quCon[0].refID}`)
+                            }
                         })
                     }
                 }
