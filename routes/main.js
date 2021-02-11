@@ -50,7 +50,7 @@ approuter.get('/', (req, res) => {
             else{
                 //remove possibly invalid user
                 res.clearCookie("user")
-                res.send("Afetrghdnm")
+                res.redirect("/")
             }
         })
     }
@@ -143,9 +143,8 @@ sqldb.query(checkForUser, (err, result)=>{
     if (err) throw err;
     if(Object.keys(result).length == 0){
         console.log("User not found: /username")
-        res.status(204).json({
-            message:"no user found"
-        })
+        res.clearCookie("user")
+        res.redirect("/")
     }
     //user found
     else{
