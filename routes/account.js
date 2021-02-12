@@ -150,11 +150,18 @@ approuter.get('/recovery', (req, res) => {
 
 //recovery, collect user code and verify that token was correct the reset passowrd and ask user to login 
 approuter.post('/recovery', (req, res) => {
-
 	let requestingUser = {
-		username: req.body.username
+		email: req.body.email
 	}
+	//check for current cookie and see how we can tie it to sql below
+	
+	//send email to actual account if found
+	let getAccount = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(requestingUser.email)
+	
 
+	res.send({
+		message: "account recovered"
+	})
 	//password reset
 	//	res.render("recovery");
 	
