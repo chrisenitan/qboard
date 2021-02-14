@@ -152,16 +152,24 @@ approuter.get('/recovery', (req, res) => {
 approuter.post('/recovery', (req, res) => {
 	let requestingUser = {
 		email: req.body.email
-	}
-	//check for current cookie and see how we can tie it to sql below
-	
+	}	
 	//send email to actual account if found
-	let getAccount = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(requestingUser.email)
-	
-
-	res.send({
-		message: "account recovered"
+	if(req.cookies.user != undefined){
+		var getAccount = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(requestingUser.email) + `AND cookie = ${req.cookies.user}`
+	}
+	else{
+		var getAccount = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(requestingUser.email) 
+	}
+	sqldb.query(getAccount, (err, gotAccount)=>{
+		if (err) throw err
+		if(Object.keys(gotAccount).lenght != 0){
+			res.send({
+				message: "account recovered"
+			})
+		}
 	})
+
+	
 	//password reset
 	//	res.render("recovery");
 	
