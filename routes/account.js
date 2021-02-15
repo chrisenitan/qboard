@@ -1,6 +1,7 @@
 //account settings only
 const express = require('express'); //param body query
 const mysql = require('mysql')
+const nodemailer = require('nodemailer');
 
 //initislaize express
 const approuter = express();
@@ -163,6 +164,31 @@ approuter.post('/recovery', (req, res) => {
 	sqldb.query(getAccount, (err, gotAccount)=>{
 		if (err) throw err
 		if(Object.keys(gotAccount).lenght != 0){
+			var transporter = nodemailer.createTransport({
+				service: "gmail",
+				auth: {
+					user: "ennycris1@gmail.com",
+					pass: process.env.mailerPass
+				}
+			})
+
+			var mailOptions = {
+				from: transporter.auth.user,
+				to:"enitanchris@gmail.com",
+				subject: "Account Recovery",
+				text: "Here is the simple test"
+			}
+
+			transporter.sendMail(mailOptions, function(error, info){
+				if(error){
+					console.log(error)
+				}
+				else{
+					console.log(`Email sent ${info.response}`)
+				}
+			})
+
+
 			res.send({
 				message: "account can be recovered"
 			})
