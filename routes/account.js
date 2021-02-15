@@ -164,7 +164,7 @@ approuter.post('/recovery', (req, res) => {
 		if (err) throw err
 		if(Object.keys(gotAccount).lenght != 0){
 			res.send({
-				message: "account recovered"
+				message: "account can be recovered"
 			})
 		}
 	})
