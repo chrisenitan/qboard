@@ -173,7 +173,7 @@ approuter.post('/recovery', (req, res) => {
 			})
 
 			var mailOptions = {
-				from: transporter.auth.user,
+				from: "ennycris1@gmail.com",
 				to:"enitanchris@gmail.com",
 				subject: "Account Recovery",
 				text: "Here is the simple test"
