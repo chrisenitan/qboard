@@ -166,7 +166,13 @@ approuter.post('/recovery', (req, res) => {
 	sqldb.query(getAccount, (err, gotAccount)=>{
 		if (err) throw err
 		if(Object.keys(gotAccount).lenght != 0){
-			processMail("nothing")
+			var book = processMail({
+				to: "enitanchris@gmail.com",
+				subject: "Account Recovery",
+				body: "You requested a new password"
+			})		
+			console.log(`We have you ${book}`)
+			
 			res.send({
 				message: "account can be recovered"
 			})

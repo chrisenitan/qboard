@@ -1,19 +1,19 @@
 const nodemailer = require('nodemailer');
 
-let processMail = (req)=>{
+let processMail = (req, res)=>{
     var transporter = nodemailer.createTransport({
         service: "outlook",
         auth: {
-            user: "crisdeven@hotmail.com",
+            user: process.env.mailerMail,
             pass: process.env.mailerPass
         }
     })
 
     var mailOptions = {
-        from: "crisdeven@hotmail.com",
-        to:"enitanchris@gmail.com",
-        subject: "Account Recovery",
-        text: "Here is a longr er test of the email function"
+        from: process.env.mailerMail,
+        to: req.to,
+        subject: req.subject,
+        text: req.body
     }
 
     transporter.sendMail(mailOptions, function(error, info){
@@ -29,9 +29,12 @@ let processMail = (req)=>{
                 log: `Log ${info.response}`
             }
         }
+        exports.res = res
         return res
+       
     })
- 
+
+  
 
 }
 
