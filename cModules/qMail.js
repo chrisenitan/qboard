@@ -1,5 +1,14 @@
 const nodemailer = require('nodemailer');
 
+function lastLap (request, res){
+    //console.log(request)
+    var request = {
+        mane: "fdhfk"
+    }
+    return request
+}
+
+
 let processMail = (req, res)=>{
     var transporter = nodemailer.createTransport({
         service: "outlook",
@@ -18,24 +27,22 @@ let processMail = (req, res)=>{
 
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
-            var res = {
+            var result = {
                 status: false,
                 log: `Log ${info.response}`
             }
         }
         else{
-            var res = {
+            var result = {
                 status: true,
                 log: `Log ${info.response}`
             }
         }
-        exports.res = res
-        return res
-       
+       lastLap(result)
     })
-
-  
-
 }
 
+
+
+exports.lastLap = lastLap
 exports.processMail = processMail

@@ -2,7 +2,7 @@
 const express = require('express'); //param body query
 const mysql = require('mysql')
 //const nodemailer = require('nodemailer');
-const {processMail} = require('../cModules/qMail');
+const {lastLap, processMail} = require('../cModules/qMail');
 
 
 //initislaize express
@@ -170,8 +170,9 @@ approuter.post('/recovery', (req, res) => {
 				to: "enitanchris@gmail.com",
 				subject: "Account Recovery",
 				body: "You requested a new password"
-			})		
-			console.log(`We have you ${book}`)
+			})	
+			let mailResult = lastLap()
+			console.log(`We have you ${mailResult}`)
 			
 			res.send({
 				message: "account can be recovered"
