@@ -1,12 +1,6 @@
 const nodemailer = require('nodemailer');
 
-function lastLap (request, res){
-    //console.log(request)
-    var request = {
-        mane: "fdhfk"
-    }
-    return request
-}
+
 
 
 let processMail = (req, res)=>{
@@ -38,11 +32,9 @@ let processMail = (req, res)=>{
                 log: `Log ${info.response}`
             }
         }
-       lastLap(result)
+        return result
     })
 }
 
 
-
-exports.lastLap = lastLap
 exports.processMail = processMail
