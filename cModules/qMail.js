@@ -1,9 +1,7 @@
 const nodemailer = require('nodemailer');
 
-
-
-
 let processMail = (req, res)=>{
+    var backLoop
     var transporter = nodemailer.createTransport({
         service: "outlook",
         auth: {
@@ -32,8 +30,9 @@ let processMail = (req, res)=>{
                 log: `Log ${info.response}`
             }
         }
-        return result
+        backLoop = result
     })
+    return backLoop
 }
 
 

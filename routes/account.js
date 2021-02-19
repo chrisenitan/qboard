@@ -171,7 +171,8 @@ approuter.post('/recovery', (req, res) => {
 				subject: "Account Recovery",
 				body: "You requested a new password"
 			})	
-			console.log(`We have you ${book}`)
+			//console.log(`We have you ${book}`)
+			console.log(book)
 			
 			res.send({
 				message: "account can be recovered"
