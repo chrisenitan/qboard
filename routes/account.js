@@ -1,6 +1,9 @@
 //account settings only
 const express = require('express'); //param body query
 const mysql = require('mysql')
+//const nodemailer = require('nodemailer');
+const {processMail} = require('../cModules/qMail');
+
 
 //initislaize express
 const approuter = express();
@@ -142,19 +145,43 @@ approuter.get('/account', (req, res) => {
 
 //recovery, just incase anyone wants to rest their passowrd from a link
 approuter.get('/recovery', (req, res) => {
-
-	res.render("account/recovery");
-	//send form to post route
-	
+	if(req.query.r){
+		//swicth cases
+		var data = {
+			message: "Your account recovery has started."
+		}
+		res.render("account/recovery", data);
+	}
+	else{
+		res.render("account/recovery");
+	}
 });
 
 //recovery, collect user code and verify that token was correct the reset passowrd and ask user to login 
 approuter.post('/recovery', (req, res) => {
-
 	let requestingUser = {
-		username: req.body.username
+		email: req.body.email
+	}	
+	//send email to actual account if found
+	if(req.cookies.user != undefined){
+		var getAccount = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(requestingUser.email) + `AND cookie = ${req.cookies.user}`
 	}
+	else{
+		var getAccount = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(requestingUser.email) 
+	}
+	sqldb.query(getAccount, (err, gotAccount)=>{
+		if (err) throw err
+		if(Object.keys(gotAccount).lenght != 0){
+			processMail({//need to bring this function back here... 
+				to: "enitanchris@gmail.com",
+				subject: "Account Recovery",
+				body: "You requested a new password"
+			})	
+			res.redirect("recovery?r=anything")
+		}
+	})
 
+	
 	//password reset
 	//	res.render("recovery");
 	

@@ -193,7 +193,6 @@ approuter.get("/edit/:id", (req, res)=>{
             if(err) throw err
             if(Object.keys(retLoggedInUser).length != 0){
                 let loggedInUser = retLoggedInUser[0]
-
                 //verify question and user association
                 let getQuestionData = `SELECT * FROM questions WHERE ownerID = '${loggedInUser.id}' AND refID =` + sqldb.escape(req.params.id)
                 sqldb.query(getQuestionData, (err, questionData)=>{
@@ -207,14 +206,14 @@ approuter.get("/edit/:id", (req, res)=>{
             }
             //did not find cookie user
             else{
-                //could not find user logged in
+                res.redirect("/")
             }
         })
     }
     //nobody is not logged in
     else{
-        console.log(`Cookie User not found: delete/q`)
-        res.send("Cookie User not found: delete/q")
+        console.log(`Cookie User not found: edit/q`)
+        res.redirect("/")
     }
 
     //js array push for new comments? do we want to support this
@@ -241,16 +240,24 @@ approuter.post("/update", (req, res)=>{
                 if(Object.keys(quCon).length != 0){
                     //check for connection
                     if(quCon[0].ownerID == userToVerify[0].id){
-                        res.send(`${req.body.username} found with cookie ${req.cookies.user} and can update question and ${quCon[0].ownerID} is equal to ${userToVerify[0].id} for sure can update`)
+                        console.log(`${req.body.username} found with cookie ${req.cookies.user} and can update question and ${quCon[0].ownerID} is equal to ${userToVerify[0].id} for sure can update`)
                         //update question
-                        //let updateQuestion = `UPDATE questions SET ? = WHERE refID = '${req.body.username}'`
+                        let updateQuestion = `UPDATE questions SET q = '${req.body.q}' WHERE refID = '${req.body.refID}'`
+                        sqldb.query(updateQuestion, (err, doneUpdating)=>{
+                            if (err) throw err
+                            if(doneUpdating.changedRows != 0 && doneUpdating.changedRows == 1){
+                                console.log('changed ' + doneUpdating.changedRows + ' rows');
+                                res.redirect(`/q/${quCon[0].refID}`)
+                            }
+                        })
                     }
                 }
             })
         })
-    }else{
+    }
+    else{
         console.log(`Cookie User not found: update/q`)
-        res.send("Cookie User not found: update/q")
+        res.redirect("/")
     }
 
     

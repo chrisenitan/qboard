@@ -12,7 +12,24 @@
 <p>Welcome to QBoard {{name}} </p> 
 <span class="wtxt">{{id}}</span><br>
 
+{{#message}}
+<p>{{message}}</p>
+{{/message}}
+
+
 <p>Recover your account here</p>
+
+<form action="/account/recovery" method="post">
+
+<label for="email">Your Accounts Email</label><br>
+<input type="text" name="email" placeholder="Email" value="test@test.com"/><br><br>
+
+<input type="hidden" name="bt" value=""/>
+<input type="hidden" name="request" value="resetPassword"/>
+
+<button>Recover </button>
+
+</form>
 
 
 
