@@ -1,7 +1,8 @@
+const { defaultCoreCipherList } = require('constants');
 const nodemailer = require('nodemailer');
 
+
 let processMail = (req, res)=>{
-    var backLoop
     var transporter = nodemailer.createTransport({
         service: "outlook",
         auth: {
@@ -17,7 +18,7 @@ let processMail = (req, res)=>{
         text: req.body
     }
 
-    transporter.sendMail(mailOptions, function(error, info){
+transporter.sendMail(mailOptions, function(error, info){
         if(error){
             var result = {
                 status: false,
@@ -30,9 +31,10 @@ let processMail = (req, res)=>{
                 log: `Log ${info.response}`
             }
         }
-        backLoop = result
+       // return info
+        
     })
-    return backLoop
+    
 }
 
 

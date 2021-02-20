@@ -145,10 +145,16 @@ approuter.get('/account', (req, res) => {
 
 //recovery, just incase anyone wants to rest their passowrd from a link
 approuter.get('/recovery', (req, res) => {
-
-	res.render("account/recovery");
-	//send form to post route
-	
+	if(req.query.r){
+		//swicth cases
+		var data = {
+			message: "Your account recovery has started."
+		}
+		res.render("account/recovery", data);
+	}
+	else{
+		res.render("account/recovery");
+	}
 });
 
 //recovery, collect user code and verify that token was correct the reset passowrd and ask user to login 
@@ -166,17 +172,12 @@ approuter.post('/recovery', (req, res) => {
 	sqldb.query(getAccount, (err, gotAccount)=>{
 		if (err) throw err
 		if(Object.keys(gotAccount).lenght != 0){
-			var book = processMail({
+			processMail({//need to bring this function back here... 
 				to: "enitanchris@gmail.com",
 				subject: "Account Recovery",
 				body: "You requested a new password"
 			})	
-			//console.log(`We have you ${book}`)
-			console.log(book)
-			
-			res.send({
-				message: "account can be recovered"
-			})
+			res.redirect("recovery?r=anything")
 		}
 	})
 
