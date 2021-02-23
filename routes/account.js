@@ -144,9 +144,16 @@ approuter.get('/account', (req, res) => {
 
 
 //recovery, just incase anyone wants to rest their passowrd from a link
-approuter.get('/recovery', (req, res) => {
-	if(req.query.r){
+approuter.get('/recovery/:token', (req, res) => {
+	if(req.params){
 		//swicth cases
+		switch(req.params){
+			case "ask":
+
+			break;
+
+			case ""
+		}
 		var data = {
 			message: "Your account recovery has started."
 		}
