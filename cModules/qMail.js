@@ -1,6 +1,4 @@
-const { defaultCoreCipherList } = require('constants');
 const nodemailer = require('nodemailer');
-
 
 let processMail = (req, res)=>{
     var transporter = nodemailer.createTransport({
@@ -31,8 +29,6 @@ transporter.sendMail(mailOptions, function(error, info){
                 log: `Log ${info.response}`
             }
         }
-       // return info
-        
     })
     
 }

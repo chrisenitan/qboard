@@ -144,13 +144,23 @@ approuter.get('/account', (req, res) => {
 
 
 //recovery, just incase anyone wants to rest their passowrd from a link
-approuter.get('/recovery', (req, res) => {
-	if(req.query.r){
+approuter.get('/recovery/:token?', (req, res) => {
+	if(req.params.token){
 		//swicth cases
-		var data = {
-			message: "Your account recovery has started."
+		switch(req.params.token){
+			case "start":
+				var data = {
+					message: "Your account recovery has started."
+				}
+				res.render("account/recovery", data);
+			break;
+
+			case "confirm":
+				var data = {
+					message: "Your account recovery has started."
+				}
+				res.render("account/recovery", data);
 		}
-		res.render("account/recovery", data);
 	}
 	else{
 		res.render("account/recovery");
@@ -177,7 +187,7 @@ approuter.post('/recovery', (req, res) => {
 				subject: "Account Recovery",
 				body: "You requested a new password"
 			})	
-			res.redirect("recovery?r=anything")
+			res.redirect("recovery/start")
 		}
 	})
 
