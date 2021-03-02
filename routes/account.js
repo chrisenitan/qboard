@@ -157,7 +157,8 @@ approuter.get('/recovery/:token?', (req, res) => {
 
 			case "confirm":
 				var data = {
-					message: "Your account recovery has started."
+					message: "Your account recovery has started.",
+					type: "confirm"
 				}
 				res.render("account/recovery", data);
 		}
