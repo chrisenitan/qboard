@@ -183,6 +183,14 @@ approuter.post('/recovery', (req, res) => {
 	sqldb.query(getAccount, (err, gotAccount)=>{
 		if (err) throw err
 		if(Object.keys(gotAccount).lenght != 0){
+			//create a token
+			//save the token to db
+			let holdToken = `INSERT INTO profiles ?`
+			sqldb.query(holdToken, (err, held)=>{
+
+			})
+
+
 			processMail({//need to bring this function back here... 
 				to: "enitanchris@gmail.com",
 				subject: "Account Recovery",
