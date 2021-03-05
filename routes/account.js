@@ -184,19 +184,22 @@ approuter.post('/recovery', (req, res) => {
 		if (err) throw err
 		if(Object.keys(gotAccount).lenght != 0){
 			//create a token
+			var userToken = "ChrisToken"
 			//save the token to db
-			let holdToken = `INSERT INTO profiles ?`
-			sqldb.query(holdToken, (err, held)=>{
-
+			let holdToken = `UPDATE profiles set token = '${userToken}' WHERE username = '${gotAccount[0].username}'` 
+			sqldb.query(holdToken, (err, held, fields)=>{
+				if(err) throw err
+				console.log(`Inserted one value ${held.insertId}`)
+				res.send(`Inserted: ${held.affectedRows} into ${gotAccount[0].username}`)
 			})
 
 
-			processMail({//need to bring this function back here... 
+			/* processMail({//need to bring this function back here... 
 				to: "enitanchris@gmail.com",
 				subject: "Account Recovery",
 				body: "You requested a new password"
 			})	
-			res.redirect("recovery/start")
+			res.redirect("recovery/start") */
 		}
 	})
 
