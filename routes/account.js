@@ -197,7 +197,7 @@ approuter.post('/recovery', (req, res) => {
 				to: "enitanchris@gmail.com",
 				subject: "Account Recovery",
 				body: `You requested a new password and we have a token as: ${userToken}`
-			})	
+				})
 			//res.redirect("recovery/start")
 			})
 		}
