@@ -191,15 +191,15 @@ approuter.post('/recovery', (req, res) => {
 				if(err) throw err
 				console.log(`Inserted one value ${held.insertId}`)
 				res.send(`Inserted: ${held.affectedRows} into ${gotAccount[0].username}`)
-			})
 
-
-			/* processMail({//need to bring this function back here... 
+				//send the email with token
+				processMail({//need to bring this function back here... 
 				to: "enitanchris@gmail.com",
 				subject: "Account Recovery",
-				body: "You requested a new password"
+				body: `You requested a new password and we have a token as: ${userToken}`
 			})	
-			res.redirect("recovery/start") */
+			//res.redirect("recovery/start")
+			})
 		}
 	})
 
