@@ -157,7 +157,8 @@ approuter.get('/recovery/:token?', (req, res) => {
 
 			case "confirm":
 				var data = {
-					message: "Your account recovery has started."
+					message: "Your account recovery has started.",
+					type: "confirm"
 				}
 				res.render("account/recovery", data);
 		}
@@ -182,12 +183,23 @@ approuter.post('/recovery', (req, res) => {
 	sqldb.query(getAccount, (err, gotAccount)=>{
 		if (err) throw err
 		if(Object.keys(gotAccount).lenght != 0){
-			processMail({//need to bring this function back here... 
+			//create a token
+			var userToken = "ChrisToken"
+			//save the token to db
+			let holdToken = `UPDATE profiles set token = '${userToken}' WHERE username = '${gotAccount[0].username}'` 
+			sqldb.query(holdToken, (err, held, fields)=>{
+				if(err) throw err
+				console.log(`Inserted one value ${held.insertId}`)
+				res.send(`Inserted: ${held.affectedRows} into ${gotAccount[0].username}`)
+
+				//send the email with token
+				processMail({//need to bring this function back here... 
 				to: "enitanchris@gmail.com",
 				subject: "Account Recovery",
-				body: "You requested a new password"
-			})	
-			res.redirect("recovery/start")
+				body: `You requested a new password and we have a token as: ${userToken}`
+				})
+			//res.redirect("recovery/start")
+			})
 		}
 	})
 
