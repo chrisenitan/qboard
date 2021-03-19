@@ -142,6 +142,11 @@ approuter.get('/account', (req, res) => {
 
 });
 
+//reset password gotten from token recovery
+approuter.post("/reset", (req, res)=>{
+
+})
+
 
 //recovery, just incase anyone wants to rest their passowrd from a link
 approuter.get('/recovery/:token?', (req, res) => {
@@ -161,6 +166,9 @@ approuter.get('/recovery/:token?', (req, res) => {
 					type: "confirm"
 				}
 				res.render("account/recovery", data);
+				break;
+				default:
+					res.render("account/recovery");
 		}
 	}
 	else{
