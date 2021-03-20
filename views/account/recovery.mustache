@@ -14,18 +14,18 @@
 
 {{#message}}
 <p>{{message}}</p>
-{{#type}}
-<form action="" method="post">
+{{#confirm}}
+<form action="/account/reset" method="post">
 
 <label for="email">Your Accounts Email and reset token</label><br>
-<input type="email" name="email" placeholder="Email"/><br><br>
+<input type="email" name="email" placeholder="Email" value="test@test.com"/><br><br>
 
-<input type="text" name="token" placeholder="Your recovery token"/><br><br>
+<input type="text" name="token" placeholder="Your recovery token" value="testtoken"/><br><br>
 
 <button>Recover </button>
 
 </form>
-{{/type}}
+{{/confirm}}
 {{/message}}
 
 

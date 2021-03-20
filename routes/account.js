@@ -144,7 +144,9 @@ approuter.get('/account', (req, res) => {
 
 //reset password gotten from token recovery
 approuter.post("/reset", (req, res)=>{
-
+	let resetRequest = req.body
+	console.log(resetRequest)
+	res.send(resetRequest)
 })
 
 
@@ -163,7 +165,7 @@ approuter.get('/recovery/:token?', (req, res) => {
 			case "confirm":
 				var data = {
 					message: "Your account recovery has started.",
-					type: "confirm"
+					confirm: true
 				}
 				res.render("account/recovery", data);
 				break;
