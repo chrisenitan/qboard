@@ -3,6 +3,7 @@ const express = require('express'); //param body query
 const mysql = require('mysql')
 //const nodemailer = require('nodemailer');
 const {processMail} = require('../cModules/qMail');
+const { response } = require('./main');
 
 
 //initislaize express
@@ -146,7 +147,18 @@ approuter.get('/account', (req, res) => {
 approuter.post("/reset", (req, res)=>{
 	let resetRequest = req.body
 	console.log(resetRequest)
-	res.send(resetRequest)
+	//get valid token from db
+	let getValidDBToken = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(resetRequest.email)
+	sqldb.query(getValidDBToken, (err, validDBToken)=>{
+		if (err) throw err
+		if(Object.keys(validDBToken).length != 0){
+			console.log(`We found ${validDBToken[0].username}`)
+			res.send(validDBToken[0])
+		}
+		else{
+			
+		}
+	})
 })
 
 
