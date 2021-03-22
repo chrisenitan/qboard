@@ -153,7 +153,16 @@ approuter.post("/reset", (req, res)=>{
 		if (err) throw err
 		if(Object.keys(validDBToken).length != 0){
 			console.log(`We found ${validDBToken[0].username}`)
-			res.send(validDBToken[0])
+			let objValidDBToken = validDBToken[0]
+			//check if token is valid with rovided data
+			if(objValidDBToken.token == resetRequest.token){
+				console.log("We can reset")
+				res.send("we can reset")
+			}
+			else{
+				console.log("We cannot reset")
+				res.send("we cannot reset")
+			}
 		}
 		else{
 			
