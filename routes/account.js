@@ -157,7 +157,7 @@ approuter.post("/reset", (req, res)=>{
 			//check if token is valid with rovided data
 			if(objValidDBToken.token == resetRequest.token){
 				console.log("We can reset")
-				res.send("we can reset")
+				res.send(objValidDBToken)
 			}
 			else{
 				console.log("We cannot reset")
