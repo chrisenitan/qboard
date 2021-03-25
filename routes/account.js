@@ -157,7 +157,16 @@ approuter.post("/reset", (req, res)=>{
 			//check if token is valid with rovided data
 			if(objValidDBToken.token == resetRequest.token){
 				console.log("We can reset")
-				res.send(objValidDBToken)
+				//update password
+				let updatePassword = `UPDATE profiles SET password = ` + sqldb.escape(resetRequest.npassword) + `WHERE email = ` + sqldb.escape(resetRequest.email)
+				sqldb.query(updatePassword, (err, updatedReturn)=>{
+					if (err) throw err
+					res.send(`affected rows ${updatedReturn.affectedRows}`)
+				})
+
+
+				//redirect to recovery/completed
+				//res.send(objValidDBToken)
 			}
 			else{
 				console.log("We cannot reset")

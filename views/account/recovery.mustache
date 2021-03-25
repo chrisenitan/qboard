@@ -15,13 +15,14 @@
 {{#message}}
 <p>{{message}}</p>
 {{#confirm}}
+{{!-- need to verify password is same here --}}
 <form action="/account/reset" method="post">
 
 <label for="email">Your Accounts Email and reset token</label><br>
-<input type="email" name="email" placeholder="Email" value="test@test.com"/><br><br>
+<input type="email" name="email" placeholder="Email" value="sample@test.com"/><br><br>
 
-<input type="password" name="npassword" placeholder="New Password" value="test"/><br><br>
-<input type="password" name="rnPassword" placeholder="Renter Password" value="test"/><br><br>
+<input type="password" name="npassword" placeholder="New Password" value="abcdefg"/><br><br>
+<input type="password" name="rnPassword" placeholder="Renter Password" value="abcdefg"/><br><br>
 <input type="text" name="token" placeholder="Your recovery token" value="ChrisToken"/><br><br>
 
 <button>Recover </button>
