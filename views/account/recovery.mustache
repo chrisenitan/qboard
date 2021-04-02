@@ -13,8 +13,8 @@
 <span class="wtxt">{{id}}</span><br>
 
 {{#message}}
-<p>{{message}}</p>
 {{#confirm}}
+<p>{{message}}</p>
 {{!-- need to verify password is same here --}}
 <form action="/account/reset" method="post">
 
@@ -29,6 +29,13 @@
 
 </form>
 {{/confirm}}
+
+{{!-- if completed reset --}}
+{{#completed}}
+<p>{{message}}</p>
+<p>Please login with your new account credentials</p>
+<a href="/login"><button>Login</button></a>
+{{/completed}}
 {{/message}}
 
 

@@ -149,24 +149,23 @@ approuter.post("/reset", (req, res)=>{
 	console.log(resetRequest)
 	//get valid token from db
 	let getValidDBToken = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(resetRequest.email)
-	sqldb.query(getValidDBToken, (err, validDBToken)=>{
+	sqldb.query(getValidDBToken, (err, validDBUser)=>{
 		if (err) throw err
-		if(Object.keys(validDBToken).length != 0){
-			console.log(`We found ${validDBToken[0].username}`)
-			let objValidDBToken = validDBToken[0]
-			//check if token is valid with rovided data
-			if(objValidDBToken.token == resetRequest.token){
+		if(Object.keys(validDBUser).length != 0){
+			console.log(`We found ${validDBUser[0].username}`)
+			let objValidDBUser = validDBUser[0]
+			//check if token is valid with provided data
+			if(objValidDBUser.token == resetRequest.token){
 				console.log("We can reset")
 				//update password
 				let updatePassword = `UPDATE profiles SET password = ` + sqldb.escape(resetRequest.npassword) + `WHERE email = ` + sqldb.escape(resetRequest.email)
 				sqldb.query(updatePassword, (err, updatedReturn)=>{
 					if (err) throw err
-					res.send(`affected rows ${updatedReturn.affectedRows}`)
+					console.log(`affected rows ${updatedReturn.affectedRows}`)
 				})
+				console.log(objValidDBUser)
+				res.redirect("recovery/completed")
 
-
-				//redirect to recovery/completed
-				//res.send(objValidDBToken)
 			}
 			else{
 				console.log("We cannot reset")
@@ -199,6 +198,15 @@ approuter.get('/recovery/:token?', (req, res) => {
 				}
 				res.render("account/recovery", data);
 				break;
+
+				case "completed":
+					var data = {
+						message: "You have reset your account.",
+						completed: true
+					}
+					res.render("account/recovery", data);
+				break;
+
 				default:
 					res.render("account/recovery");
 		}
