@@ -51,6 +51,15 @@ button{
 	border: 1px solid #a9ffa9;
 	border-radius: 50px;
 }
+.altbutton{
+	height: 30px;
+    width: 210px;
+    color: #ffffff;
+    margin: 10px;
+    background-color: #a9ffa92b;
+    border: 1px solid #a9ffa9;
+    border-radius: 50px;
+}
 textarea{
 	height: 80px;
 	width: 210px;
