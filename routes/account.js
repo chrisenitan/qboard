@@ -3,6 +3,7 @@ const express = require('express'); //param body query
 const mysql = require('mysql')
 //const nodemailer = require('nodemailer');
 const {processMail} = require('../cModules/qMail');
+const { response } = require('./main');
 
 
 //initislaize express
@@ -142,6 +143,41 @@ approuter.get('/account', (req, res) => {
 
 });
 
+//reset password gotten from token recovery
+approuter.post("/reset", (req, res)=>{
+	let resetRequest = req.body
+	console.log(resetRequest)
+	//get valid token from db
+	let getValidDBToken = `SELECT * FROM profiles WHERE email = ` + sqldb.escape(resetRequest.email)
+	sqldb.query(getValidDBToken, (err, validDBUser)=>{
+		if (err) throw err
+		if(Object.keys(validDBUser).length != 0){
+			console.log(`We found ${validDBUser[0].username}`)
+			let objValidDBUser = validDBUser[0]
+			//check if token is valid with provided data
+			if(objValidDBUser.token == resetRequest.token){
+				console.log("We can reset")
+				//update password
+				let updatePassword = `UPDATE profiles SET password = ` + sqldb.escape(resetRequest.npassword) + `WHERE email = ` + sqldb.escape(resetRequest.email)
+				sqldb.query(updatePassword, (err, updatedReturn)=>{
+					if (err) throw err
+					console.log(`affected rows ${updatedReturn.affectedRows}`)
+				})
+				console.log(objValidDBUser)
+				res.redirect("recovery/completed")
+
+			}
+			else{
+				console.log("We cannot reset")
+				res.send("we cannot reset")
+			}
+		}
+		else{
+			
+		}
+	})
+})
+
 
 //recovery, just incase anyone wants to rest their passowrd from a link
 approuter.get('/recovery/:token?', (req, res) => {
@@ -158,9 +194,21 @@ approuter.get('/recovery/:token?', (req, res) => {
 			case "confirm":
 				var data = {
 					message: "Your account recovery has started.",
-					type: "confirm"
+					confirm: true
 				}
 				res.render("account/recovery", data);
+				break;
+
+				case "completed":
+					var data = {
+						message: "You have reset your account.",
+						completed: true
+					}
+					res.render("account/recovery", data);
+				break;
+
+				default:
+					res.render("account/recovery");
 		}
 	}
 	else{
