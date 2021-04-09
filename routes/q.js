@@ -1,7 +1,6 @@
 
 const express = require('express'); //param body query
 const mysql = require('mysql')
-const authPostCreate = require("../cModules/authPostCreate.js")
 
 //initislaize express and allow access to parent params
 const approuter = express.Router({mergeParams:true});
@@ -30,16 +29,30 @@ sqldb.connect((err) => {
 })
 
 //create new question
-approuter.get("/new", authPostCreate, (req, res)=>{
+approuter.get("/new", (req, res)=>{
+    var authPostCreate
     //cookie verify user can do this action
     if(req.cookies.user){
-        console.log("You can make a new post")
+        //fetch user date
 
-        //verify user can make post
-        console.log(authPostCreate.status)
-
-
-        res.render("question/new")
+        
+     //check db and make sure user has 1 to 1 ratio of post and question
+   let getAccountPostRecord = `SELECT * FROM profiles WHERE email = 'sample@test.com'`
+   sqldb.query(getAccountPostRecord, (err, accountPostRecord)=>{
+     if(err) throw err
+     if(Object.keys(accountPostRecord).length != 0){
+         let userDetails = accountPostRecord[0]
+         var authPostCreate = {}
+         if(userDetails.token == "ChrisToken"){
+          authPostCreate.authPass = true
+         }
+         else{
+          authPostCreate.authPass = false
+         }
+     }
+     res.render("question/new", authPostCreate)
+ })
+ 
     }
     else{
         res.redirect("/")
