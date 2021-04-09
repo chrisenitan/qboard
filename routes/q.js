@@ -1,7 +1,7 @@
 
 const express = require('express'); //param body query
 const mysql = require('mysql')
-const authPost = require("../cModules/authPost.js")
+const authPostCreate = require("../cModules/authPostCreate.js")
 
 //initislaize express and allow access to parent params
 const approuter = express.Router({mergeParams:true});
@@ -30,13 +30,13 @@ sqldb.connect((err) => {
 })
 
 //create new question
-approuter.get("/new", authPost, (req, res)=>{
+approuter.get("/new", authPostCreate, (req, res)=>{
     //cookie verify user can do this action
     if(req.cookies.user){
         console.log("You can make a new post")
 
         //verify user can make post
-        console.log(authPost.status)
+        console.log(authPostCreate.status)
 
 
         res.render("question/new")
