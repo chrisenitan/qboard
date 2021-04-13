@@ -35,7 +35,6 @@ approuter.get("/new", (req, res)=>{
     if(req.cookies.user){
         //fetch user date
 
-        
      //check db and make sure user has 1 to 1 ratio of post and question
    let getAccountPostRecord = `SELECT * FROM profiles WHERE email = 'sample@test.com'`
    sqldb.query(getAccountPostRecord, (err, accountPostRecord)=>{
