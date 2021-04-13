@@ -292,7 +292,7 @@ approuter.post('/create', (req, res) => {
 		sqldb.query(question, (err, fetchUserFromCookie)=>{
 		if(err) throw err; 
 		
-		if(Objeck.keys(fetchUserFromCookie).length != 0){
+		if(Object.keys(fetchUserFromCookie).length != 0){
 			console.log("user cookie found")
 			let gotUserFromCookie = fetchUserFromCookie[0]
 			res.redirect(`/${gotUserFromCookie.username}`)
