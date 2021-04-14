@@ -51,6 +51,10 @@ approuter.get("/new", (req, res) => {
           if (err) throw err
           if (Object.keys(accountPostRecord).length != 0) {
             let userDetails = accountPostRecord[0]
+            //AUTH user post
+            if(userDetails.dayPost > userDetails.dayAnswer){
+
+            }
             var authPostCreate = {}
             if (userDetails.token == "ChrisToken") {
               authPostCreate.authPass = true
