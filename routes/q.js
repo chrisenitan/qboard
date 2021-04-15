@@ -52,14 +52,15 @@ approuter.get("/new", (req, res) => {
           if (Object.keys(accountPostRecord).length != 0) {
             let userDetails = accountPostRecord[0]
             //AUTH user post
-            if(userDetails.dayPost > userDetails.dayAnswer){
-
-            }
-            var authPostCreate = {}
-            if (userDetails.token == "ChrisToken") {
-              authPostCreate.authPass = true
-            } else {
-              authPostCreate.authPass = false
+            if (userDetails.dayPost > userDetails.dayAnswer) {
+              //need a function for this
+              
+              var authPostCreate = {}
+              if (userDetails.token == "ChrisToken") {
+                authPostCreate.authPass = true
+              } else {
+                authPostCreate.authPass = false
+              }
             }
           }
           res.render("question/new", authPostCreate)
