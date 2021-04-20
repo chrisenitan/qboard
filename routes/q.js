@@ -34,13 +34,12 @@ approuter.get("/new", (req, res) => {
   var authPostCreate
   //cookie verify user can do this action
   if (req.cookies.user) {
-    //fetch user date
+    //fetch user data
     let question =
       `SELECT * FROM profiles WHERE cookie = ` + sqldb.escape(req.cookies.user)
     sqldb.query(question, (err, fetchUserFromCookie) => {
       if (err) throw err
       if (Object.keys(fetchUserFromCookie).length != 0) {
-        console.log("user cookie found")
         let gotUserFromCookie = fetchUserFromCookie[0]
 
         //check db and make sure user has 1 to 1 ratio of post and question
@@ -51,25 +50,22 @@ approuter.get("/new", (req, res) => {
           if (err) throw err
           if (Object.keys(accountPostRecord).length != 0) {
             let userDetails = accountPostRecord[0]
-            //AUTH user post
+            //AUTH user post. need a function for this
             if (userDetails.dayPost > userDetails.dayAnswer) {
-              //need a function for this
-              
               var authPostCreate = {}
-              if (userDetails.token == "ChrisToken") {
-                authPostCreate.authPass = true
-              } else {
-                authPostCreate.authPass = false
-              }
+              authPostCreate.authPass = true
+            }
+            else{
+
             }
           }
           res.render("question/new", authPostCreate)
         })
       }
-      //searchd for but did not find cookie
+      //searchd for but did not find cookie. should be logout to be safe or something
       else {
-        //should be logout to be safe or something
-        res.redirect("/")
+        //we dont have this route, do we want to make logout a direct route. 
+        res.redirect("/account/logout")
       }
     })
   }
