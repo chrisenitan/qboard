@@ -30,12 +30,7 @@
 <a href="/q/new"><button>New Question</button></a><br>
 
 <br><br><a href="/account/edit"><button>Edit profile</button></a>
-<form action="account/logout" method="post">
-<br><br><button>Log Out</button>
-<input type="hidden" value="" name="bt">
-<input type="hidden" value="{{username}}" name="username">
-<input type="hidden" value="lo" name="request">
-</form>
+<br><br><a href="account/logout"><button>Log Out</button></a>
 {{/self}}
 
 {{^self}}

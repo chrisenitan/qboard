@@ -51,20 +51,21 @@ approuter.get("/new", (req, res) => {
           if (Object.keys(accountPostRecord).length != 0) {
             let userDetails = accountPostRecord[0]
             //AUTH user post. need a function for this
+            var authPostCreate = {}
+            //this if should be a funtion??
             if (userDetails.dayPost > userDetails.dayAnswer) {
-              var authPostCreate = {}
               authPostCreate.authPass = true
+              res.render("question/new", authPostCreate)
             }
             else{
-
+              authPostCreate.authPass = false
+              res.render("question/new", authPostCreate)
             }
           }
-          res.render("question/new", authPostCreate)
         })
       }
       //searchd for but did not find cookie. should be logout to be safe or something
       else {
-        //we dont have this route, do we want to make logout a direct route. 
         res.redirect("/account/logout")
       }
     })
