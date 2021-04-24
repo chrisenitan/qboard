@@ -9,6 +9,9 @@
 		<a href="/"><img src="/images/art.jpg"></a>
 		<form method="post" action="/q/create">
 			<p>Ask a new question</p>
+			{{#authPass}}
+			<p>You have the access to</p>
+			{{/authPass}}
 		<label for="username">Question</label><br>
 		<textarea name="q" required/>
 		What if...

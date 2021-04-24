@@ -98,14 +98,10 @@ sqldb.query(getUser, (err, result)=>{
 
 
 //LOG OUT
-approuter.post('/logout', (req, res) => {
-	//do some sanitisation
-	let newUser = {
-		request: req.body.request,
-		username: req.body.username,
-		bt: req.body.bt
-	}
-	if(newUser.bt != ""){
+approuter.get('/logout', (req, res) => {
+	//do some db update if needed
+
+	if(req.cookies.user == ""){
 		console.log("bot log out or something")
 	}
 	else{
@@ -292,7 +288,7 @@ approuter.post('/create', (req, res) => {
 		sqldb.query(question, (err, fetchUserFromCookie)=>{
 		if(err) throw err; 
 		
-		if(Objeck.keys(fetchUserFromCookie).length != 0){
+		if(Object.keys(fetchUserFromCookie).length != 0){
 			console.log("user cookie found")
 			let gotUserFromCookie = fetchUserFromCookie[0]
 			res.redirect(`/${gotUserFromCookie.username}`)
