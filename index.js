@@ -39,7 +39,7 @@ app.use(express.static(path.join(__dirname, "public")))
 
 //use express for form handling
 app.use(express.json());
-app.use(express.urlencoded())
+app.use(express.urlencoded({extended: true}))
 
 //main route for everything that ends up on home
 const main = require("./routes/main")
