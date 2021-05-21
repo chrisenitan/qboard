@@ -4,15 +4,16 @@
   "description": "Post questions online, like Twitter",
   "main": "index.js",
   "scripts": {
-    "index": "nodemon index.js",
-    "start": "nodemon -L index.js"
+    "start": "nodemon --legacy-watch"
   },
   "keywords": [
-    "sample"
+    "blog"
   ],
   "author": "Chris Enitan",
   "license": "ISC",
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
   "dependencies": {
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
@@ -26,7 +27,6 @@
     "n": "^6.8.0",
     "node": "^14.15.2",
     "nodemailer": "^6.4.18",
-    "nodemon": "^2.0.7",
     "npm": "^7.3.0"
   }
 }
