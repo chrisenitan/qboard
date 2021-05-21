@@ -1,6 +1,6 @@
 FROM node:14
 WORKDIR /app
-RUN npm install -g -L nodemon 
+RUN npm install nodemon -g
 COPY package* /app
 RUN npm install
 COPY . /app
