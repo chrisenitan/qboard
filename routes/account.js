@@ -336,7 +336,7 @@ approuter.post('/create', (req, res) => {
 										}
 										//user found in db, should never happen if we prewarn usernames, send to profile. 
 										else{
-											console.log("User existed. Please go to profile page and load public or private view")
+											console.log("User existed. Please go to profile page and load public or private view");
 											res.redirect("/"+newUser.username)
 										}
 				
