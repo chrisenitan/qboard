@@ -266,7 +266,7 @@ approuter.post('/create', (req, res) => {
 	var ranId = ""
 	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 	for(var i = 0; i < 8; i++){
-		ranId += characters.charAt(Math.floor(Math.random) * characters.length)
+		ranId += characters.charAt(Math.floor(Math.random() * characters.length))
 	}
 
 	//get user details from login form
