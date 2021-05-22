@@ -55,10 +55,15 @@ approuter.get("/new", (req, res) => {
             //this if should be a funtion??
             if (userDetails.dayPost > userDetails.dayAnswer) {
               authPostCreate.authPass = true
+              authPostCreate.data = userDetails
+              console.log(userDetails)
               res.render("question/new", authPostCreate)
             }
             else{
               authPostCreate.authPass = false
+              //delete this part later
+              authPostCreate.data = userDetails
+              console.log(userDetails)
               res.render("question/new", authPostCreate)
             }
           }

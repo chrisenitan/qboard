@@ -266,7 +266,7 @@ approuter.post('/create', (req, res) => {
 	var ranId = ""
 	var characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 	for(var i = 0; i < 8; i++){
-		ranId += characters.charAt(Math.floor(Math.random) * characters.length)
+		ranId += characters.charAt(Math.floor(Math.random() * characters.length))
 	}
 
 	//get user details from login form
@@ -336,7 +336,7 @@ approuter.post('/create', (req, res) => {
 										}
 										//user found in db, should never happen if we prewarn usernames, send to profile. 
 										else{
-											console.log("User existed. Please go to profile page and load public or private view")
+											console.log("User existed. Please go to profile page and load public or private view");
 											res.redirect("/"+newUser.username)
 										}
 				

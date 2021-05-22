@@ -109,7 +109,7 @@ approuter.get('/login', (req, res) => {
         }
         //no cookie
         else{
-            res.render("login");
+            res.render("login")
         }
     }
 
