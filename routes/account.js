@@ -19,16 +19,23 @@ const sqldb = mysql.createConnection({
 });
 */
 
-const sqldb = mysql.createConnection({
+/* const sqldb = mysql.createConnection({
     host     : process.env.fhserver,
     user     : process.env.fhuser,
     password : process.env.fhpass,
 	database : process.env.fhdb
-});
+}); */
+
+const sqldb = mysql.createConnection({
+	host: process.env.gcpserver,
+	user: process.env.gcpuser,
+	password: process.env.gcppass,
+	database: process.env.gcpdb,
+  })
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log(`Connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`)
+      console.log(`Connected to Account ${process.env.gcpserver} on thread: ${sqldb.threadId}`)
 })
 
 //quick delete user. not part of code 
