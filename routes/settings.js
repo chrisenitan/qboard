@@ -22,10 +22,10 @@ const sqldb = mysql.createConnection({
 }); */
 
 const sqldb = mysql.createConnection({
-  host: process.env.gcpserver,
-  user: process.env.gcpuser,
-  password: process.env.gcppass,
-  database: process.env.gcpdb,
+  host: process.env.awsserver,
+  user: process.env.awsuser,
+  password: process.env.awspass,
+  database: process.env.awsdb,
 })
 
 sqldb.connect((err) => {
@@ -33,7 +33,7 @@ sqldb.connect((err) => {
     throw err
   }
   console.log(
-    `Connected to Settings ${process.env.gcpserver} on thread: ${sqldb.threadId}`
+    `Connected to Settings ${process.env.awsserver} on thread: ${sqldb.threadId}`
   )
 })
 
