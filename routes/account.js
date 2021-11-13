@@ -19,16 +19,23 @@ const sqldb = mysql.createConnection({
 });
 */
 
-const sqldb = mysql.createConnection({
+/* const sqldb = mysql.createConnection({
     host     : process.env.fhserver,
     user     : process.env.fhuser,
     password : process.env.fhpass,
 	database : process.env.fhdb
-});
+}); */
+
+const sqldb = mysql.createConnection({
+	host: process.env.awsserver,
+	user: process.env.awsuser,
+	password: process.env.awspass,
+	database: process.env.awsdb,
+  })
 
 sqldb.connect((err) => {
     if(err){ throw err }
-      console.log(`Connected to Account ${process.env.fhserver} on thread: ${sqldb.threadId}`)
+      console.log(`Connected to Account ${process.env.awsserver} on thread: ${sqldb.threadId}`)
 })
 
 //quick delete user. not part of code 
@@ -70,7 +77,6 @@ approuter.post('/login', (req, res) => {
 		password: req.body.password,
 		bt: req.body.bt
     }
-	
 //log user in and send user to profile page
 let getUser = `SELECT * FROM profiles WHERE username = ` + sqldb.escape(newUser.username) + ` AND password = ` + sqldb.escape(newUser.password) + `LIMIT 1` 
 sqldb.query(getUser, (err, result)=>{
